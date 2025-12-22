@@ -64,7 +64,7 @@
         h3 { font-family: var(--font-head); font-size: 1.2rem; margin-bottom: 15px; color: var(--text-main); text-transform: uppercase; }
         p { margin-bottom: 20px; }
 
-        /* ========== HEADER (RESPONSIVE FIX) ========== */
+        /* ========== HEADER ========== */
         header { padding: 30px 0; border-bottom: 1px solid var(--border); margin-bottom: 60px; }
         .nav-inner { display: flex; justify-content: space-between; align-items: center; }
         .logo { font-family: var(--font-head); font-weight: 800; font-size: 1.4rem; color: var(--text-main); text-decoration: none; }
@@ -114,26 +114,17 @@
             margin-bottom: 60px;
             position: relative;
         }
-        /* Connecting Line */
         .visual-story::before {
             content: ''; position: absolute; top: 40px; left: 15%; right: 15%;
             height: 2px; background: var(--border); z-index: -1;
         }
         
-        .story-node {
-            text-align: center;
-            background: var(--bg-main); /* Mask line behind icon */
-            padding: 0 10px;
-        }
+        .story-node { text-align: center; background: var(--bg-main); padding: 0 10px; }
         .story-icon {
-            width: 80px; height: 80px;
-            background: var(--bg-panel);
-            border: 1px solid var(--acid);
-            border-radius: 50%;
+            width: 80px; height: 80px; background: var(--bg-panel);
+            border: 1px solid var(--acid); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 20px;
-            color: var(--acid);
-            font-size: 1.8rem;
+            margin: 0 auto 20px; color: var(--acid); font-size: 1.8rem;
             box-shadow: 0 0 20px var(--acid-dim);
         }
         .story-title { font-family: var(--font-head); font-weight: 700; font-size: 1.1rem; color: var(--text-main); margin-bottom: 8px; }
@@ -189,32 +180,50 @@
         .faq-q { font-family: var(--font-head); font-size: 1.1rem; color: var(--text-main); margin-bottom: 10px; font-weight: 700; }
         .faq-a { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; }
 
-        /* ========== FOOTER (RESPONSIVE) ========== */
+        /* ========== FOOTER & TECH BUTTON ========== */
         footer { margin-top: 80px; border-top: 1px solid var(--border); padding: 50px 0; font-size: 0.9rem; color: var(--text-dim); }
         .footer-inner { display: flex; justify-content: space-between; align-items: center; }
         .footer-left { display: flex; align-items: center; gap: 20px; }
         .ticker-box { font-family: var(--font-mono); color: var(--acid); padding-left: 20px; border-left: 1px solid var(--border); }
-        .footer-right { display: flex; gap: 30px; }
+        .footer-right { display: flex; gap: 20px; align-items: center; }
+
+        /* The New "Tech Chip" Button */
+        .footer-tech-btn {
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.02);
+        }
+        .footer-tech-btn:hover {
+            border-color: var(--acid);
+            color: var(--acid);
+            box-shadow: 0 0 15px var(--acid-dim);
+            transform: translateY(-1px);
+        }
 
         /* ========== MOBILE RESPONSIVENESS ========== */
         @media (max-width: 800px) {
-            /* Fix Header Crash: Stack Logo and Controls */
             .nav-inner { flex-direction: column; gap: 20px; }
             .header-right { width: 100%; justify-content: space-between; flex-direction: row; }
-            
-            /* Fix Grid Sizing */
             .split-grid { grid-template-columns: 1fr; }
             h1 { font-size: 2.2rem; }
-            
-            /* Fix Visual Story Stack */
             .visual-story { grid-template-columns: 1fr; gap: 40px; }
-            .visual-story::before { display: none; } /* Remove connecting line on mobile */
-
-            /* Fix Footer Crash: Stack Vertical */
+            .visual-story::before { display: none; }
+            
+            /* Footer Stack */
             .footer-inner { flex-direction: column; gap: 30px; text-align: center; }
             .footer-left { flex-direction: column; gap: 15px; }
             .ticker-box { border-left: none; padding-left: 0; }
-            .footer-right { justify-content: center; }
+            .footer-right { flex-direction: column; gap: 20px; }
         }
 
     </style>
@@ -265,70 +274,46 @@
         <h2 style="text-align: center; margin-top: 80px; margin-bottom: 30px; font-size: 1.4rem;">CHOOSE YOUR METHOD</h2>
 
         <div class="split-grid">
-            
             <div class="card">
                 <div class="card-badge">RECOMMENDED FOR BEGINNERS</div>
                 <h3>Pay with Credit Card</h3>
                 <p class="text-dim">Use your Visa/Mastercard to buy SOL directly inside the checkout widget.</p>
-                
                 <div class="step-list">
                     <div class="step">
                         <div class="step-num">1</div>
-                        <div class="step-content">
-                            <strong>Return to Home Page</strong>
-                            <p>Go back to the main terminal on the homepage.</p>
-                        </div>
+                        <div class="step-content"><strong>Return to Home Page</strong><p>Go back to the main terminal on the homepage.</p></div>
                     </div>
                     <div class="step">
                         <div class="step-num">2</div>
-                        <div class="step-content">
-                            <strong>Select "Pay with Card"</strong>
-                            <p>Inside the mint widget, select the Credit Card icon (powered by Helio/MoonPay).</p>
-                        </div>
+                        <div class="step-content"><strong>Select "Pay with Card"</strong><p>Inside the mint widget, select the Credit Card icon.</p></div>
                     </div>
                     <div class="step">
                         <div class="step-num">3</div>
-                        <div class="step-content">
-                            <strong>Enter Email</strong>
-                            <p>You will receive a "Magic Link" wallet via email to hold your asset safely.</p>
-                        </div>
+                        <div class="step-content"><strong>Enter Email</strong><p>You will receive a "Magic Link" wallet via email.</p></div>
                     </div>
                 </div>
-
                 <a href="index.html#presale" class="btn">GO TO MINT TERMINAL</a>
             </div>
 
             <div class="card">
                 <h3>Pay with Crypto (Advanced)</h3>
                 <p class="text-dim">If you want full control, set up your own self-custody wallet (Phantom) and fund it.</p>
-                
                 <div class="step-list">
                     <div class="step">
                         <div class="step-num">1</div>
-                        <div class="step-content">
-                            <strong>Download Phantom</strong>
-                            <p>Get the <a href="https://phantom.app" target="_blank" class="accent">Phantom Wallet</a> app for mobile or Chrome.</p>
-                        </div>
+                        <div class="step-content"><strong>Download Phantom</strong><p>Get the <a href="https://phantom.app" target="_blank" class="accent">Phantom Wallet</a> app.</p></div>
                     </div>
                     <div class="step">
                         <div class="step-num">2</div>
-                        <div class="step-content">
-                            <strong>Buy Solana (SOL)</strong>
-                            <p>Purchase SOL inside Phantom or transfer from Coinbase/Binance.</p>
-                        </div>
+                        <div class="step-content"><strong>Buy Solana (SOL)</strong><p>Purchase SOL inside Phantom or transfer from Coinbase.</p></div>
                     </div>
                     <div class="step">
                         <div class="step-num">3</div>
-                        <div class="step-content">
-                            <strong>Connect & Mint</strong>
-                            <p>Return to our homepage, click "Connect Wallet," and confirm transaction.</p>
-                        </div>
+                        <div class="step-content"><strong>Connect & Mint</strong><p>Return to our homepage and connect wallet.</p></div>
                     </div>
                 </div>
-
                 <a href="https://phantom.app" target="_blank" class="btn-outline">DOWNLOAD PHANTOM</a>
             </div>
-
         </div>
 
         <div style="max-width: 800px; margin: 80px auto 0;">
@@ -336,66 +321,42 @@
             
             <div class="faq-item">
                 <div class="faq-q">When will I start receiving rewards?</div>
-                <div class="faq-a">
-                    Rewards activate at the <strong>Token Generation Event (TGE)</strong>. If you buy a license now, you are positioned for Day 1 emissions. 
-                    Once live, rewards accrue daily and can be claimed via the dashboard.
-                </div>
+                <div class="faq-a">Rewards activate at the <strong>Token Generation Event (TGE)</strong>. If you buy a license now, you are positioned for Day 1 emissions. Once live, rewards accrue daily and can be claimed via the dashboard.</div>
             </div>
 
             <div class="faq-item">
                 <div class="faq-q">How many tokens will I receive?</div>
-                <div class="faq-a">
-                    Each license earns approximately <strong>110 tokens per day</strong> for 36 months. 
-                    This is calculated by dividing the 300M reward pool by 2,500 licenses over 3 years.
-                </div>
+                <div class="faq-a">Each license earns approximately <strong>110 tokens per day</strong> for 36 months. This is calculated by dividing the 300M reward pool by 2,500 licenses over 3 years.</div>
             </div>
 
             <div class="faq-item">
                 <div class="faq-q">Do I need to run a server or keep my computer on?</div>
-                <div class="faq-a">
-                    No. This is a <strong>"Virtual Node."</strong> The physical batteries are managed by our professional engineering partners (ANS/Enerzinx). 
-                    Your license works automatically in your wallet to accrue rewards. No hardware or coding is required.
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-q">Can I sell my license later?</div>
-                <div class="faq-a">
-                    Yes. Your Capacity License is a standard Solana NFT. While we encourage long-term holding to maximize rewards, 
-                    you can trade your license on secondary marketplaces (like Tensor or Magic Eden) at any time.
-                </div>
+                <div class="faq-a">No. This is a <strong>"Virtual Node."</strong> The physical batteries are managed by our professional engineering partners. Your license works automatically in your wallet.</div>
             </div>
 
             <div class="faq-item">
                 <div class="faq-q">What exactly am I buying?</div>
-                <div class="faq-a">
-                    You are purchasing a "Capacity License" (NFT). This digital license proves you supported the pre-development phase. 
-                    Holding this license in your wallet automatically qualifies you for daily token rewards once the network launches.
-                </div>
+                <div class="faq-a">You are purchasing a "Capacity License" (NFT). This digital license proves you supported the pre-development phase. Holding this license automatically qualifies you for token rewards.</div>
             </div>
 
             <div class="faq-item">
-                <div class="faq-q">Is this legally compliant?</div>
-                <div class="faq-a">
-                    Yes. We operate under a strict legal framework. The sale is structured as a software license purchase, 
-                    not an investment contract. However, we still implement KYC (Know Your Customer) for transparency.
-                </div>
+                <div class="faq-q">Can I sell my license later?</div>
+                <div class="faq-a">Yes. Your Capacity License is a standard Solana NFT. While we encourage long-term holding to maximize rewards, you can trade your license on secondary marketplaces (like Tensor or Magic Eden) at any time.</div>
             </div>
 
             <div class="faq-item">
                 <div class="faq-q">Where does the money go?</div>
-                <div class="faq-a">
-                    100% of funds go to the development budget: securing the land title, paying Enerzinx for grid studies, 
-                    and filing permits with ERCOT. You can view the full budget breakdown on the <a href="index.html#model" class="accent">Capital Allocation</a> section.
-                </div>
+                <div class="faq-a">100% of funds go to the development budget: securing the land title, paying Enerzinx for grid studies, and filing permits with ERCOT. You can view the full budget breakdown on the <a href="index.html#model" class="accent">Capital Allocation</a> section.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">Is this legally compliant?</div>
+                <div class="faq-a">Yes. We operate under a strict legal framework. The sale is structured as a software license purchase, not an investment contract. However, we still implement KYC (Know Your Customer) for transparency.</div>
             </div>
 
             <div class="faq-item">
                 <div class="faq-q">I need help. Can I talk to a human?</div>
-                <div class="faq-a">
-                    Absolutely. Our Concierge Support team is available 24/7 on Telegram to walk you through the process 
-                    screen-by-screen.
-                </div>
+                <div class="faq-a">Absolutely. Our Concierge Support team is available 24/7 on Telegram to walk you through the process screen-by-screen.</div>
             </div>
         </div>
 
@@ -419,7 +380,10 @@
                 </span>
             </div>
             <div class="footer-right">
-                <a href="litepaper/index.html" style="color: var(--text-dim); transition: 0.3s; font-family: var(--font-mono);">LITEPAPER</a>
+                <a href="litepaper/index.html" class="footer-tech-btn">
+                    <i class="fas fa-file-code"></i> LITEPAPER_V1.0
+                </a>
+                
                 <a href="https://x.com/ReDewable" style="color: var(--text-dim); font-size: 1.5rem; transition: 0.3s;"><i class="fab fa-x-twitter"></i></a>
                 <a href="https://t.me/+gMV0it-OXBA4NWIx" style="color: var(--text-dim); font-size: 1.5rem; transition: 0.3s;"><i class="fab fa-telegram-plane"></i></a>
             </div>
@@ -427,7 +391,6 @@
     </footer>
 
     <script>
-        // --- THEME TOGGLE ---
         const themeBtn = document.getElementById('theme-btn');
         const body = document.body;
         const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -448,7 +411,6 @@
             span.innerText = theme === 'dark' ? 'LIGHT' : 'DARK';
         }
 
-        // --- SOL PRICE ENGINE (Footer) ---
         let solPrice = 125; 
         async function fetchSolPrice() {
             try {
