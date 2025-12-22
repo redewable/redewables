@@ -343,7 +343,7 @@
                     <div class="stat-label">Skipped</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value" id="totalCount">25</div>
+                    <div class="stat-value" id="totalCount">40</div>
                     <div class="stat-label">Total</div>
                 </div>
             </div>
@@ -351,14 +351,38 @@
             <div id="summaryList"></div>
 
             <div class="export-buttons">
-                <button class="btn btn-primary" id="copyBtn">📋 Copy to Clipboard</button>
+                <button class="btn btn-primary" id="googleBtn">📤 Save to Google Drive</button>
+                <button class="btn btn-secondary" id="copyBtn">📋 Copy to Clipboard</button>
                 <button class="btn btn-secondary" id="downloadBtn">⬇ Download .txt</button>
                 <button class="btn btn-secondary" id="editBtn">← Back to Edit</button>
             </div>
+            <p id="submitStatus" style="margin-top:16px;color:var(--text-dim);font-size:14px;"></p>
         </div>
     </div>
 
     <script>
+        // Password protection
+        const PASS = "$1M";
+        function checkAccess() {
+            if (sessionStorage.getItem('qa-auth') === 'granted') return true;
+            const input = prompt("Enter access code:");
+            if (input === PASS) {
+                sessionStorage.setItem('qa-auth', 'granted');
+                return true;
+            } else {
+                document.body.innerHTML = `
+                    <div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#0a0f0d;">
+                        <div style="text-align:center;color:#ef4444;font-family:monospace;">
+                            <h1 style="font-size:48px;margin-bottom:16px;">ACCESS DENIED</h1>
+                            <p style="color:#6b7c71;">Refresh to try again</p>
+                        </div>
+                    </div>
+                `;
+                return false;
+            }
+        }
+        if (!checkAccess()) throw new Error('Unauthorized');
+
         const questions = [
             // Company Info
             {
@@ -516,6 +540,76 @@
                 category: "Funding",
                 question: "Have you applied for other grants? Results?",
                 hint: "Include pending applications, rejections, or awards"
+            },
+
+            // === GRANT-SPECIFIC SUPPLEMENT ===
+            
+            // Rural/USDA Focus
+            {
+                category: "USDA REAP Specific",
+                question: "What is Jones County's rural designation status?",
+                hint: "Census tract, RUCC code, or population data. Check USDA eligibility map if unsure."
+            },
+            {
+                category: "USDA REAP Specific",
+                question: "Confirm: Is ReDewable's annual revenue under $1M?",
+                hint: "REAP requires small business status. State current revenue or 'pre-revenue'."
+            },
+            {
+                category: "USDA REAP Specific",
+                question: "Any agricultural or small business ties to the project?",
+                hint: "Nearby farms that could benefit, ag land use, rural economic development angle."
+            },
+
+            // Texas Grid Reliability Focus
+            {
+                category: "Texas Energy Fund Specific",
+                question: "How does this project improve ERCOT grid reliability?",
+                hint: "Reference Winter Storm Uri, peak demand support, frequency regulation, blackout prevention."
+            },
+            {
+                category: "Texas Energy Fund Specific",
+                question: "What critical infrastructure is near the project site?",
+                hint: "Hospitals, schools, water treatment, emergency services within 10-20 miles that would benefit."
+            },
+            {
+                category: "Texas Energy Fund Specific",
+                question: "Describe the Phantom Hill substation interconnection opportunity.",
+                hint: "Why this POI? Existing solar? Transmission capacity? Strategic grid location?"
+            },
+
+            // DOE Innovation Focus
+            {
+                category: "DOE Grand Challenge Specific",
+                question: "What's innovative or novel about your approach?",
+                hint: "Technology choices, business model, DePIN/tokenization vision (even if paused), operational strategy."
+            },
+            {
+                category: "DOE Grand Challenge Specific",
+                question: "How is this project scalable or replicable?",
+                hint: "DOE wants to fund projects that can be templated. How many similar sites in Texas/ERCOT?"
+            },
+            {
+                category: "DOE Grand Challenge Specific",
+                question: "What technology partners or research institutions could validate your approach?",
+                hint: "Universities, national labs, industry partners. Even potential relationships count."
+            },
+
+            // Cross-Grant Questions
+            {
+                category: "Cross-Grant",
+                question: "What cost share or matching funds can you commit?",
+                hint: "Your own capital, in-kind contributions, other funding sources. Shows skin in the game."
+            },
+            {
+                category: "Cross-Grant",
+                question: "Is Jones County or your site in a disadvantaged/underserved community?",
+                hint: "Check Justice40, EPA EJScreen, or Census data. Environmental justice = bonus points."
+            },
+            {
+                category: "Cross-Grant",
+                question: "What local support or partnerships do you have?",
+                hint: "County officials, landowners, utilities, community organizations, letters of support."
             }
         ];
 
@@ -677,6 +771,44 @@
             qaSection.classList.remove('hidden');
             currentIndex = 0;
             updateUI();
+        };
+
+        // Google Form submission
+        document.getElementById('googleBtn').onclick = async () => {
+            const btn = document.getElementById('googleBtn');
+            const status = document.getElementById('submitStatus');
+            const exportData = generateExport();
+            
+            btn.disabled = true;
+            btn.textContent = '⏳ Submitting...';
+            status.textContent = '';
+            
+            const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfzEheV0V5O92EmzDBBkFxtFEkX_v26a8Z4CGvcrPpgeH4mjg/formResponse';
+            const formData = new FormData();
+            formData.append('entry.166848939', exportData);
+            
+            try {
+                await fetch(formUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: formData
+                });
+                // no-cors means we can't read the response, but submission usually works
+                btn.textContent = '✓ Saved to Google Drive!';
+                btn.style.background = 'var(--accent)';
+                status.textContent = 'Check your linked Google Sheet for the response.';
+                status.style.color = 'var(--accent)';
+            } catch (err) {
+                btn.textContent = '✗ Failed';
+                status.textContent = 'Error submitting. Try copy/download instead.';
+                status.style.color = 'var(--warning)';
+            }
+            
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.textContent = '📤 Save to Google Drive';
+                btn.style.background = '';
+            }, 3000);
         };
 
         nextBtn.onclick = goNext;
