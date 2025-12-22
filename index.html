@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReDewable Energy // CAPACITY LICENSE SALE</title>
+    <meta name="description" content="Fund the Texas Grid. Own the Network. The first DePIN Node Sale funding a 400MW BESS.">
+    
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text x='0' y='14' fill='%2300FF9D' style='font-size: 16px; font-weight: bold;'>🔋</text></svg>">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +16,6 @@
     <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 
     <style>
-        /* ... (CSS remains the same) ... */
         /* ========== CSS VARIABLES ========== */
         :root {
             /* DARK THEME (DEFAULT) */
@@ -89,18 +90,6 @@
         [data-theme="light"] .grid-floor { opacity: 0.05; }
         [data-theme="light"] .crt-overlay { display: none; }
 
-        /* ========== RETRO FLASH ========== */
-        @keyframes retro-flash {
-            0% { opacity: 1; text-shadow: 0 0 0 transparent; }
-            5% { opacity: 0.8; text-shadow: 0 0 10px var(--acid); color: var(--text-main); }
-            10% { opacity: 1; text-shadow: 0 0 0 transparent; }
-            50% { opacity: 1; }
-            55% { opacity: 0.5; color: var(--acid); }
-            60% { opacity: 1; color: var(--text-main); }
-            100% { opacity: 1; }
-        }
-        .glitch { animation: retro-flash 4s infinite; }
-
         /* ========== UTILS ========== */
         .page { max-width: var(--content-max-width); margin: 0 auto; padding: 0 var(--content-padding); position: relative; z-index: 1; }
         .section { margin-bottom: var(--gap-desktop); }
@@ -111,6 +100,7 @@
         h2 { font-family: var(--font-head); font-size: clamp(1.8rem, 5vw, 2.8rem); margin: 0; text-transform: uppercase; font-weight: 800; }
         h3 { font-family: var(--font-head); font-size: 1.3rem; margin: 0 0 15px; text-transform: uppercase; color: var(--text-main); }
 
+        /* ========== BUTTONS ========== */
         .btn {
             padding: 14px 30px; background: var(--acid); color: #000;
             font-family: var(--font-head); font-weight: 700; text-transform: uppercase;
@@ -127,7 +117,6 @@
         }
         .btn-outline:hover { background: var(--acid); color: #000; }
 
-        /* Banner */
         .saft-badge {
             position: fixed; top: 0; left: 0; right: 0;
             background: #000; color: #00FF9D;
@@ -175,11 +164,10 @@
         .nav a { color: var(--text-dim); text-decoration: none; transition: 0.3s; }
         .nav a:hover { color: var(--acid); }
 
-        /* Hamburger (CENTERED) */
         .hamburger { 
             display: none; background: none; border: none; cursor: pointer; z-index: 10001; 
             position: fixed; 
-            top: 80px; /* Vertically centered relative to logo */
+            top: 80px; 
             right: 20px; width: 35px; height: 25px; padding: 0; 
         }
         .hamburger span { display: block; width: 100%; height: 3px; background: var(--acid); position: absolute; left: 0; transition: all 0.3s ease-in-out; box-shadow: 0 0 8px rgba(0, 255, 157, 0.6); }
@@ -189,18 +177,16 @@
         .hamburger.active span:nth-child(2) { opacity: 0; }
         .hamburger.active span:nth-child(3) { top: 11px; transform: rotate(-45deg); }
         
-        /* Mobile Overlay */
         .mobile-menu {
             position: fixed; top: 0; right: -100%; width: 100%; height: 100%;
             background: var(--bg-main); 
-            z-index: 10000; /* Higher than banner */
+            z-index: 10000; 
             padding: 120px 40px 40px;
             display: flex; flex-direction: column; gap: 25px; transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); overflow-y: auto;
         }
         .mobile-menu.open { right: 0; }
 
-        /* Close Button */
         .mobile-menu-close {
             position: absolute; top: 30px; right: 20px; width: 35px; height: 35px;
             background: none; border: none; cursor: pointer; z-index: 10002; padding: 0;
@@ -216,28 +202,13 @@
         .mobile-menu a:hover { color: var(--acid); padding-left: 10px; border-color: var(--acid); }
         .mobile-menu a span { color: var(--acid); font-family: var(--font-mono); font-size: 0.9rem; margin-right: 15px; opacity: 0.8; }
 
-        /* MOBILE LITEPAPER BUTTON (FIXED) */
-        /* Overrides generic link style to match primary button */
         .mobile-menu a.btn {
-            border-bottom: none;
-            background: var(--acid);
-            color: #000;
-            padding: 15px;
-            margin-top: 20px;
-            width: 100%;
-            text-align: center;
+            border-bottom: none; background: var(--acid); color: #000; padding: 15px; margin-top: 20px; width: 100%; text-align: center;
             clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
         }
-        .mobile-menu a.btn:hover {
-            padding-left: 15px; /* Prevent shift */
-            background: #fff;
-            color: #000;
-            box-shadow: 0 0 20px var(--acid-dim);
-        }
+        .mobile-menu a.btn:hover { padding-left: 15px; background: #fff; color: #000; box-shadow: 0 0 20px var(--acid-dim); }
 
-        .mobile-menu-socials {
-            margin-top: auto; padding-top: 20px; display: flex; gap: 30px; justify-content: center;
-        }
+        .mobile-menu-socials { margin-top: auto; padding-top: 20px; display: flex; gap: 30px; justify-content: center; }
         .mobile-menu-socials a { border: none; padding: 0; font-size: 2rem; color: var(--text-dim); }
         .mobile-menu-socials a:hover { color: var(--acid); border: none; padding: 0; }
 
@@ -281,10 +252,9 @@
         .status-point span { display: block; font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-dim); margin-bottom: 6px; }
         .status-point strong { color: var(--acid); font-size: 0.95rem; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; }
 
-        /* ========== SECTIONS & CARDS ========== */
+        /* ========== SECTIONS ========== */
         .section-head { margin-bottom: 30px; padding-left: 20px; border-left: 4px solid var(--acid); text-align: left; }
         .section-sub { font-family: var(--font-head); color: var(--acid); font-size: 0.9rem; margin-bottom: 5px; display: block; font-weight: 700; }
-        
         .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; }
         
         .feature-box {
@@ -300,71 +270,50 @@
         .check-item i { color: var(--acid); font-size: 1.1rem; width: 25px; text-align: center; flex-shrink: 0; }
         .check-item strong { color: var(--text-main); }
 
-        /* ========== CAPITAL ALLOCATION (3-ROW GRID) ========== */
+        /* ========== CAPITAL ALLOCATION ========== */
         .allocation-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto auto 1fr;
-            column-gap: 50px;
-            row-gap: 15px;
+            display: grid; grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto 1fr; column-gap: 50px; row-gap: 15px;
         }
-        
         .grid-head-left { grid-column: 1 / 2; grid-row: 1 / 2; display: flex; align-items: center; }
         .grid-head-right { grid-column: 2 / 3; grid-row: 1 / 2; display: flex; align-items: center; }
         .grid-head-right p { font-size: 1.1rem; color: var(--text-dim); line-height: 1.6; margin: 0; }
-
         .grid-toggle-left { grid-column: 1 / 2; grid-row: 2 / 3; display: flex; justify-content: flex-end; }
-
         .grid-content-left { grid-column: 1 / 2; grid-row: 3 / 4; height: 100%; display: flex; flex-direction: column; }
         .grid-content-right { grid-column: 2 / 3; grid-row: 3 / 4; height: 100%; display: flex; flex-direction: column; }
 
         .budget-list { background: var(--bg-card); border: 1px solid var(--border); display: flex; flex-direction: column; height: 100%; justify-content: space-between; }
         .budget-row { display: flex; justify-content: space-between; padding: 15px 20px; border-bottom: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.9rem; align-items: center; flex: 1; }
         .budget-row:last-child { border-bottom: none; background: #0d1a12; color: #00FF9D; font-weight: 700; border-top: 1px solid #00FF9D; }
+        .grid-content-right .feature-box { height: 100%; border-color: var(--acid); display: flex; flex-direction: column; justify-content: center; }
 
-        .grid-content-right .feature-box {
-            height: 100%; border-color: var(--acid); 
-            display: flex; flex-direction: column; justify-content: center;
-        }
-
-        /* ========== FULL WIDTH PARTNERS (TEXT LINKS) ========== */
+        /* ========== PARTNERS ========== */
         .partner-full { margin-top: 40px; border-top: 1px solid var(--border); padding-top: 30px; width: 100%; grid-column: 1 / -1; }
         .logo-label { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); margin-bottom: 15px; display: block; }
         .logo-grid { display: flex; gap: 15px; flex-wrap: wrap; justify-content: space-between; }
         
         .logo-link {
-            flex: 1; min-width: 150px;
-            text-align: center; padding: 20px;
+            flex: 1; min-width: 150px; text-align: center; padding: 20px;
             background: var(--bg-card); border: 1px solid var(--border);
             color: var(--text-dim); font-family: var(--font-head); font-weight: 700;
             text-decoration: none; text-transform: uppercase; font-size: 0.9rem;
             transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .logo-link:hover {
-            border-color: var(--acid); color: var(--acid);
-            transform: translateY(-2px); background: var(--acid-dim);
-        }
+        .logo-link:hover { border-color: var(--acid); color: var(--acid); transform: translateY(-2px); background: var(--acid-dim); }
         .logo-link i { font-size: 1.2rem; }
 
         /* ========== TOKENOMICS ========== */
         .composite-bar { 
-            display: flex; width: 100%; height: 40px; 
-            background: var(--bg-card); border: 1px solid var(--border); 
+            display: flex; width: 100%; height: 40px; background: var(--bg-card); border: 1px solid var(--border); 
             margin-bottom: 25px; overflow: hidden; 
         }
         .segment { 
-            height: 100%; cursor: pointer; transition: all 0.3s ease; 
-            border-right: 1px solid rgba(0,0,0,0.5); opacity: 0.6; 
+            height: 100%; cursor: pointer; transition: all 0.3s ease; border-right: 1px solid rgba(0,0,0,0.5); opacity: 0.6; 
         }
-        .segment:hover { opacity: 1; z-index: 10; box-shadow: 0 0 15px var(--acid); }
-        .segment.active { opacity: 1; z-index: 5; box-shadow: 0 0 15px var(--acid); }
+        .segment:hover, .segment.active { opacity: 1; z-index: 10; box-shadow: 0 0 15px var(--acid); }
         
-        .seg-nodes { background: #00FF9D; }
-        .seg-rwa { background: #00D486; }
-        .seg-treasury { background: #00995e; }
-        .seg-team { background: #00663f; }
-        .seg-eco { background: #004d2f; }
-        .seg-liq { background: #00331f; }
+        .seg-nodes { background: #00FF9D; } .seg-rwa { background: #00D486; } .seg-treasury { background: #00995e; }
+        .seg-team { background: #00663f; } .seg-eco { background: #004d2f; } .seg-liq { background: #00331f; }
 
         .legend-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
         .legend-item { padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
@@ -396,10 +345,40 @@
         .log-phase { color: var(--acid); font-family: var(--font-mono); font-size: 0.8rem; margin-bottom: 5px; display: block; }
         .log-title { font-family: var(--font-head); font-size: 1.4rem; color: var(--text-dim); margin-bottom: 10px; text-transform: uppercase; }
 
+        /* ========== FOOTER & ANIMATIONS ========== */
+        footer { border-top: 1px solid var(--border); padding: 50px 0; font-size: 0.9rem; color: var(--text-dim); margin-top: 80px; }
+        .footer-inner { display: flex; justify-content: space-between; align-items: center; max-width: var(--content-max-width); margin: 0 auto; padding: 0 var(--content-padding); }
+        .footer-left { display: flex; align-items: center; gap: 20px; }
+        .footer-right { display: flex; gap: 20px; align-items: center; }
+
+        @keyframes slow-pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+        .ticker-box { 
+            font-family: var(--font-mono); color: var(--acid); padding-left: 20px; border-left: 1px solid var(--border);
+            animation: slow-pulse 4s ease-in-out infinite; 
+        }
+
+        .footer-tech-btn {
+            border: 1px solid var(--border); padding: 8px 16px; border-radius: 4px;
+            font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.05em;
+            color: var(--text-dim); text-decoration: none; transition: all 0.3s ease;
+            display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.02);
+        }
+        .footer-tech-btn:hover {
+            border-color: var(--acid); color: var(--acid);
+            box-shadow: 0 0 15px var(--acid-dim); transform: translateY(-1px);
+        }
+        .footer-social-link { color: var(--text-dim); font-size: 1.5rem; transition: color 0.3s ease; }
+        .footer-social-link:hover { color: var(--acid); }
+
         /* ========== RESPONSIVE ========== */
         @media (max-width: 900px) {
             .nav, .header-right { display: none; }
             .hamburger { display: block; }
+            
             .hero { grid-template-columns: 1fr; }
             .tier-grid { grid-template-columns: 1fr; }
             .legend-grid { grid-template-columns: 1fr; }
@@ -418,6 +397,12 @@
             .grid-content-right { grid-row: 5; grid-column: 1; }
             
             .logo-grid { flex-direction: column; }
+
+            /* Footer Stack */
+            .footer-inner { flex-direction: column; gap: 30px; text-align: center; }
+            .footer-left { flex-direction: column; gap: 15px; }
+            .ticker-box { border-left: none; padding-left: 0; }
+            .footer-right { flex-direction: column; gap: 20px; }
         }
     </style>
 </head>
@@ -448,7 +433,7 @@
             <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank"><i class="fab fa-telegram-plane"></i></a>
         </div>
         
-        <a href="/litepaper/index.html" class="btn">LITEPAPER</a>
+        <a href="litepaper/index.html" class="btn">LITEPAPER</a>
     </nav>
 
     <div class="page">
@@ -468,7 +453,7 @@
                 </div>
             </nav>
             <div class="header-right">
-                <a href="/litepaper/index.html" class="btn-outline">LITEPAPER</a>
+                <a href="litepaper/index.html" class="btn-outline">LITEPAPER</a>
             </div>
             
             <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
@@ -559,49 +544,23 @@
         </section>
 
         <div class="status-bar">
-            <div class="status-point">
-                <span>ASSET CLASS</span>
-                <strong>400MW BESS</strong>
-            </div>
-            <div class="status-point">
-                <span>GRID NODE</span>
-                <strong>ERCOT WEST</strong>
-            </div>
-            <div class="status-point">
-                <span>CONGESTION</span>
-                <strong>HIGH VOLATILITY</strong>
-            </div>
-            <div class="status-point">
-                <span>STATUS</span>
-                <strong>PRE-NTP</strong>
-            </div>
+            <div class="status-point"><span>ASSET CLASS</span><strong>400MW BESS</strong></div>
+            <div class="status-point"><span>GRID NODE</span><strong>ERCOT WEST</strong></div>
+            <div class="status-point"><span>CONGESTION</span><strong>HIGH VOLATILITY</strong></div>
+            <div class="status-point"><span>STATUS</span><strong>PRE-NTP</strong></div>
         </div>
 
         <section id="thesis" class="section">
-            <div class="section-head">
-                <span class="section-sub">01 // THE THESIS</span>
-                <h2>MONETIZING VOLATILITY</h2>
-            </div>
+            <div class="section-head"><span class="section-sub">01 // THE THESIS</span><h2>MONETIZING VOLATILITY</h2></div>
             <div class="grid-2">
                 <div class="feature-box">
                     <h3>The Reliability Crisis</h3>
-                    <p>
-                        <strong>Fact 1:</strong> ERCOT demand will grow <strong>70% by 2031</strong> due to AI data centers.
-                        <br>
-                        <strong>Fact 2:</strong> Texas weather is becoming more extreme (Deep Freezes & Heat Waves).
-                        <br><br>
-                        The grid is fragile. When wind stops blowing or AI load spikes, frequency drops. Without batteries, the grid crashes.
-                    </p>
+                    <p><strong>Fact 1:</strong> ERCOT demand will grow <strong>70% by 2031</strong> due to AI data centers.<br><strong>Fact 2:</strong> Texas weather is becoming more extreme (Deep Freezes & Heat Waves).<br><br>The grid is fragile. When wind stops blowing or AI load spikes, frequency drops. Without batteries, the grid crashes.</p>
                     <div class="mono accent" style="font-size: 0.9rem;">MARKET: ANCILLARY SERVICES</div>
                 </div>
                 <div class="feature-box">
                     <h3>The Senate Bill 6 Mandate</h3>
-                    <p>
-                        New Texas law <strong>requires data centers to disconnect</strong> during grid stress. 
-                        AI models cannot stop training. They need a stable grid to avoid forced downtime.
-                        <br><br>
-                        We provide the <strong>Frequency Response</strong> that keeps the voltage stable and the data centers online.
-                    </p>
+                    <p>New Texas law <strong>requires data centers to disconnect</strong> during grid stress. AI models cannot stop training. They need a stable grid to avoid forced downtime.<br><br>We provide the <strong>Frequency Response</strong> that keeps the voltage stable and the data centers online.</p>
                     <div class="check-item"><i class="fas fa-bolt"></i> <span><strong>The Solution:</strong> BESS deploys faster than transmission lines.</span></div>
                     <div class="check-item"><i class="fas fa-file-contract"></i> <span><strong>The Product:</strong> Capacity Licenses fund the solution.</span></div>
                 </div>
@@ -610,23 +569,9 @@
 
         <section id="model" class="section">
             <div class="allocation-grid">
-                
-                <div class="grid-head-left">
-                    <div class="section-head" style="margin-bottom:0; width: 100%;">
-                        <span class="section-sub">02 // USE OF FUNDS</span>
-                        <h2>CAPITAL ALLOCATION</h2>
-                    </div>
-                </div>
-                <div class="grid-head-right">
-                    <p>We develop sites until they are <strong>Shovel-Ready (NTP)</strong>. This avoids construction risk and focuses purely on the high-value Permitting & Engineering phase.</p>
-                </div>
-
-                <div class="grid-toggle-left">
-                    <div class="pill-toggle toggle-trigger" style="padding:4px 10px; transform:scale(0.9);">
-                        <span class="curr-label">USD</span>
-                        <div class="toggle-switch" style="width:34px; height:18px;"></div>
-                    </div>
-                </div>
+                <div class="grid-head-left"><div class="section-head" style="margin-bottom:0; width: 100%;"><span class="section-sub">02 // USE OF FUNDS</span><h2>CAPITAL ALLOCATION</h2></div></div>
+                <div class="grid-head-right"><p>We develop sites until they are <strong>Shovel-Ready (NTP)</strong>. This avoids construction risk and focuses purely on the high-value Permitting & Engineering phase.</p></div>
+                <div class="grid-toggle-left"><div class="pill-toggle toggle-trigger" style="padding:4px 10px; transform:scale(0.9);"><span class="curr-label">USD</span><div class="toggle-switch" style="width:34px; height:18px;"></div></div></div>
                 <div class="grid-content-left">
                     <div class="budget-list">
                         <div class="budget-row"><span>ANS Engineering / Geotech</span><span class="dynamic-price" data-usd="213000">$213,000</span></div>
@@ -643,88 +588,41 @@
                     <div class="feature-box centered" style="border-color: var(--acid);">
                         <h3 style="margin-top:0; text-align: center;">THE REWARD LOOP</h3>
                         <p style="text-align: center; margin-bottom:30px;">Why buy a Capacity License?</p>
-                        
                         <div style="display: flex; flex-direction: column; gap: 20px;">
-                            <div class="check-item">
-                                <i class="fas fa-fingerprint"></i>
-                                <span><strong>1. Mint License:</strong> Acquire NFT hardware rights.</span>
-                            </div>
-                            <div class="check-item">
-                                <i class="fas fa-network-wired"></i>
-                                <span><strong>2. Validation:</strong> Node verifies grid data & uptime.</span>
-                            </div>
-                            <div class="check-item">
-                                <i class="fas fa-coins"></i>
-                                <span><strong>3. Rewards:</strong> Earn daily token emissions (3 years).</span>
-                            </div>
-                            <div class="check-item">
-                                <i class="fas fa-arrow-right-arrow-left"></i>
-                                <span><strong>4. Liquidity:</strong> Swap or hold for asset exit.</span>
-                            </div>
+                            <div class="check-item"><i class="fas fa-fingerprint"></i><span><strong>1. Mint License:</strong> Acquire NFT hardware rights.</span></div>
+                            <div class="check-item"><i class="fas fa-network-wired"></i><span><strong>2. Validation:</strong> Node verifies grid data & uptime.</span></div>
+                            <div class="check-item"><i class="fas fa-coins"></i><span><strong>3. Rewards:</strong> Earn daily token emissions (3 years).</span></div>
+                            <div class="check-item"><i class="fas fa-arrow-right-arrow-left"></i><span><strong>4. Liquidity:</strong> Swap or hold for asset exit.</span></div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
             <div class="partner-full">
                 <span class="logo-label">TRUSTED PARTNERS</span>
                 <div class="logo-grid">
-                    <a href="https://enerzinx.com/" target="_blank" class="logo-link">
-                        <i class="fas fa-bolt"></i> ENERZINX
-                    </a>
-                    <a href="https://ans-team.com/" target="_blank" class="logo-link">
-                        <i class="fas fa-drafting-compass"></i> ANS
-                    </a>
-                    <a href="https://www.pacehouston.com/" target="_blank" class="logo-link">
-                        <i class="fas fa-university"></i> PACE HOUSTON
-                    </a>
-                    <a href="https://www.tesla.com/megapack" target="_blank" class="logo-link">
-                        <i class="fas fa-car-battery"></i> TESLA
-                    </a>
+                    <a href="https://enerzinx.com/" target="_blank" class="logo-link"><i class="fas fa-bolt"></i> ENERZINX</a>
+                    <a href="https://ans-team.com/" target="_blank" class="logo-link"><i class="fas fa-drafting-compass"></i> ANS</a>
+                    <a href="https://www.pacehouston.com/" target="_blank" class="logo-link"><i class="fas fa-university"></i> PACE HOUSTON</a>
+                    <a href="https://www.tesla.com/megapack" target="_blank" class="logo-link"><i class="fas fa-car-battery"></i> TESLA</a>
                 </div>
             </div>
         </section>
 
         <section id="asset" class="section">
-            <div class="section-head">
-                <span class="section-sub">03 // THE ASSET</span>
-                <h2>REDEW ANSON FLAGSHIP</h2>
-            </div>
+            <div class="section-head"><span class="section-sub">03 // THE ASSET</span><h2>REDEW ANSON FLAGSHIP</h2></div>
             <div class="grid-2">
                 <div class="feature-box">
                     <h3>Strategic Congestion Node</h3>
-                    <p>
-                        Located in the "Stargate Corridor," adjacent to <strong>Massive Solar Farms</strong>. 
-                        We don't just connect to the grid; we fix the local inefficiency.
-                        <br><br>
-                        When solar over-generates, prices crash (or go negative). We charge our batteries for free. 
-                        When the sun sets and grid load spikes, we sell that power back at a premium.
-                    </p>
+                    <p>Located in the "Stargate Corridor," adjacent to <strong>Massive Solar Farms</strong>. We don't just connect to the grid; we fix the local inefficiency.<br><br>When solar over-generates, prices crash (or go negative). We charge our batteries for free. When the sun sets and grid load spikes, we sell that power back at a premium.</p>
                     <div class="mono accent" style="font-size: 0.9rem;">>> STATUS: SECURING LAND</div>
                 </div>
                 <div class="feature-box">
                     <h3>Asset Pipeline</h3>
-                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 10px 0;">
-                        <span style="color: var(--text-main); font-weight: 700;">SITE 01 (ANSON)</span>
-                        <span class="mono accent">INTERCONNECTION</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 10px 0;">
-                        <span style="color: var(--text-dim);">SITE 02 (WEST)</span>
-                        <span class="mono">SCREENING</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 10px 0;">
-                        <span style="color: var(--text-dim);">SITE 03 (COAST)</span>
-                        <span class="mono">NEGOTIATION</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 10px 0;">
-                        <span style="color: var(--text-dim);">SITE 04 (NORTH)</span>
-                        <span class="mono">PROSPECTING</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; padding: 10px 0;">
-                        <span style="color: var(--text-dim);">SITE 05 (SOUTH)</span>
-                        <span class="mono">PROSPECTING</span>
-                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 10px 0;"><span style="color: var(--text-main); font-weight: 700;">SITE 01 (ANSON)</span><span class="mono accent">INTERCONNECTION</span></div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 10px 0;"><span style="color: var(--text-dim);">SITE 02 (WEST)</span><span class="mono">SCREENING</span></div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 10px 0;"><span style="color: var(--text-dim);">SITE 03 (COAST)</span><span class="mono">NEGOTIATION</span></div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 10px 0;"><span style="color: var(--text-dim);">SITE 04 (NORTH)</span><span class="mono">PROSPECTING</span></div>
+                    <div style="display: flex; justify-content: space-between; padding: 10px 0;"><span style="color: var(--text-dim);">SITE 05 (SOUTH)</span><span class="mono">PROSPECTING</span></div>
                 </div>
             </div>
         </section>
@@ -733,10 +631,7 @@
             <div class="feature-box centered" style="display: flex; flex-direction: column; align-items: center;">
                 <span class="mono accent">04 // LICENSE UTILITY</span>
                 <h2 style="margin: 10px 0 20px;">THE NODE DASHBOARD</h2>
-                <p style="max-width: 600px; margin: 0 auto 30px; text-align: center;">
-                    Holders of Capacity Licenses gain access to the Command Center. 
-                    View real-time engineering updates, ERCOT queue status, and claim your daily rewards.
-                </p>
+                <p style="max-width: 600px; margin: 0 auto 30px; text-align: center;">Holders of Capacity Licenses gain access to the Command Center. View real-time engineering updates, ERCOT queue status, and claim your daily rewards.</p>
                 <div class="dashboard-grid">
                     <div class="dash-mockup">PERMITTING<br>STATUS</div>
                     <div class="dash-mockup">DAILY<br>REWARDS</div>
@@ -747,56 +642,17 @@
         </section>
 
         <section id="roadmap" class="section">
-            <div class="section-head">
-                <span class="section-sub">05 // EXECUTION LOG</span>
-                <h2>FROM FUNDING TO NTP</h2>
-            </div>
+            <div class="section-head"><span class="section-sub">05 // EXECUTION LOG</span><h2>FROM FUNDING TO NTP</h2></div>
             <div class="roadmap-log">
-                <div class="log-entry current">
-                    <span class="log-phase">PHASE 01 // CURRENT</span>
-                    <h3 class="log-title">INFRASTRUCTURE RAISE</h3>
-                    <div class="log-details" style="color: var(--text-dim);">
-                        > Launch Capacity License Sale (Node Mint)<br>
-                        > Tier 1 Raise: Land Option & Legal Structuring<br>
-                        > Tier 2 & 3 Raise: ERCOT & Engineering
-                    </div>
-                </div>
-                <div class="log-entry future">
-                    <span class="log-phase">PHASE 02 // PRE-DEV SPRINT</span>
-                    <h3 class="log-title">ASSET DERISKING</h3>
-                    <div class="log-details" style="color: var(--text-dim);">
-                        > Exercise Land Option (Fee Simple Title)<br>
-                        > Submit ERCOT Interconnection Package<br>
-                        > Complete Geotech & Engineering Studies
-                    </div>
-                </div>
-                <div class="log-entry future">
-                    <span class="log-phase">PHASE 03 // LIQUIDITY</span>
-                    <h3 class="log-title">TOKEN GENERATION EVENT</h3>
-                    <div class="log-details" style="color: var(--text-dim);">
-                        > Token Launch (LBP)<br>
-                        > Node Rewards Activated (Daily Emissions)<br>
-                        > Secondary Market Liquidity Seeding
-                    </div>
-                </div>
-                <div class="log-entry future">
-                    <span class="log-phase">PHASE 04 // EXIT</span>
-                    <h3 class="log-title">NTP SALE</h3>
-                    <div class="log-details" style="color: var(--text-dim);">
-                        > Project reaches "Shovel Ready" status<br>
-                        > Sale to Institutional Infrastructure Fund<br>
-                        > Proceeds used for Buyback & Burn
-                    </div>
-                </div>
+                <div class="log-entry current"><span class="log-phase">PHASE 01 // CURRENT</span><h3 class="log-title">INFRASTRUCTURE RAISE</h3><div class="log-details" style="color: var(--text-dim);">> Launch Capacity License Sale (Node Mint)<br>> Tier 1 Raise: Land Option & Legal Structuring<br>> Tier 2 & 3 Raise: ERCOT & Engineering</div></div>
+                <div class="log-entry future"><span class="log-phase">PHASE 02 // PRE-DEV SPRINT</span><h3 class="log-title">ASSET DERISKING</h3><div class="log-details" style="color: var(--text-dim);">> Exercise Land Option (Fee Simple Title)<br>> Submit ERCOT Interconnection Package<br>> Complete Geotech & Engineering Studies</div></div>
+                <div class="log-entry future"><span class="log-phase">PHASE 03 // LIQUIDITY</span><h3 class="log-title">TOKEN GENERATION EVENT</h3><div class="log-details" style="color: var(--text-dim);">> Token Launch (LBP)<br>> Node Rewards Activated (Daily Emissions)<br>> Secondary Market Liquidity Seeding</div></div>
+                <div class="log-entry future"><span class="log-phase">PHASE 04 // EXIT</span><h3 class="log-title">NTP SALE</h3><div class="log-details" style="color: var(--text-dim);">> Project reaches "Shovel Ready" status<br>> Sale to Institutional Infrastructure Fund<br>> Proceeds used for Buyback & Burn</div></div>
             </div>
         </section>
 
         <section id="tokenomics" class="section">
-            <div class="section-head">
-                <span class="section-sub">06 // SUPPLY</span>
-                <h2>THE DE-PIN ALLOCATION</h2>
-            </div>
-            
+            <div class="section-head"><span class="section-sub">06 // SUPPLY</span><h2>THE DE-PIN ALLOCATION</h2></div>
             <div class="composite-bar">
                 <div class="segment seg-nodes" style="width: 30%" data-id="nodes" onclick="hl('nodes')"></div>
                 <div class="segment seg-rwa" style="width: 25%" data-id="rwa" onclick="hl('rwa')"></div>
@@ -805,62 +661,42 @@
                 <div class="segment seg-eco" style="width: 10%" data-id="eco" onclick="hl('eco')"></div>
                 <div class="segment seg-liq" style="width: 5%" data-id="liq" onclick="hl('liq')"></div>
             </div>
-            
             <div class="legend-grid">
-                <div class="legend-item active" id="leg-nodes" onclick="hl('nodes')">
-                    <div class="l-head"><span>NODE REWARDS</span><span class="accent">30%</span></div>
-                    <div style="font-size: 0.85rem; color: var(--text-dim);">Daily emission to license holders (36mo).</div>
-                </div>
-                <div class="legend-item" id="leg-rwa" onclick="hl('rwa')">
-                    <div class="l-head"><span>RWA RESERVE</span><span class="accent">25%</span></div>
-                    <div style="font-size: 0.85rem; color: var(--text-dim);">Backed by asset acquisitions.</div>
-                </div>
-                <div class="legend-item" id="leg-treasury" onclick="hl('treasury')">
-                    <div class="l-head"><span>TREASURY</span><span class="accent">15%</span></div>
-                    <div style="font-size: 0.85rem; color: var(--text-dim);">Ops & Marketing Multi-sig.</div>
-                </div>
-                <div class="legend-item" id="leg-team" onclick="hl('team')">
-                    <div class="l-head"><span>TEAM</span><span class="accent">15%</span></div>
-                    <div style="font-size: 0.85rem; color: var(--text-dim);">1yr cliff + 3yr vest.</div>
-                </div>
-                <div class="legend-item" id="leg-eco" onclick="hl('eco')">
-                    <div class="l-head"><span>ECOSYSTEM</span><span class="accent">10%</span></div>
-                    <div style="font-size: 0.85rem; color: var(--text-dim);">Partners & Grants.</div>
-                </div>
-                <div class="legend-item" id="leg-liq" onclick="hl('liq')">
-                    <div class="l-head"><span>LIQUIDITY</span><span class="accent">5%</span></div>
-                    <div style="font-size: 0.85rem; color: var(--text-dim);">Initial LBP / DEX pair.</div>
-                </div>
+                <div class="legend-item active" id="leg-nodes" onclick="hl('nodes')"><div class="l-head"><span>NODE REWARDS</span><span class="accent">30%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">Daily emission to license holders (36mo).</div></div>
+                <div class="legend-item" id="leg-rwa" onclick="hl('rwa')"><div class="l-head"><span>RWA RESERVE</span><span class="accent">25%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">Backed by asset acquisitions.</div></div>
+                <div class="legend-item" id="leg-treasury" onclick="hl('treasury')"><div class="l-head"><span>TREASURY</span><span class="accent">15%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">Ops & Marketing Multi-sig.</div></div>
+                <div class="legend-item" id="leg-team" onclick="hl('team')"><div class="l-head"><span>TEAM</span><span class="accent">15%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">1yr cliff + 3yr vest.</div></div>
+                <div class="legend-item" id="leg-eco" onclick="hl('eco')"><div class="l-head"><span>ECOSYSTEM</span><span class="accent">10%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">Partners & Grants.</div></div>
+                <div class="legend-item" id="leg-liq" onclick="hl('liq')"><div class="l-head"><span>LIQUIDITY</span><span class="accent">5%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">Initial LBP / DEX pair.</div></div>
             </div>
         </section>
 
         <section class="section">
             <div class="feature-box centered" style="display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap;">
-                <div>
-                    <span class="mono accent">OPERATOR PROFILE</span>
-                    <h2 style="margin-top: 10px;">TALOR BYINGTON</h2>
-                </div>
+                <div><span class="mono accent">OPERATOR PROFILE</span><h2 style="margin-top: 10px;">TALOR BYINGTON</h2></div>
                 <div style="flex: 1; max-width: 600px;">
-                    <p style="margin-bottom: 20px; font-size: 1.1rem; color: var(--text-dim);">
-                        10+ years operational leadership. Scaled consumer electronics repair to revenue. 
-                        Building the bridge between physical energy infrastructure and decentralized finance.
-                    </p>
+                    <p style="margin-bottom: 20px; font-size: 1.1rem; color: var(--text-dim);">10+ years operational leadership. Scaled consumer electronics repair to revenue. Building the bridge between physical energy infrastructure and decentralized finance.</p>
                     <a href="https://x.com/TalorMayde" target="_blank" class="btn-outline">@TALORMAYDE</a>
                 </div>
             </div>
         </section>
 
-        <footer style="border-top: 1px solid var(--border); padding: 50px 0; font-size: 0.9rem; color: var(--text-dim); display: flex; justify-content: space-between; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 20px;">
-                <span>© 2025 REDEWABLE ENERGY</span>
-                <span style="font-family: var(--font-mono); color: var(--acid); padding-left: 20px; border-left: 1px solid var(--border);" id="footer-price-ticker">
-                    SOL: <span class="blink">●</span> CONNECTING...
-                </span>
-            </div>
-            <div style="display: flex; gap: 30px;">
-                <a href="/litepaper/index.html" style="color: var(--text-dim); transition: 0.3s; font-family: var(--font-mono);">LITEPAPER</a>
-                <a href="https://x.com/ReDewable" style="color: var(--text-dim); font-size: 1.5rem; transition: 0.3s;"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://t.me/+gMV0it-OXBA4NWIx" style="color: var(--text-dim); font-size: 1.5rem; transition: 0.3s;"><i class="fab fa-telegram-plane"></i></a>
+        <footer>
+            <div class="footer-inner">
+                <div class="footer-left">
+                    <span>© 2025 REDEWABLE ENERGY</span>
+                    <span class="ticker-box" id="footer-price-ticker">
+                        SOL: <span class="blink">●</span> CONNECTING...
+                    </span>
+                </div>
+                <div class="footer-right">
+                    <a href="litepaper/index.html" class="footer-tech-btn">
+                        <i class="fas fa-file-code"></i> LITEPAPER_V1.0
+                    </a>
+                    
+                    <a href="https://x.com/ReDewable" class="footer-social-link"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://t.me/+gMV0it-OXBA4NWIx" class="footer-social-link"><i class="fab fa-telegram-plane"></i></a>
+                </div>
             </div>
         </footer>
     </div>
@@ -887,29 +723,25 @@
             span.innerText = theme === 'dark' ? 'LIGHT' : 'DARK';
         }
 
-        // --- 2. SOL PRICE ENGINE (Robust) ---
+        // --- 2. SOL PRICE ENGINE ---
         let currentCurrency = 'USD';
         let solPrice = 125; 
 
-        // Fetch Loop
         async function fetchSolPrice() {
             try {
-                // We use CoinGecko simple price for the text conversion logic
                 const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
                 const data = await res.json();
                 if(data.solana && data.solana.usd) {
                     solPrice = data.solana.usd;
                     document.getElementById('footer-price-ticker').innerHTML = `SOL: $${solPrice.toFixed(2)} <span class="blink" style="color:var(--acid)">●</span>`;
-                    // Update main UI if we are in SOL mode currently
                     if(currentCurrency === 'SOL') updateAllVisuals();
                 }
             } catch(e) {
-                console.log("Price fetch blocked by browser security (CORS) or API limit. Using simulated price.");
                 document.getElementById('footer-price-ticker').innerHTML = `SOL: $${solPrice.toFixed(2)} (SIM) <span class="blink" style="color:orange">●</span>`;
             }
         }
         fetchSolPrice();
-        setInterval(fetchSolPrice, 60000); // Update every minute
+        setInterval(fetchSolPrice, 60000);
 
         // Toggle Logic
         document.querySelectorAll('.toggle-trigger').forEach(trigger => {
@@ -922,7 +754,6 @@
         }
 
         function updateAllVisuals() {
-            // 1. Switches
             document.querySelectorAll('.toggle-trigger').forEach(wrapper => {
                 const label = wrapper.querySelector('.curr-label');
                 if(currentCurrency === 'SOL') {
@@ -934,7 +765,6 @@
                 }
             });
 
-            // 2. Prices
             const targetDisplay = document.getElementById('target-display');
             const targetStatic = document.getElementById('target-static');
             const raisedDisplay = document.getElementById('raised-display');
@@ -980,15 +810,13 @@
         }
         setInterval(updateProgress, 5000);
 
-        // --- 4. CONNECT WALLET (PHANTOM) ---
+        // --- 4. CONNECT WALLET ---
         async function connectWallet() {
             if ("solana" in window) {
                 try {
                     const resp = await window.solana.connect();
-                    console.log("Connected!", resp.publicKey.toString());
                     alert("Wallet Connected: " + resp.publicKey.toString().slice(0, 6) + "...");
                 } catch (err) {
-                    console.error(err);
                     alert("Connection rejected!");
                 }
             } else {
@@ -1006,7 +834,7 @@
             if (leg) leg.classList.add('active');
         };
 
-        // --- 6. MOBILE MENU LOGIC (PORTED FROM OLD CODE) ---
+        // --- 6. MOBILE MENU LOGIC ---
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobile-menu');
         const closeBtn = document.getElementById('mobile-menu-close');
@@ -1030,7 +858,6 @@
                 });
             });
         }
-
     </script>
 </body>
 </html>
