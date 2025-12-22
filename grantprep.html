@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReDewable Grant Prep | Q&A Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0f0d;
+            --surface: #131a16;
+            --border: #1e2a24;
+            --accent: #22c55e;
+            --accent-dim: #166534;
+            --text: #e8efe9;
+            --text-dim: #6b7c71;
+            --warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        header {
+            margin-bottom: 48px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 24px;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 15px;
+        }
+
+        .progress-bar {
+            background: var(--surface);
+            border-radius: 4px;
+            height: 6px;
+            margin: 32px 0 24px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--text-dim);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+
+        .category-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .question {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .question-hint {
+            color: var(--text-dim);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        textarea {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 140px;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        textarea::placeholder {
+            color: var(--text-dim);
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            justify-content: space-between;
+        }
+
+        .btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            padding: 12px 24px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-dim);
+            color: var(--text);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg);
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: #2ed66a;
+        }
+
+        .btn-primary:disabled {
+            background: var(--accent-dim);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Summary view */
+        .summary-section {
+            display: none;
+        }
+
+        .summary-section.active {
+            display: block;
+        }
+
+        .qa-section {
+            display: block;
+        }
+
+        .qa-section.hidden {
+            display: none;
+        }
+
+        .summary-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .summary-item h3 {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .summary-item p {
+            font-size: 15px;
+            color: var(--text);
+            white-space: pre-wrap;
+        }
+
+        .summary-item.empty p {
+            color: var(--warning);
+            font-style: italic;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+
+        .stats {
+            display: flex;
+            gap: 32px;
+            margin: 24px 0;
+            padding: 16px;
+            background: var(--surface);
+            border-radius: 8px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .skip-indicator {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-top: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 24px 16px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+
+            .question {
+                font-size: 18px;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .nav-buttons {
+                order: -1;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">ReDewable Energy</div>
+            <h1>Grant Preparation Q&A</h1>
+            <p class="subtitle">Answer each question. Skip what you don't know. Export when done.</p>
+        </header>
+
+        <div class="qa-section" id="qaSection">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text">
+                <span id="progressLabel">Question 1 of 25</span>
+                <span id="categoryLabel">Company Info</span>
+            </div>
+
+            <span class="category-tag" id="categoryTag">Company Info</span>
+            <h2 class="question" id="questionText">Loading...</h2>
+            <p class="question-hint" id="questionHint"></p>
+
+            <textarea 
+                id="answerInput" 
+                placeholder="Type your answer here..."
+                autofocus
+            ></textarea>
+
+            <p class="skip-indicator">Press Tab + Enter to skip, or just hit Enter to save and continue</p>
+
+            <div class="button-row">
+                <button class="btn btn-secondary" id="skipBtn">Skip</button>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" id="prevBtn">← Back</button>
+                    <button class="btn btn-primary" id="nextBtn">Next →</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary-section" id="summarySection">
+            <h2 style="margin-bottom: 8px;">Summary</h2>
+            <p class="subtitle" style="margin-bottom: 24px;">Review your answers. Click any to edit.</p>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="answeredCount">0</div>
+                    <div class="stat-label">Answered</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="skippedCount">0</div>
+                    <div class="stat-label">Skipped</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="totalCount">25</div>
+                    <div class="stat-label">Total</div>
+                </div>
+            </div>
+
+            <div id="summaryList"></div>
+
+            <div class="export-buttons">
+                <button class="btn btn-primary" id="copyBtn">📋 Copy to Clipboard</button>
+                <button class="btn btn-secondary" id="downloadBtn">⬇ Download .txt</button>
+                <button class="btn btn-secondary" id="editBtn">← Back to Edit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            // Company Info
+            {
+                category: "Company Info",
+                question: "What is the full legal name and founding date of ReDewable Energy Company LLC?",
+                hint: "e.g., 'ReDewable Energy Company LLC, founded March 2023'"
+            },
+            {
+                category: "Company Info",
+                question: "What is the company structure and your role?",
+                hint: "e.g., 'Single-member LLC, I am sole owner and managing member'"
+            },
+            {
+                category: "Company Info",
+                question: "Who else is on the team? List names, roles, and brief backgrounds.",
+                hint: "Include any partners, advisors, or contractors. 'Just me for now' is fine."
+            },
+            {
+                category: "Company Info",
+                question: "What is the company's mission statement?",
+                hint: "One or two sentences on what ReDewable exists to do."
+            },
+            {
+                category: "Company Info",
+                question: "Any prior projects, achievements, or relevant experience?",
+                hint: "Could include other business experience, industry work, education, etc."
+            },
+
+            // ReDew Anson Project
+            {
+                category: "ReDew Anson Project",
+                question: "What is the exact project capacity (MW)?",
+                hint: "e.g., '400 MW battery storage' - confirm if this is final or target"
+            },
+            {
+                category: "ReDew Anson Project",
+                question: "What is the precise location? Include address, county, coordinates, acreage.",
+                hint: "e.g., 'FM 1226, Jones County, TX | 32.4°N, 99.9°W | 15 acres'"
+            },
+            {
+                category: "ReDew Anson Project",
+                question: "What is the current zoning status of the land?",
+                hint: "e.g., 'Agricultural, no rezoning required' or 'Pending commercial rezoning'"
+            },
+            {
+                category: "ReDew Anson Project",
+                question: "Have any environmental or site assessments been completed?",
+                hint: "Phase I, wetlands, endangered species, etc. 'Not yet' is acceptable."
+            },
+
+            // Land Agreement
+            {
+                category: "Land Agreement",
+                question: "What are the full terms of your land control agreement?",
+                hint: "Option price, purchase price, interest rate, monthly payment, term length, contingencies"
+            },
+            {
+                category: "Land Agreement",
+                question: "What is the total land cost including all payments to date?",
+                hint: "Break down: option payments made, remaining balance, interest accrued"
+            },
+            {
+                category: "Land Agreement",
+                question: "Are there any contingencies or conditions in the agreement?",
+                hint: "Survey requirements, title conditions, closing deadlines, etc."
+            },
+
+            // Vendors & Studies
+            {
+                category: "Vendors & Studies",
+                question: "What is the current status with Enerzinx (interconnection study)?",
+                hint: "Started? Completed? Any preliminary findings? Total cost?"
+            },
+            {
+                category: "Vendors & Studies",
+                question: "What is the current status with FastGrid/ANS (geotech)?",
+                hint: "Started? Scheduled? Total proposal cost? Add-ons selected?"
+            },
+            {
+                category: "Vendors & Studies",
+                question: "Any other vendors or consultants engaged?",
+                hint: "Legal, engineering, environmental, etc."
+            },
+
+            // Timeline
+            {
+                category: "Timeline",
+                question: "What are your key milestone dates?",
+                hint: "Geotech completion, interconnection filing, NTP target, COD target"
+            },
+            {
+                category: "Timeline",
+                question: "What delays or risks have you identified?",
+                hint: "ERCOT queue timing, permitting, financing, etc."
+            },
+
+            // Financials
+            {
+                category: "Financials",
+                question: "What is your full development budget breakdown?",
+                hint: "Land, studies, permitting, legal, contingency - itemize with amounts"
+            },
+            {
+                category: "Financials",
+                question: "What are your exit valuation assumptions?",
+                hint: "$/MW basis, comparable transactions, target buyers"
+            },
+            {
+                category: "Financials",
+                question: "Any financing in place or being pursued?",
+                hint: "PACE, bridge loans, equity partners, etc."
+            },
+
+            // Impact Metrics
+            {
+                category: "Impact Metrics",
+                question: "What are projected energy storage metrics?",
+                hint: "MWh capacity, cycles/year, grid services provided"
+            },
+            {
+                category: "Impact Metrics",
+                question: "What are projected jobs and local economic benefits?",
+                hint: "Construction jobs, permanent jobs, tax revenue to Jones County"
+            },
+            {
+                category: "Impact Metrics",
+                question: "What grid reliability benefits does this provide?",
+                hint: "ERCOT stability, peak shaving, renewable integration, etc."
+            },
+
+            // Regulatory & Risk
+            {
+                category: "Regulatory & Risk",
+                question: "What is your ERCOT queue position/status?",
+                hint: "Queue number, study phase, expected timeline"
+            },
+            {
+                category: "Regulatory & Risk",
+                question: "What permits and approvals are needed?",
+                hint: "County, state, federal - list what's required and current status"
+            },
+
+            // Funding
+            {
+                category: "Funding",
+                question: "How much capital have you raised to date?",
+                hint: "Include self-funded amounts. 'None yet' is acceptable."
+            },
+            {
+                category: "Funding",
+                question: "How would you allocate $1M in grant funding?",
+                hint: "Break down by category: studies, land, permitting, etc."
+            },
+            {
+                category: "Funding",
+                question: "Have you applied for other grants? Results?",
+                hint: "Include pending applications, rejections, or awards"
+            }
+        ];
+
+        let currentIndex = 0;
+        let answers = new Array(questions.length).fill("");
+
+        // Load saved answers from localStorage
+        const saved = localStorage.getItem('redewable-qa-answers');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed) && parsed.length === questions.length) {
+                    answers = parsed;
+                }
+            } catch (e) {}
+        }
+
+        const progressFill = document.getElementById('progressFill');
+        const progressLabel = document.getElementById('progressLabel');
+        const categoryLabel = document.getElementById('categoryLabel');
+        const categoryTag = document.getElementById('categoryTag');
+        const questionText = document.getElementById('questionText');
+        const questionHint = document.getElementById('questionHint');
+        const answerInput = document.getElementById('answerInput');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const qaSection = document.getElementById('qaSection');
+        const summarySection = document.getElementById('summarySection');
+
+        function saveAnswers() {
+            localStorage.setItem('redewable-qa-answers', JSON.stringify(answers));
+        }
+
+        function updateUI() {
+            const q = questions[currentIndex];
+            const progress = ((currentIndex + 1) / questions.length) * 100;
+            
+            progressFill.style.width = `${progress}%`;
+            progressLabel.textContent = `Question ${currentIndex + 1} of ${questions.length}`;
+            categoryLabel.textContent = q.category;
+            categoryTag.textContent = q.category;
+            questionText.textContent = q.question;
+            questionHint.textContent = q.hint || "";
+            answerInput.value = answers[currentIndex];
+            
+            prevBtn.style.visibility = currentIndex === 0 ? 'hidden' : 'visible';
+            nextBtn.textContent = currentIndex === questions.length - 1 ? 'Finish →' : 'Next →';
+            
+            answerInput.focus();
+        }
+
+        function saveCurrentAnswer() {
+            answers[currentIndex] = answerInput.value.trim();
+            saveAnswers();
+        }
+
+        function goNext() {
+            saveCurrentAnswer();
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                updateUI();
+            } else {
+                showSummary();
+            }
+        }
+
+        function goPrev() {
+            saveCurrentAnswer();
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateUI();
+            }
+        }
+
+        function skip() {
+            answers[currentIndex] = "";
+            saveAnswers();
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                updateUI();
+            } else {
+                showSummary();
+            }
+        }
+
+        function showSummary() {
+            qaSection.classList.add('hidden');
+            summarySection.classList.add('active');
+            
+            const answered = answers.filter(a => a.length > 0).length;
+            const skipped = answers.filter(a => a.length === 0).length;
+            
+            document.getElementById('answeredCount').textContent = answered;
+            document.getElementById('skippedCount').textContent = skipped;
+            document.getElementById('totalCount').textContent = questions.length;
+            
+            const summaryList = document.getElementById('summaryList');
+            summaryList.innerHTML = '';
+            
+            questions.forEach((q, i) => {
+                const item = document.createElement('div');
+                item.className = 'summary-item' + (answers[i] ? '' : ' empty');
+                item.innerHTML = `
+                    <h3>${q.category}: ${q.question}</h3>
+                    <p>${answers[i] || '(skipped)'}</p>
+                `;
+                item.style.cursor = 'pointer';
+                item.onclick = () => {
+                    currentIndex = i;
+                    summarySection.classList.remove('active');
+                    qaSection.classList.remove('hidden');
+                    updateUI();
+                };
+                summaryList.appendChild(item);
+            });
+        }
+
+        function generateExport() {
+            let output = "REDEWABLE ENERGY - GRANT PREPARATION DATA\n";
+            output += "Generated: " + new Date().toLocaleString() + "\n";
+            output += "=".repeat(60) + "\n\n";
+            
+            let currentCategory = "";
+            questions.forEach((q, i) => {
+                if (q.category !== currentCategory) {
+                    currentCategory = q.category;
+                    output += "\n" + "─".repeat(40) + "\n";
+                    output += currentCategory.toUpperCase() + "\n";
+                    output += "─".repeat(40) + "\n\n";
+                }
+                output += `Q: ${q.question}\n`;
+                output += `A: ${answers[i] || '(not provided)'}\n\n`;
+            });
+            
+            return output;
+        }
+
+        document.getElementById('copyBtn').onclick = () => {
+            navigator.clipboard.writeText(generateExport()).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.textContent = '✓ Copied!';
+                setTimeout(() => btn.textContent = '📋 Copy to Clipboard', 2000);
+            });
+        };
+
+        document.getElementById('downloadBtn').onclick = () => {
+            const blob = new Blob([generateExport()], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'redewable-grant-data.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        };
+
+        document.getElementById('editBtn').onclick = () => {
+            summarySection.classList.remove('active');
+            qaSection.classList.remove('hidden');
+            currentIndex = 0;
+            updateUI();
+        };
+
+        nextBtn.onclick = goNext;
+        prevBtn.onclick = goPrev;
+        skipBtn.onclick = skip;
+
+        answerInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                goNext();
+            }
+        });
+
+        // Initialize
+        updateUI();
+    </script>
+</body>
+</html>
