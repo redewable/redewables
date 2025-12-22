@@ -29,7 +29,7 @@
             --font-mono: 'JetBrains Mono', monospace;
             
             --max-width: 800px;
-            --content-max-width: 1200px; /* For Header/Footer alignment */
+            --content-max-width: 1200px; 
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
         }
 
@@ -89,7 +89,7 @@
         }
         [data-theme="light"] .theme-switch .toggle-switch::after { transform: translateX(18px); }
 
-        /* ========== PAPER CONTENT ========== */
+        /* ========== PAPER STYLES ========== */
         .paper-container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
         .paper-title { text-align: center; margin-bottom: 80px; border-bottom: 1px solid var(--border); padding-bottom: 50px; }
         h1 { font-family: var(--font-head); font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1; margin: 0 0 20px; text-transform: uppercase; font-weight: 800; }
@@ -149,7 +149,7 @@
         .partner-desc { font-size: 1rem; color: var(--text-dim); margin-bottom: 8px; }
         .partner-link { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--acid); }
 
-        /* Legal Block (Expanded) */
+        /* Legal Block */
         .legal-block { background: var(--bg-code); border: 1px solid var(--border); padding: 40px; margin-top: 100px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim); line-height: 1.6; }
         .legal-block strong { color: var(--text-main); display: block; margin-bottom: 10px; margin-top: 20px; }
         .legal-block p { font-size: 0.8rem; margin-bottom: 15px; color: var(--text-dim); }
@@ -243,17 +243,7 @@
     </div>
 
     <div class="paper-section">
-      <span class="sec-num">02 // MARKET THESIS</span>
-      <h2>The Perfect Storm</h2>
-      <p>The Texas grid is under strain from two converging forces: accelerated load growth and volatility from renewables without enough storage.</p>
-      <h3>1. AI Power Demand</h3>
-      <p>AI and hyperscale data centers require large, reliable power. ERCOT has published load growth scenarios showing unusually high demand expansion over the next decade.</p>
-      <h3>2. The “Duck Curve”</h3>
-      <p>Texas has abundant solar at midday and tight supply in the evening. <strong>The Solution:</strong> Batteries are the “shock absorber.”</p>
-    </div>
-
-    <div class="paper-section">
-        <span class="sec-num">03 // THE ASSET</span>
+        <span class="sec-num">02 // THE ASSET</span>
         <h2>ReDew Anson Flagship</h2>
         <p>Our flagship project is a 400MW BESS facility located in the “Stargate Corridor” of West Texas. The site was selected based on congestion, proximity to generation, and grid demand growth.</p>
         <div class="data-grid">
@@ -266,7 +256,7 @@
     </div>
 
     <div class="paper-section">
-        <span class="sec-num">04 // TECHNICAL ARCHITECTURE</span>
+        <span class="sec-num">03 // TECHNICAL ARCHITECTURE</span>
         <h2>The DePIN Stack</h2>
         <p>ReDewable is built on Solana to ensure low-latency validation and high throughput. The architecture links the physical asset (BESS) to the digital asset (License) via a unified data layer.</p>
         
@@ -292,10 +282,10 @@
     </div>
 
     <div class="paper-section">
-        <span class="sec-num">05 // VALUE ACCRUAL</span>
+        <span class="sec-num">04 // VALUE ACCRUAL</span>
         <h2>The Supply Shock Protocol</h2>
         <p>Unlike simple "buyback and burn" models which destroy assets, ReDewable utilizes a <strong>Buyback & Lock</strong> mechanism.</p>
-        <p>When the physical asset is sold (NTP Exit), net proceeds are used to sweep the floor of the $RDW token. These purchased tokens are not burned; they are sent to a <strong>Non-Circulating Vault</strong>.</p>
+        <p>When the physical asset is sold (NTP Exit), net proceeds are used to sweep the floor of the <strong>$RDW</strong> token. These purchased tokens are not burned; they are sent to a <strong>Non-Circulating Vault</strong>.</p>
         
         <div class="callout">
             <strong>WHY LOCK INSTEAD OF BURN?</strong><br><br>
@@ -304,7 +294,7 @@
     </div>
 
     <div class="paper-section">
-        <span class="sec-num">06 // BUSINESS MODEL</span>
+        <span class="sec-num">05 // BUSINESS MODEL</span>
         <h2>Monetizing Volatility</h2>
         <h3>1. Real-World Revenue</h3>
         <ul>
@@ -316,7 +306,7 @@
     </div>
 
     <div class="paper-section">
-      <span class="sec-num">07 // PARTNERS</span>
+      <span class="sec-num">06 // PARTNERS</span>
       <h2>Execution Partners</h2>
       <div class="partner"><div class="partner-name">ANS Engineering</div><div class="partner-desc">Environmental, geotechnical, 30% design packages.</div><a class="partner-link" href="https://ans-team.com" target="_blank">ans-team.com</a></div>
       <div class="partner"><div class="partner-name">Enerzinx</div><div class="partner-desc">ERCOT interconnection modeling and studies.</div><a class="partner-link" href="https://enerzinx.com" target="_blank">enerzinx.com</a></div>
@@ -324,14 +314,7 @@
     </div>
 
     <div class="paper-section">
-      <span class="sec-num">08 // THE PRODUCT</span>
-      <h2>Capacity Licenses (Nodes)</h2>
-      <div class="callout"><strong>LICENSE UTILITY:</strong><br><br>1) <strong>Emissions:</strong> Earn tokens daily.<br>2) <strong>Validation:</strong> Validate grid data.<br>3) <strong>Governance:</strong> Vote on future sites.</div>
-      <p>There are <strong>2,500 total licenses</strong>. Once sold out, no additional licenses are minted.</p>
-    </div>
-
-    <div class="paper-section">
-      <span class="sec-num">09 // ECONOMICS</span>
+      <span class="sec-num">07 // ECONOMICS</span>
       <h2>Supply & Distribution</h2>
       <p>The Network Reward Token (<strong>$RDW</strong>) is the settlement layer for emissions.</p>
       <table class="tokenomics-table">
@@ -347,13 +330,13 @@
     </div>
 
     <div class="paper-section">
-      <span class="sec-num">10 // ROADMAP</span>
+      <span class="sec-num">08 // ROADMAP</span>
       <h2>The Path</h2>
-      <div class="roadmap-phase completed"><div class="phase-header">Phase 00</div><div class="phase-title">Site & Vendor Selection</div></div>
-      <div class="roadmap-phase current"><div class="phase-header">Phase 01</div><div class="phase-title">Pre-Launch</div></div>
-      <div class="roadmap-phase"><div class="phase-header">Phase 02</div><div class="phase-title">Capacity License Sale</div></div>
-      <div class="roadmap-phase"><div class="phase-header">Phase 03</div><div class="phase-title">Pre-Development Execution</div></div>
-      <div class="roadmap-phase"><div class="phase-header">Phase 04</div><div class="phase-title">NTP & Exit</div></div>
+      <div class="roadmap-phase completed"><div class="phase-header">Phase 00</div><div class="phase-title">Site & Vendor Selection</div><div class="phase-items">Land secured • Partners selected • Feasibility validated</div></div>
+      <div class="roadmap-phase current"><div class="phase-header">Phase 01</div><div class="phase-title">Pre-Launch</div><div class="phase-items">Legal Framework • Tokenomics • Website live</div></div>
+      <div class="roadmap-phase"><div class="phase-header">Phase 02</div><div class="phase-title">Capacity License Sale</div><div class="phase-items">Node sale live • Mint infrastructure deployed</div></div>
+      <div class="roadmap-phase"><div class="phase-header">Phase 03</div><div class="phase-title">Pre-Development Execution</div><div class="phase-items">Environmental • Engineering • Interconnection study</div></div>
+      <div class="roadmap-phase"><div class="phase-header">Phase 04</div><div class="phase-title">NTP & Exit</div><div class="phase-items">Institutional buyer selection • Asset Sale</div></div>
       <div class="roadmap-phase"><div class="phase-header">Phase 05</div><div class="phase-title">NETWORK STATE</div><div class="phase-items">DAO Governance • Expansion to ERCOT North • 1GW Target</div></div>
     </div>
 
