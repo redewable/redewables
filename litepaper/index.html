@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReDewable // INFRASTRUCTURE LITEPAPER</title>
     
+    <meta property="og:title" content="ReDewable // THE SHOCK ABSORBER FOR THE GRID">
+    <meta property="og:description" content="Technical Litepaper for the ReDewable DePIN Protocol. Funding the Texas Grid.">
+    <meta property="og:image" content="../assets/social-share.png">
+    
+    <link rel="icon" href="../assets/favicon.png" type="image/png">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text x='0' y='14' fill='%2300FF9D' style='font-size: 16px; font-weight: bold;'>🔋</text></svg>">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -60,7 +65,7 @@
         /* ========== HEADER ========== */
         header { padding: 30px 20px; border-bottom: 1px solid var(--border); margin-bottom: 80px; }
         .nav-inner { max-width: var(--content-max-width); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: var(--font-head); font-weight: 800; font-size: 1.4rem; color: var(--text-main); }
+        .logo { font-family: var(--font-head); font-weight: 800; font-size: 1.4rem; color: var(--text-main); font-style: italic; }
         .logo span { color: var(--acid); }
         .header-right { display: flex; align-items: center; gap: 20px; }
 
@@ -98,7 +103,7 @@
         .paper-section { margin-bottom: 100px; }
         .sec-num { font-family: var(--font-mono); color: var(--acid); display: block; margin-bottom: 15px; font-size: 0.9rem; letter-spacing: 0.12em; text-transform: uppercase; }
         h2 { font-family: var(--font-head); font-size: 2.2rem; margin: 0 0 25px; text-transform: uppercase; font-weight: 700; color: var(--text-main); letter-spacing: -0.01em; }
-        h3 { font-family: var(--font-head); font-size: 1.5rem; margin: 40px 0 20px; color: var(--text-main); font-weight: 700; }
+        h3 { font-family: var(--font-head); font-size: 1.5rem; margin: 40px 0 20px; color: var(--text-main); font-weight: 700; text-transform: uppercase; }
         p { margin-bottom: 25px; font-size: 1.1rem; color: var(--text-dim); }
         strong { color: var(--text-main); font-weight: 600; }
 
@@ -119,7 +124,7 @@
         .data-label { display: block; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 8px; font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
         .data-val { font-size: 1.3rem; font-family: var(--font-head); font-weight: 700; color: var(--acid); text-transform: uppercase; }
 
-        /* Architecture Diagrams */
+        /* Tech Diagrams (NEW) */
         .tech-stack {
             display: flex; flex-direction: column; gap: 15px; margin: 40px 0;
             background: var(--bg-code); padding: 30px; border: 1px solid var(--border);
@@ -132,12 +137,19 @@
         .stack-label { font-family: var(--font-mono); color: var(--text-dim); font-size: 0.9rem; }
         .stack-val { font-family: var(--font-head); color: var(--text-main); font-weight: 700; text-transform: uppercase; }
 
+        /* Dashboard Mockups */
+        .dashboard-grid { display: flex; justify-content: center; gap: 30px; margin: 40px 0; flex-wrap: wrap; }
+        .dash-mockup {
+            width: 200px; height: 120px; background: var(--bg-paper); border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center; font-family: var(--font-head);
+            color: var(--text-dim); text-align: center; transition: 0.3s;
+        }
+        .dash-mockup:hover { border-color: var(--acid); color: var(--acid); box-shadow: 0 0 20px var(--acid-dim); }
+
         /* Roadmap */
         .roadmap-phase { position: relative; padding-left: 32px; padding-bottom: 40px; border-left: 2px solid var(--border); margin-left: 8px; }
         .roadmap-phase:last-child { border-left-color: transparent; padding-bottom: 0; }
         .roadmap-phase::before { content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px; background: var(--bg-main); border: 2px solid var(--acid); border-radius: 50%; }
-        .roadmap-phase.completed::before { background: var(--acid); }
-        .roadmap-phase.current::before { background: var(--acid); box-shadow: 0 0 0 4px var(--acid-dim); }
         .phase-header { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--acid); margin-bottom: 6px; }
         .phase-title { font-weight: 600; margin-bottom: 10px; color: var(--text-main); font-family: var(--font-head); font-size: 1.2rem; }
         .phase-items { color: var(--text-dim); font-size: 1rem; }
@@ -149,6 +161,9 @@
         .partner-desc { font-size: 1rem; color: var(--text-dim); margin-bottom: 8px; }
         .partner-link { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--acid); }
 
+        /* Operator Profile */
+        .operator-box { background: var(--bg-paper); border: 1px solid var(--border); padding: 40px; text-align: center; margin-top: 60px; }
+        
         /* Legal Block */
         .legal-block { background: var(--bg-code); border: 1px solid var(--border); padding: 40px; margin-top: 100px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim); line-height: 1.6; }
         .legal-block strong { color: var(--text-main); display: block; margin-bottom: 10px; margin-top: 20px; }
@@ -164,16 +179,19 @@
 
         /* ========== FOOTER ========== */
         footer { border-top: 1px solid var(--border); padding: 60px 0; margin-top: 100px; font-size: 0.9rem; color: var(--text-dim); }
-        .footer-inner { display: flex; justify-content: space-between; align-items: center; max-width: var(--content-max-width); margin: 0 auto; padding: 0 20px; }
+        .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         
-        .footer-left { display: flex; align-items: center; gap: 20px; }
-        .footer-right { display: flex; gap: 20px; align-items: center; }
+        .footer-left { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+        .footer-right { display: flex; gap: 25px; align-items: center; padding-top: 5px; }
 
-        @keyframes slow-pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+        .corp-link { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); opacity: 0.7; text-decoration: none; letter-spacing: 0.05em; border-bottom: 1px dotted var(--border); transition: 0.3s; }
+        .corp-link:hover { color: var(--acid); opacity: 1; border-bottom-color: var(--acid); }
+
         .ticker-box { 
-            font-family: var(--font-mono); color: var(--acid); padding-left: 20px; border-left: 1px solid var(--border);
+            font-family: var(--font-mono); color: var(--acid); font-size: 0.85rem;
             animation: slow-pulse 4s ease-in-out infinite; 
         }
+        @keyframes slow-pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
         .footer-tech-btn {
             border: 1px solid var(--border); padding: 8px 16px; border-radius: 4px;
@@ -196,7 +214,7 @@
             
             /* Footer Stack */
             .footer-inner { flex-direction: column; gap: 30px; text-align: center; }
-            .footer-left { flex-direction: column; gap: 10px; }
+            .footer-left { align-items: center; }
             .ticker-box { border-left: none; padding-left: 0; display: block; }
             .footer-right { flex-direction: column; gap: 20px; }
         }
@@ -226,16 +244,9 @@
 
     <div class="paper-section">
       <span class="sec-num">01 // EXECUTIVE SUMMARY</span>
-      <h2>Bridging DeFi & Energy Infrastructure</h2>
-      <p>
-        ReDewable Energy connects decentralized liquidity to real-world energy infrastructure. We fund the pre-development of utility-scale
-        Battery Energy Storage Systems (BESS) in ERCOT (the Texas grid operator).
-      </p>
-      <p>
-        Instead of a traditional token sale, we utilize a <strong>Capacity License (Node)</strong> model. Participants purchase a digital license that funds the high-risk,
-        high-reward “Pre-NTP” phase of development. In exchange, license holders receive daily emissions of the Network Reward Token
-        (<strong>$RDW</strong>) over a defined schedule.
-      </p>
+      <h2>Bridging DeFi & Energy</h2>
+      <p>ReDewable Energy connects decentralized liquidity to real-world infrastructure. We fund the pre-development of utility-scale Battery Energy Storage Systems (BESS) in ERCOT (the Texas grid operator).</p>
+      <p>Instead of a traditional token sale, we utilize a <strong>Capacity License (Node)</strong> model. Participants purchase a digital license that funds the high-risk, high-reward "Pre-NTP" phase. In exchange, holders receive daily emissions of the Network Reward Token (<strong>$RDW</strong>).</p>
       <div class="callout">
         <strong>THE MISSION:</strong><br><br>
         Stabilize the Texas power grid against rapidly growing AI and data center load by accelerating battery storage development.
@@ -243,74 +254,60 @@
     </div>
 
     <div class="paper-section">
-        <span class="sec-num">02 // THE ASSET</span>
+      <span class="sec-num">02 // MARKET THESIS</span>
+      <h2>The Perfect Storm</h2>
+      <p>The Texas grid is under strain from two converging forces: accelerated load growth and volatility from renewables without enough storage.</p>
+      <h3>1. AI Power Demand</h3>
+      <p>AI and hyperscale data centers require large, reliable power. ERCOT has published load growth scenarios showing unusually high demand expansion.</p>
+      <h3>2. The "Duck Curve"</h3>
+      <p>Texas has abundant solar at midday and tight supply in the evening. <strong>The Solution:</strong> Batteries charge when power is cheap and discharge when prices spike.</p>
+    </div>
+
+    <div class="paper-section">
+        <span class="sec-num">03 // THE ASSET</span>
         <h2>ReDew Anson Flagship</h2>
-        <p>Our flagship project is a 400MW BESS facility located in the “Stargate Corridor” of West Texas. The site was selected based on congestion, proximity to generation, and grid demand growth.</p>
+        <p>Our flagship project is a 400MW BESS facility located in the "Stargate Corridor" of West Texas.</p>
         <div class="data-grid">
             <div class="data-box"><span class="data-label">CAPACITY</span><span class="data-val">400 MW</span></div>
             <div class="data-box"><span class="data-label">DURATION</span><span class="data-val">2 HOURS</span></div>
-            <div class="data-box"><span class="data-label">STATUS</span><span class="data-val">SITE CONTROL SECURED</span></div>
-            <div class="data-box"><span class="data-label">GRID STUDY</span><span class="data-val">INTERCONNECTION IN PROGRESS</span></div>
+            <div class="data-box"><span class="data-label">STATUS</span><span class="data-val">SITE CONTROL</span></div>
+            <div class="data-box"><span class="data-label">GRID STUDY</span><span class="data-val">IN PROGRESS</span></div>
         </div>
-        <p>We execute the “Pre-NTP” work. Once a project reaches <strong>NTP</strong>, it becomes a highly desirable asset for institutional buyers.</p>
+        <p>We execute the "Pre-NTP" work. Once a project reaches <strong>NTP</strong>, it becomes a highly desirable asset for institutional buyers.</p>
     </div>
 
     <div class="paper-section">
-        <span class="sec-num">03 // TECHNICAL ARCHITECTURE</span>
+        <span class="sec-num">04 // TECHNICAL ARCHITECTURE</span>
         <h2>The DePIN Stack</h2>
-        <p>ReDewable is built on Solana to ensure low-latency validation and high throughput. The architecture links the physical asset (BESS) to the digital asset (License) via a unified data layer.</p>
-        
+        <p>ReDewable is built on Solana to ensure low-latency validation and high throughput.</p>
         <div class="tech-stack">
-            <div class="stack-row">
-                <span class="stack-label">SETTLEMENT LAYER</span>
-                <span class="stack-val">SOLANA L1</span>
-            </div>
-            <div class="stack-row">
-                <span class="stack-label">LICENSE STANDARD</span>
-                <span class="stack-val">METAPLEX (cNFT)</span>
-            </div>
-            <div class="stack-row">
-                <span class="stack-label">TREASURY SECURITY</span>
-                <span class="stack-val">SQUADS MULTI-SIG (2/3)</span>
-            </div>
-            <div class="stack-row">
-                <span class="stack-label">VESTING CONTRACTS</span>
-                <span class="stack-val">STREAMFLOW</span>
-            </div>
+            <div class="stack-row"><span class="stack-label">SETTLEMENT LAYER</span><span class="stack-val">SOLANA L1</span></div>
+            <div class="stack-row"><span class="stack-label">LICENSE STANDARD</span><span class="stack-val">METAPLEX (cNFT)</span></div>
+            <div class="stack-row"><span class="stack-label">TREASURY SECURITY</span><span class="stack-val">SQUADS MULTI-SIG (2/3)</span></div>
+            <div class="stack-row"><span class="stack-label">VESTING CONTRACTS</span><span class="stack-val">STREAMFLOW</span></div>
         </div>
-        <p>This stack ensures that no single person controls the treasury or the emission schedule. All token distributions are programmatic and verifiable on-chain via our <strong>2-of-3 Multi-Signature</strong> treasury.</p>
+        <p>This stack ensures that no single person controls the treasury or the emission schedule.</p>
     </div>
 
     <div class="paper-section">
-        <span class="sec-num">04 // VALUE ACCRUAL</span>
-        <h2>The Supply Shock Protocol</h2>
-        <p>Unlike simple "buyback and burn" models which destroy assets, ReDewable utilizes a <strong>Buyback & Lock</strong> mechanism.</p>
-        <p>When the physical asset is sold (NTP Exit), net proceeds are used to sweep the floor of the <strong>$RDW</strong> token. These purchased tokens are not burned; they are sent to a <strong>Non-Circulating Vault</strong>.</p>
-        
+        <span class="sec-num">05 // VALUE ACCRUAL</span>
+        <h2>Supply Shock Protocol</h2>
+        <p>When the physical asset is sold (NTP Exit), net proceeds are used to sweep the floor of the <strong>$RDW</strong> token. These tokens are not burned; they are sent to a <strong>Non-Circulating Vault (Lock)</strong>.</p>
         <div class="callout">
             <strong>WHY LOCK INSTEAD OF BURN?</strong><br><br>
-            Locking removes supply from circulation (creating price pressure) while keeping the tokens on the balance sheet. This allows the DAO to use these assets later for deep liquidity provision or lending collateral without diluting holders.
+            Locking removes supply from circulation (creating price pressure) while keeping the tokens on the balance sheet for future DAO use (liquidity/collateral).
         </div>
     </div>
 
     <div class="paper-section">
-        <span class="sec-num">05 // BUSINESS MODEL</span>
-        <h2>Monetizing Volatility</h2>
-        <h3>1. Real-World Revenue</h3>
-        <ul>
-            <li><strong>Arbitrage:</strong> Buying low, selling high.</li>
-            <li><strong>Ancillary Services:</strong> Getting paid to stay on standby.</li>
-        </ul>
-        <h3>2. Infrastructure Exit (NTP Sale)</h3>
-        <p>We sell the ready-to-build package to major developers. Proceeds trigger the Supply Shock Protocol.</p>
-    </div>
-
-    <div class="paper-section">
-      <span class="sec-num">06 // PARTNERS</span>
-      <h2>Execution Partners</h2>
-      <div class="partner"><div class="partner-name">ANS Engineering</div><div class="partner-desc">Environmental, geotechnical, 30% design packages.</div><a class="partner-link" href="https://ans-team.com" target="_blank">ans-team.com</a></div>
-      <div class="partner"><div class="partner-name">Enerzinx</div><div class="partner-desc">ERCOT interconnection modeling and studies.</div><a class="partner-link" href="https://enerzinx.com" target="_blank">enerzinx.com</a></div>
-      <div class="partner"><div class="partner-name">Houston PACE</div><div class="partner-desc">Development financing and buyer alignment.</div><a class="partner-link" href="https://www.pacehouston.com" target="_blank">pacehouston.com</a></div>
+        <span class="sec-num">06 // LICENSE UTILITY</span>
+        <h2>The Node Dashboard</h2>
+        <p>Holders of Capacity Licenses gain access to the Command Center to view real-time engineering updates and claim rewards.</p>
+        <div class="dashboard-grid">
+            <div class="dash-mockup">PERMITTING<br>STATUS</div>
+            <div class="dash-mockup">DAILY<br>REWARDS</div>
+            <div class="dash-mockup">ENGINEERING<br>DOCS</div>
+        </div>
     </div>
 
     <div class="paper-section">
@@ -330,14 +327,31 @@
     </div>
 
     <div class="paper-section">
-      <span class="sec-num">08 // ROADMAP</span>
-      <h2>The Path</h2>
+      <span class="sec-num">08 // THE PATH</span>
+      <h2>Roadmap</h2>
       <div class="roadmap-phase completed"><div class="phase-header">Phase 00</div><div class="phase-title">Site & Vendor Selection</div><div class="phase-items">Land secured • Partners selected • Feasibility validated</div></div>
       <div class="roadmap-phase current"><div class="phase-header">Phase 01</div><div class="phase-title">Pre-Launch</div><div class="phase-items">Legal Framework • Tokenomics • Website live</div></div>
       <div class="roadmap-phase"><div class="phase-header">Phase 02</div><div class="phase-title">Capacity License Sale</div><div class="phase-items">Node sale live • Mint infrastructure deployed</div></div>
       <div class="roadmap-phase"><div class="phase-header">Phase 03</div><div class="phase-title">Pre-Development Execution</div><div class="phase-items">Environmental • Engineering • Interconnection study</div></div>
       <div class="roadmap-phase"><div class="phase-header">Phase 04</div><div class="phase-title">NTP & Exit</div><div class="phase-items">Institutional buyer selection • Asset Sale</div></div>
       <div class="roadmap-phase"><div class="phase-header">Phase 05</div><div class="phase-title">NETWORK STATE</div><div class="phase-items">DAO Governance • Expansion to ERCOT North • 1GW Target</div></div>
+    </div>
+
+    <div class="paper-section">
+        <span class="sec-num">09 // OPERATOR</span>
+        <h2>Talor Byington</h2>
+        <div class="operator-box">
+            <p>10+ years operational leadership. Scaled consumer electronics repair to revenue. Building the bridge between physical energy infrastructure and decentralized finance.</p>
+            <a href="https://x.com/TalorMayde" target="_blank" style="font-family:var(--font-mono); color:var(--acid); text-decoration:none;">@TALORMAYDE</a>
+        </div>
+    </div>
+
+    <div class="paper-section">
+      <span class="sec-num">10 // PARTNERS</span>
+      <h2>Execution Partners</h2>
+      <div class="partner"><div class="partner-name">ANS Engineering</div><div class="partner-desc">Environmental, geotechnical, 30% design packages.</div><a class="partner-link" href="https://ans-team.com" target="_blank">ans-team.com</a></div>
+      <div class="partner"><div class="partner-name">Enerzinx</div><div class="partner-desc">ERCOT interconnection modeling and studies.</div><a class="partner-link" href="https://enerzinx.com" target="_blank">enerzinx.com</a></div>
+      <div class="partner"><div class="partner-name">Houston PACE</div><div class="partner-desc">Development financing and buyer alignment.</div><a class="partner-link" href="https://www.pacehouston.com" target="_blank">pacehouston.com</a></div>
     </div>
 
     <div class="legal-block">
@@ -361,7 +375,8 @@
   <footer>
     <div class="paper-container footer-inner">
       <div class="footer-left">
-        <span>© 2025 REDEWABLE ENERGY</span>
+        <span>© 2025 REDEWABLE PROTOCOL</span>
+        <a href="https://your-traditional-site.com" target="_blank" class="corp-link">OPERATED BY REDEWABLE ENERGY COMPANY, LLC ↗</a>
         <span class="ticker-box" id="footer-price-ticker">
           SOL: <span class="blink">●</span> CONNECTING...
         </span>
@@ -371,8 +386,10 @@
             <i class="fas fa-terminal"></i> NODE SALE TERMINAL
         </a>
         
-        <a href="https://x.com/ReDewable" target="_blank" class="footer-social-link"><i class="fab fa-x-twitter"></i></a>
-        <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank" class="footer-social-link"><i class="fab fa-telegram-plane"></i></a>
+        <div style="display:flex; gap: 20px;">
+            <a href="https://x.com/ReDewable" target="_blank" class="footer-social-link"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank" class="footer-social-link"><i class="fab fa-telegram-plane"></i></a>
+        </div>
       </div>
     </div>
   </footer>
