@@ -289,10 +289,125 @@
                 justify-content: space-between;
             }
         }
+
+        /* Auth Screen */
+        .auth-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .auth-screen.hidden {
+            display: none;
+        }
+
+        .auth-container {
+            text-align: center;
+            padding: 48px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .auth-logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .auth-title {
+            font-size: 32px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .auth-subtitle {
+            color: var(--text-dim);
+            font-size: 15px;
+            margin-bottom: 32px;
+        }
+
+        .auth-input {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 4px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .auth-input::placeholder {
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        .auth-btn {
+            width: 100%;
+            background: var(--accent);
+            color: var(--bg);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .auth-btn:hover {
+            background: #2ed66a;
+        }
+
+        .auth-error {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 16px;
+            min-height: 20px;
+        }
+
+        .auth-input.error {
+            border-color: #ef4444;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="auth-screen" id="authScreen">
+        <div class="auth-container">
+            <div class="auth-logo">ReDewable Energy</div>
+            <h1 class="auth-title">Grant Prep Portal</h1>
+            <p class="auth-subtitle">Enter access code to continue</p>
+            <input type="password" id="passInput" class="auth-input" placeholder="Access code" autofocus />
+            <button class="auth-btn" id="authBtn">Enter →</button>
+            <p class="auth-error" id="authError"></p>
+        </div>
+    </div>
+
+    <div class="container" id="mainApp" style="display:none;">
         <header>
             <div class="logo">ReDewable Energy</div>
             <h1>Grant Preparation Q&A</h1>
@@ -343,7 +458,7 @@
                     <div class="stat-label">Skipped</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value" id="totalCount">40</div>
+                    <div class="stat-value" id="totalCount">42</div>
                     <div class="stat-label">Total</div>
                 </div>
             </div>
@@ -361,27 +476,41 @@
     </div>
 
     <script>
-        // Password protection
+        // Password protection with UI
         const PASS = "$1M";
-        function checkAccess() {
-            if (sessionStorage.getItem('qa-auth') === 'granted') return true;
-            const input = prompt("Enter access code:");
-            if (input === PASS) {
+        const authScreen = document.getElementById('authScreen');
+        const mainApp = document.getElementById('mainApp');
+        const passInput = document.getElementById('passInput');
+        const authBtn = document.getElementById('authBtn');
+        const authError = document.getElementById('authError');
+
+        function checkAuth(password) {
+            if (password === PASS) {
                 sessionStorage.setItem('qa-auth', 'granted');
+                authScreen.classList.add('hidden');
+                mainApp.style.display = 'block';
                 return true;
             } else {
-                document.body.innerHTML = `
-                    <div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#0a0f0d;">
-                        <div style="text-align:center;color:#ef4444;font-family:monospace;">
-                            <h1 style="font-size:48px;margin-bottom:16px;">ACCESS DENIED</h1>
-                            <p style="color:#6b7c71;">Refresh to try again</p>
-                        </div>
-                    </div>
-                `;
+                passInput.classList.add('error');
+                authError.textContent = 'Invalid access code';
+                setTimeout(() => passInput.classList.remove('error'), 400);
+                passInput.value = '';
+                passInput.focus();
                 return false;
             }
         }
-        if (!checkAccess()) throw new Error('Unauthorized');
+
+        // Check if already authenticated
+        if (sessionStorage.getItem('qa-auth') === 'granted') {
+            authScreen.classList.add('hidden');
+            mainApp.style.display = 'block';
+        }
+
+        authBtn.onclick = () => checkAuth(passInput.value);
+        passInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') checkAuth(passInput.value);
+            authError.textContent = '';
+        });
 
         const questions = [
             // Company Info
@@ -394,6 +523,16 @@
                 category: "Company Info",
                 question: "What is the company structure and your role?",
                 hint: "e.g., 'Single-member LLC, I am sole owner and managing member'"
+            },
+            {
+                category: "Company Info",
+                question: "Describe ReDew Anson, LLC - the project-level entity.",
+                hint: "Founding date, ownership structure, relationship to ReDewable Energy Company LLC"
+            },
+            {
+                category: "Company Info",
+                question: "Do you have a trust or other entities involved in the ownership structure?",
+                hint: "If yes, explain how it fits (e.g., 'Trust is the member of ReDewable Energy Company LLC'). If not applicable, say N/A."
             },
             {
                 category: "Company Info",
