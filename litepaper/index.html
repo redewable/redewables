@@ -28,7 +28,8 @@
             --font-body: 'Inter', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
             
-            --max-width: 800px; /* Reduced width for better readability */
+            --max-width: 800px;
+            --content-max-width: 1200px; /* For Header/Footer alignment */
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
         }
 
@@ -49,7 +50,7 @@
         html { scroll-behavior: smooth; }
         body {
             background-color: var(--bg-main); font-family: var(--font-body);
-            color: var(--text-main); line-height: 1.8; /* Increased line height */
+            color: var(--text-main); line-height: 1.8;
             padding-bottom: 80px;
             transition: background-color 0.3s, color 0.3s;
         }
@@ -58,7 +59,7 @@
 
         /* ========== HEADER ========== */
         header { padding: 30px 20px; border-bottom: 1px solid var(--border); margin-bottom: 80px; }
-        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .nav-inner { max-width: var(--content-max-width); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-family: var(--font-head); font-weight: 800; font-size: 1.4rem; color: var(--text-main); }
         .logo span { color: var(--acid); }
         .header-right { display: flex; align-items: center; gap: 20px; }
@@ -88,14 +89,13 @@
         }
         [data-theme="light"] .theme-switch .toggle-switch::after { transform: translateX(18px); }
 
-        /* ========== PAPER STYLES ========== */
+        /* ========== PAPER CONTENT ========== */
         .paper-container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
         .paper-title { text-align: center; margin-bottom: 80px; border-bottom: 1px solid var(--border); padding-bottom: 50px; }
         h1 { font-family: var(--font-head); font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1; margin: 0 0 20px; text-transform: uppercase; font-weight: 800; }
         .doc-meta { font-family: var(--font-mono); color: var(--text-dim); font-size: 0.9rem; letter-spacing: 0.06em; text-transform: uppercase; }
-        .blur-secret { filter: blur(5px); user-select: none; background: var(--text-dim); color: transparent; display: inline-block; border-radius: 4px; padding: 0 5px; width: 40px; height: 1em; }
 
-        .paper-section { margin-bottom: 100px; } /* More vertical space */
+        .paper-section { margin-bottom: 100px; }
         .sec-num { font-family: var(--font-mono); color: var(--acid); display: block; margin-bottom: 15px; font-size: 0.9rem; letter-spacing: 0.12em; text-transform: uppercase; }
         h2 { font-family: var(--font-head); font-size: 2.2rem; margin: 0 0 25px; text-transform: uppercase; font-weight: 700; color: var(--text-main); letter-spacing: -0.01em; }
         h3 { font-family: var(--font-head); font-size: 1.5rem; margin: 40px 0 20px; color: var(--text-main); font-weight: 700; }
@@ -113,13 +113,13 @@
             box-shadow: var(--shadow); line-height: 1.6;
         }
 
-        /* Clean Data Grids */
+        /* Data Grids */
         .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
         .data-box { background: var(--bg-paper); border: 1px solid var(--border); padding: 25px; }
         .data-label { display: block; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 8px; font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
         .data-val { font-size: 1.3rem; font-family: var(--font-head); font-weight: 700; color: var(--acid); text-transform: uppercase; }
 
-        /* Clean Architecture Diagrams */
+        /* Architecture Diagrams */
         .tech-stack {
             display: flex; flex-direction: column; gap: 15px; margin: 40px 0;
             background: var(--bg-code); padding: 30px; border: 1px solid var(--border);
@@ -149,9 +149,9 @@
         .partner-desc { font-size: 1rem; color: var(--text-dim); margin-bottom: 8px; }
         .partner-link { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--acid); }
 
-        /* Legal Block */
+        /* Legal Block (Expanded) */
         .legal-block { background: var(--bg-code); border: 1px solid var(--border); padding: 40px; margin-top: 100px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim); line-height: 1.6; }
-        .legal-block strong { color: var(--text-main); display: block; margin-bottom: 10px; }
+        .legal-block strong { color: var(--text-main); display: block; margin-bottom: 10px; margin-top: 20px; }
         .legal-block p { font-size: 0.8rem; margin-bottom: 15px; color: var(--text-dim); }
 
         /* Tokenomics Table */
@@ -162,9 +162,9 @@
         .tokenomics-table td:first-child { color: var(--text-main); font-weight: 500; }
         .tokenomics-table .percent { font-family: 'JetBrains Mono', monospace; color: var(--acid); font-weight: 600; }
 
-        /* ========== FOOTER & ANIMATIONS ========== */
+        /* ========== FOOTER ========== */
         footer { border-top: 1px solid var(--border); padding: 60px 0; margin-top: 100px; font-size: 0.9rem; color: var(--text-dim); }
-        .footer-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .footer-inner { display: flex; justify-content: space-between; align-items: center; max-width: var(--content-max-width); margin: 0 auto; padding: 0 20px; }
         
         .footer-left { display: flex; align-items: center; gap: 20px; }
         .footer-right { display: flex; gap: 20px; align-items: center; }
@@ -191,27 +191,14 @@
         /* ========== RESPONSIVE ========== */
         @media (max-width: 800px) {
             .data-grid { grid-template-columns: 1fr; }
-            /* Header Stack */
             .nav-inner { flex-direction: column; gap: 20px; }
             .header-right { width: 100%; justify-content: space-between; flex-direction: row; }
             
-            /* Footer Stack (FIXED) */
+            /* Footer Stack */
             .footer-inner { flex-direction: column; gap: 30px; text-align: center; }
-            
-            .footer-left { 
-                flex-direction: column; /* Stack Copyright & Ticker */
-                gap: 10px; 
-            }
-            .ticker-box { 
-                border-left: none; 
-                padding-left: 0; 
-                display: block; 
-            }
-            
-            .footer-right { 
-                flex-direction: column; /* Stack Button & Socials */
-                gap: 20px; 
-            }
+            .footer-left { flex-direction: column; gap: 10px; }
+            .ticker-box { border-left: none; padding-left: 0; display: block; }
+            .footer-right { flex-direction: column; gap: 20px; }
         }
     </style>
 </head>
@@ -247,7 +234,7 @@
       <p>
         Instead of a traditional token sale, we utilize a <strong>Capacity License (Node)</strong> model. Participants purchase a digital license that funds the high-risk,
         high-reward “Pre-NTP” phase of development. In exchange, license holders receive daily emissions of the Network Reward Token
-        ($<span class="blur-secret">TICKER</span>) over a defined schedule.
+        (<strong>$RDW</strong>) over a defined schedule.
       </p>
       <div class="callout">
         <strong>THE MISSION:</strong><br><br>
@@ -256,7 +243,17 @@
     </div>
 
     <div class="paper-section">
-        <span class="sec-num">02 // THE ASSET</span>
+      <span class="sec-num">02 // MARKET THESIS</span>
+      <h2>The Perfect Storm</h2>
+      <p>The Texas grid is under strain from two converging forces: accelerated load growth and volatility from renewables without enough storage.</p>
+      <h3>1. AI Power Demand</h3>
+      <p>AI and hyperscale data centers require large, reliable power. ERCOT has published load growth scenarios showing unusually high demand expansion over the next decade.</p>
+      <h3>2. The “Duck Curve”</h3>
+      <p>Texas has abundant solar at midday and tight supply in the evening. <strong>The Solution:</strong> Batteries are the “shock absorber.”</p>
+    </div>
+
+    <div class="paper-section">
+        <span class="sec-num">03 // THE ASSET</span>
         <h2>ReDew Anson Flagship</h2>
         <p>Our flagship project is a 400MW BESS facility located in the “Stargate Corridor” of West Texas. The site was selected based on congestion, proximity to generation, and grid demand growth.</p>
         <div class="data-grid">
@@ -269,7 +266,7 @@
     </div>
 
     <div class="paper-section">
-        <span class="sec-num">03 // TECHNICAL ARCHITECTURE</span>
+        <span class="sec-num">04 // TECHNICAL ARCHITECTURE</span>
         <h2>The DePIN Stack</h2>
         <p>ReDewable is built on Solana to ensure low-latency validation and high throughput. The architecture links the physical asset (BESS) to the digital asset (License) via a unified data layer.</p>
         
@@ -295,7 +292,7 @@
     </div>
 
     <div class="paper-section">
-        <span class="sec-num">04 // VALUE ACCRUAL</span>
+        <span class="sec-num">05 // VALUE ACCRUAL</span>
         <h2>The Supply Shock Protocol</h2>
         <p>Unlike simple "buyback and burn" models which destroy assets, ReDewable utilizes a <strong>Buyback & Lock</strong> mechanism.</p>
         <p>When the physical asset is sold (NTP Exit), net proceeds are used to sweep the floor of the $RDW token. These purchased tokens are not burned; they are sent to a <strong>Non-Circulating Vault</strong>.</p>
@@ -307,7 +304,7 @@
     </div>
 
     <div class="paper-section">
-        <span class="sec-num">05 // BUSINESS MODEL</span>
+        <span class="sec-num">06 // BUSINESS MODEL</span>
         <h2>Monetizing Volatility</h2>
         <h3>1. Real-World Revenue</h3>
         <ul>
@@ -319,7 +316,7 @@
     </div>
 
     <div class="paper-section">
-      <span class="sec-num">06 // PARTNERS</span>
+      <span class="sec-num">07 // PARTNERS</span>
       <h2>Execution Partners</h2>
       <div class="partner"><div class="partner-name">ANS Engineering</div><div class="partner-desc">Environmental, geotechnical, 30% design packages.</div><a class="partner-link" href="https://ans-team.com" target="_blank">ans-team.com</a></div>
       <div class="partner"><div class="partner-name">Enerzinx</div><div class="partner-desc">ERCOT interconnection modeling and studies.</div><a class="partner-link" href="https://enerzinx.com" target="_blank">enerzinx.com</a></div>
@@ -327,9 +324,16 @@
     </div>
 
     <div class="paper-section">
-      <span class="sec-num">07 // ECONOMICS</span>
+      <span class="sec-num">08 // THE PRODUCT</span>
+      <h2>Capacity Licenses (Nodes)</h2>
+      <div class="callout"><strong>LICENSE UTILITY:</strong><br><br>1) <strong>Emissions:</strong> Earn tokens daily.<br>2) <strong>Validation:</strong> Validate grid data.<br>3) <strong>Governance:</strong> Vote on future sites.</div>
+      <p>There are <strong>2,500 total licenses</strong>. Once sold out, no additional licenses are minted.</p>
+    </div>
+
+    <div class="paper-section">
+      <span class="sec-num">09 // ECONOMICS</span>
       <h2>Supply & Distribution</h2>
-      <p>The Network Reward Token ($<span class="blur-secret">TICKER</span>) is the settlement layer for emissions.</p>
+      <p>The Network Reward Token (<strong>$RDW</strong>) is the settlement layer for emissions.</p>
       <table class="tokenomics-table">
         <thead><tr><th>Allocation</th><th class="percent">%</th></tr></thead>
         <tbody>
@@ -343,18 +347,31 @@
     </div>
 
     <div class="paper-section">
-      <span class="sec-num">08 // ROADMAP</span>
+      <span class="sec-num">10 // ROADMAP</span>
       <h2>The Path</h2>
       <div class="roadmap-phase completed"><div class="phase-header">Phase 00</div><div class="phase-title">Site & Vendor Selection</div></div>
       <div class="roadmap-phase current"><div class="phase-header">Phase 01</div><div class="phase-title">Pre-Launch</div></div>
       <div class="roadmap-phase"><div class="phase-header">Phase 02</div><div class="phase-title">Capacity License Sale</div></div>
       <div class="roadmap-phase"><div class="phase-header">Phase 03</div><div class="phase-title">Pre-Development Execution</div></div>
       <div class="roadmap-phase"><div class="phase-header">Phase 04</div><div class="phase-title">NTP & Exit</div></div>
+      <div class="roadmap-phase"><div class="phase-header">Phase 05</div><div class="phase-title">NETWORK STATE</div><div class="phase-items">DAO Governance • Expansion to ERCOT North • 1GW Target</div></div>
     </div>
 
     <div class="legal-block">
-      <p><strong>LEGAL DISCLAIMER</strong></p>
-      <p>This document is not a prospectus. Capacity Licenses are digital software licenses, not equity. No financial advice is given.</p>
+      <strong>LEGAL DISCLAIMER & RISK DISCLOSURE</strong>
+      <p><strong>NOT FINANCIAL ADVICE:</strong> This document is provided for informational purposes only. It is not a prospectus, an offer to sell securities, or a solicitation of an offer to buy securities. Nothing herein constitutes financial, investment, legal, or tax advice. You should consult with your own professional advisors before purchasing any digital asset.</p>
+      
+      <strong>NATURE OF ASSETS</strong>
+      <p>The Capacity Licenses described herein are digital software licenses that provide access to network validation features and potential future utility tokens. They do not represent equity, debt, or a claim on the assets of ReDewable Energy Company, LLC. The $RDW token is a utility token for the decentralized network and holds no inherent rights to profit.</p>
+
+      <strong>RISK OF LOSS</strong>
+      <p>Buying digital assets involves a high degree of risk. You could lose some or all of your capital. The development of physical infrastructure involves regulatory, environmental, and construction risks that are outside the control of the protocol. Do not use funds you cannot afford to lose.</p>
+
+      <strong>JURISDICTION</strong>
+      <p>This offering is not available to residents of sanctioned countries (e.g., North Korea, Iran) or jurisdictions where such sales are prohibited by law.</p>
+
+      <strong>FORWARD-LOOKING STATEMENTS</strong>
+      <p>This document contains forward-looking statements regarding future milestones. These statements are based on current market assumptions and are subject to change. Actual results may differ materially.</p>
     </div>
   </div>
 
