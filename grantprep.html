@@ -17,6 +17,17 @@
             --warning: #f59e0b;
         }
 
+        [data-theme="light"] {
+            --bg: #f5f7f6;
+            --surface: #ffffff;
+            --border: #d1d9d5;
+            --accent: #16a34a;
+            --accent-dim: #86efac;
+            --text: #1a2e22;
+            --text-dim: #5c6d63;
+            --warning: #d97706;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -29,6 +40,26 @@
             color: var(--text);
             min-height: 100vh;
             line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            cursor: pointer;
+            font-size: 18px;
+            z-index: 100;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
         }
 
         .container {
@@ -393,9 +424,92 @@
             25% { transform: translateX(-8px); }
             75% { transform: translateX(8px); }
         }
+
+        /* Drive Banner */
+        .drive-banner {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: linear-gradient(135deg, var(--surface) 0%, rgba(34, 197, 94, 0.1) 100%);
+            border: 1px solid var(--accent-dim);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .drive-icon {
+            font-size: 28px;
+        }
+
+        .drive-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .drive-text strong {
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .drive-text span {
+            color: var(--text-dim);
+            font-size: 13px;
+        }
+
+        .drive-link {
+            background: var(--accent);
+            color: var(--bg);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .drive-link:hover {
+            background: #2ed66a;
+        }
+
+        /* Checklist quick buttons */
+        .checklist-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .checklist-btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checklist-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .checklist-btn.selected {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg);
+        }
     </style>
 </head>
 <body>
+    <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode">🌙</button>
+
     <div class="auth-screen" id="authScreen">
         <div class="auth-container">
             <div class="auth-logo">ReDewable Energy</div>
@@ -426,6 +540,22 @@
             <span class="category-tag" id="categoryTag">Company Info</span>
             <h2 class="question" id="questionText">Loading...</h2>
             <p class="question-hint" id="questionHint"></p>
+
+            <div class="drive-banner" id="driveBanner" style="display:none;">
+                <div class="drive-icon">📁</div>
+                <div class="drive-text">
+                    <strong>Upload documents to Google Drive</strong>
+                    <span>Open your Grant Prep folder to upload files</span>
+                </div>
+                <a href="https://drive.google.com/drive/folders/1uUrpreYNTqPLQVAdrmseO4V6BnCyu885" target="_blank" class="drive-link">Open Drive →</a>
+            </div>
+
+            <div class="checklist-buttons" id="checklistButtons" style="display:none;">
+                <button class="checklist-btn" data-value="✓ Uploaded to Drive">✓ Uploaded</button>
+                <button class="checklist-btn" data-value="Have it (not uploaded yet)">Have it</button>
+                <button class="checklist-btn" data-value="Need to obtain">Need to get</button>
+                <button class="checklist-btn" data-value="N/A">N/A</button>
+            </div>
 
             <textarea 
                 id="answerInput" 
@@ -458,7 +588,7 @@
                     <div class="stat-label">Skipped</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value" id="totalCount">42</div>
+                    <div class="stat-value" id="totalCount">53</div>
                     <div class="stat-label">Total</div>
                 </div>
             </div>
@@ -749,6 +879,74 @@
                 category: "Cross-Grant",
                 question: "What local support or partnerships do you have?",
                 hint: "County officials, landowners, utilities, community organizations, letters of support."
+            },
+
+            // Document Checklist
+            {
+                category: "Document Checklist",
+                question: "CP575 (EIN Confirmation Letter) - Do you have this?",
+                hint: "IRS letter confirming your EIN. Check 'Yes, uploaded to Drive' / 'Yes, have it' / 'No, need to obtain'",
+                isChecklist: true
+            },
+            {
+                category: "Document Checklist",
+                question: "Articles of Organization - ReDewable Energy Company LLC",
+                hint: "State filing proving LLC formation. Status?",
+                isChecklist: true
+            },
+            {
+                category: "Document Checklist",
+                question: "Articles of Organization - ReDew Anson, LLC",
+                hint: "State filing for project-level entity. Status?",
+                isChecklist: true
+            },
+            {
+                category: "Document Checklist",
+                question: "Trust documents (if applicable)",
+                hint: "Trust agreement showing ownership structure. Status? Or 'N/A' if not applicable.",
+                isChecklist: true
+            },
+            {
+                category: "Document Checklist",
+                question: "Land control agreement / Option contract",
+                hint: "Executed agreement for the Jones County site. Status?",
+                isChecklist: true
+            },
+            {
+                category: "Document Checklist",
+                question: "Enerzinx SOW / Interconnection study proposal",
+                hint: "Full proposal document (all pages). Status?",
+                isChecklist: true
+            },
+            {
+                category: "Document Checklist",
+                question: "FastGrid/ANS Geotech proposal",
+                hint: "Full proposal with deliverables appendix. Status?",
+                isChecklist: true
+            },
+            {
+                category: "Document Checklist",
+                question: "Site maps, surveys, or aerial imagery",
+                hint: "Visual documentation of the project site. Status?",
+                isChecklist: true
+            },
+            {
+                category: "Document Checklist",
+                question: "ERCOT correspondence or queue documentation",
+                hint: "Any filings, confirmations, or queue position docs. Status?",
+                isChecklist: true
+            },
+            {
+                category: "Document Checklist",
+                question: "Financial projections / Budget spreadsheets",
+                hint: "Excel or similar with cost breakdowns, proformas. Status?",
+                isChecklist: true
+            },
+            {
+                category: "Document Checklist",
+                question: "Letters of support (local officials, partners, etc.)",
+                hint: "Any endorsements or partnership confirmations. Status?",
+                isChecklist: true
             }
         ];
 
@@ -778,6 +976,8 @@
         const skipBtn = document.getElementById('skipBtn');
         const qaSection = document.getElementById('qaSection');
         const summarySection = document.getElementById('summarySection');
+        const driveBanner = document.getElementById('driveBanner');
+        const checklistButtons = document.getElementById('checklistButtons');
 
         function saveAnswers() {
             localStorage.setItem('redewable-qa-answers', JSON.stringify(answers));
@@ -797,6 +997,18 @@
             
             prevBtn.style.visibility = currentIndex === 0 ? 'hidden' : 'visible';
             nextBtn.textContent = currentIndex === questions.length - 1 ? 'Finish →' : 'Next →';
+            
+            // Show/hide drive banner and checklist buttons for document questions
+            const isDocChecklist = q.category === "Document Checklist";
+            driveBanner.style.display = isDocChecklist ? 'flex' : 'none';
+            checklistButtons.style.display = isDocChecklist ? 'flex' : 'none';
+            
+            // Update checklist button states
+            if (isDocChecklist) {
+                document.querySelectorAll('.checklist-btn').forEach(btn => {
+                    btn.classList.toggle('selected', answers[currentIndex] === btn.dataset.value);
+                });
+            }
             
             answerInput.focus();
         }
@@ -959,6 +1171,41 @@
                 e.preventDefault();
                 goNext();
             }
+        });
+
+        // Checklist button handlers
+        document.querySelectorAll('.checklist-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const value = btn.dataset.value;
+                answerInput.value = value;
+                answers[currentIndex] = value;
+                saveAnswers();
+                
+                // Update button states
+                document.querySelectorAll('.checklist-btn').forEach(b => {
+                    b.classList.toggle('selected', b.dataset.value === value);
+                });
+                
+                // Auto-advance after short delay
+                setTimeout(() => goNext(), 300);
+            });
+        });
+
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('redewable-qa-theme') || 'dark';
+        
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            themeToggle.textContent = theme === 'dark' ? '🌙' : '☀️';
+            localStorage.setItem('redewable-qa-theme', theme);
+        }
+        
+        setTheme(savedTheme);
+        
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            setTheme(current === 'dark' ? 'light' : 'dark');
         });
 
         // Initialize
