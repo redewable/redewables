@@ -64,7 +64,7 @@
         h3 { font-family: var(--font-head); font-size: 1.2rem; margin-bottom: 15px; color: var(--text-main); text-transform: uppercase; }
         p { margin-bottom: 20px; }
 
-        /* ========== HEADER ========== */
+        /* ========== HEADER (RESPONSIVE FIX) ========== */
         header { padding: 30px 0; border-bottom: 1px solid var(--border); margin-bottom: 60px; }
         .nav-inner { display: flex; justify-content: space-between; align-items: center; }
         .logo { font-family: var(--font-head); font-weight: 800; font-size: 1.4rem; color: var(--text-main); text-decoration: none; }
@@ -180,35 +180,39 @@
         .faq-q { font-family: var(--font-head); font-size: 1.1rem; color: var(--text-main); margin-bottom: 10px; font-weight: 700; }
         .faq-a { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; }
 
-        /* ========== FOOTER & TECH BUTTON ========== */
+        /* ========== FOOTER & ANIMATIONS ========== */
         footer { margin-top: 80px; border-top: 1px solid var(--border); padding: 50px 0; font-size: 0.9rem; color: var(--text-dim); }
         .footer-inner { display: flex; justify-content: space-between; align-items: center; }
         .footer-left { display: flex; align-items: center; gap: 20px; }
-        .ticker-box { font-family: var(--font-mono); color: var(--acid); padding-left: 20px; border-left: 1px solid var(--border); }
+        
+        /* Slow Pulse Animation */
+        @keyframes slow-pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+        .ticker-box { 
+            font-family: var(--font-mono); color: var(--acid); padding-left: 20px; border-left: 1px solid var(--border);
+            animation: slow-pulse 4s ease-in-out infinite; /* Apply animation */
+        }
         .footer-right { display: flex; gap: 20px; align-items: center; }
 
-        /* The New "Tech Chip" Button */
+        /* Tech Chip Button */
         .footer-tech-btn {
-            border: 1px solid var(--border);
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-            color: var(--text-dim);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border); padding: 8px 16px; border-radius: 4px;
+            font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.05em;
+            color: var(--text-dim); text-decoration: none; transition: all 0.3s ease;
+            display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.02);
         }
         .footer-tech-btn:hover {
-            border-color: var(--acid);
-            color: var(--acid);
-            box-shadow: 0 0 15px var(--acid-dim);
-            transform: translateY(-1px);
+            border-color: var(--acid); color: var(--acid);
+            box-shadow: 0 0 15px var(--acid-dim); transform: translateY(-1px);
         }
+
+        /* Social Link Hovers */
+        .footer-social-link { color: var(--text-dim); font-size: 1.5rem; transition: color 0.3s ease; }
+        .footer-social-link:hover { color: var(--acid); }
+
 
         /* ========== MOBILE RESPONSIVENESS ========== */
         @media (max-width: 800px) {
@@ -244,15 +248,11 @@
     </header>
 
     <div class="container">
-        
         <div style="text-align: center; max-width: 700px; margin: 0 auto 60px;">
             <div class="mono accent" style="margin-bottom: 15px;">/// SECURE ONBOARDING PROTOCOL</div>
             <h1>Infrastructure Investment, <br><span class="text-dim">Simplified.</span></h1>
-            <p class="text-dim" style="font-size: 1.1rem;">
-                You are purchasing a <strong>Capacity License (Node)</strong>. This digital asset grants you rights to future network rewards.
-            </p>
+            <p class="text-dim" style="font-size: 1.1rem;">You are purchasing a <strong>Capacity License (Node)</strong>. This digital asset grants you rights to future network rewards.</p>
         </div>
-
         <div class="visual-story">
             <div class="story-node">
                 <div class="story-icon"><i class="fas fa-fingerprint"></i></div>
@@ -270,107 +270,48 @@
                 <div class="story-desc">You receive daily token drops ($TOKEN) for 3 years.</div>
             </div>
         </div>
-
         <h2 style="text-align: center; margin-top: 80px; margin-bottom: 30px; font-size: 1.4rem;">CHOOSE YOUR METHOD</h2>
-
         <div class="split-grid">
             <div class="card">
                 <div class="card-badge">RECOMMENDED FOR BEGINNERS</div>
                 <h3>Pay with Credit Card</h3>
                 <p class="text-dim">Use your Visa/Mastercard to buy SOL directly inside the checkout widget.</p>
                 <div class="step-list">
-                    <div class="step">
-                        <div class="step-num">1</div>
-                        <div class="step-content"><strong>Return to Home Page</strong><p>Go back to the main terminal on the homepage.</p></div>
-                    </div>
-                    <div class="step">
-                        <div class="step-num">2</div>
-                        <div class="step-content"><strong>Select "Pay with Card"</strong><p>Inside the mint widget, select the Credit Card icon.</p></div>
-                    </div>
-                    <div class="step">
-                        <div class="step-num">3</div>
-                        <div class="step-content"><strong>Enter Email</strong><p>You will receive a "Magic Link" wallet via email.</p></div>
-                    </div>
+                    <div class="step"><div class="step-num">1</div><div class="step-content"><strong>Return to Home Page</strong><p>Go back to the main terminal on the homepage.</p></div></div>
+                    <div class="step"><div class="step-num">2</div><div class="step-content"><strong>Select "Pay with Card"</strong><p>Inside the mint widget, select the Credit Card icon.</p></div></div>
+                    <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Enter Email</strong><p>You will receive a "Magic Link" wallet via email.</p></div></div>
                 </div>
                 <a href="index.html#presale" class="btn">GO TO MINT TERMINAL</a>
             </div>
-
             <div class="card">
                 <h3>Pay with Crypto (Advanced)</h3>
                 <p class="text-dim">If you want full control, set up your own self-custody wallet (Phantom) and fund it.</p>
                 <div class="step-list">
-                    <div class="step">
-                        <div class="step-num">1</div>
-                        <div class="step-content"><strong>Download Phantom</strong><p>Get the <a href="https://phantom.app" target="_blank" class="accent">Phantom Wallet</a> app.</p></div>
-                    </div>
-                    <div class="step">
-                        <div class="step-num">2</div>
-                        <div class="step-content"><strong>Buy Solana (SOL)</strong><p>Purchase SOL inside Phantom or transfer from Coinbase.</p></div>
-                    </div>
-                    <div class="step">
-                        <div class="step-num">3</div>
-                        <div class="step-content"><strong>Connect & Mint</strong><p>Return to our homepage and connect wallet.</p></div>
-                    </div>
+                    <div class="step"><div class="step-num">1</div><div class="step-content"><strong>Download Phantom</strong><p>Get the <a href="https://phantom.app" target="_blank" class="accent">Phantom Wallet</a> app.</p></div></div>
+                    <div class="step"><div class="step-num">2</div><div class="step-content"><strong>Buy Solana (SOL)</strong><p>Purchase SOL inside Phantom or transfer from Coinbase.</p></div></div>
+                    <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Connect & Mint</strong><p>Return to our homepage and connect wallet.</p></div></div>
                 </div>
                 <a href="https://phantom.app" target="_blank" class="btn-outline">DOWNLOAD PHANTOM</a>
             </div>
         </div>
-
         <div style="max-width: 800px; margin: 80px auto 0;">
             <h2 class="mono" style="border-bottom: 1px solid var(--acid); padding-bottom: 10px; margin-bottom: 30px;">FREQUENTLY ASKED QUESTIONS</h2>
-            
-            <div class="faq-item">
-                <div class="faq-q">When will I start receiving rewards?</div>
-                <div class="faq-a">Rewards activate at the <strong>Token Generation Event (TGE)</strong>. If you buy a license now, you are positioned for Day 1 emissions. Once live, rewards accrue daily and can be claimed via the dashboard.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-q">How many tokens will I receive?</div>
-                <div class="faq-a">Each license earns approximately <strong>110 tokens per day</strong> for 36 months. This is calculated by dividing the 300M reward pool by 2,500 licenses over 3 years.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-q">Do I need to run a server or keep my computer on?</div>
-                <div class="faq-a">No. This is a <strong>"Virtual Node."</strong> The physical batteries are managed by our professional engineering partners. Your license works automatically in your wallet.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-q">What exactly am I buying?</div>
-                <div class="faq-a">You are purchasing a "Capacity License" (NFT). This digital license proves you supported the pre-development phase. Holding this license automatically qualifies you for token rewards.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-q">Can I sell my license later?</div>
-                <div class="faq-a">Yes. Your Capacity License is a standard Solana NFT. While we encourage long-term holding to maximize rewards, you can trade your license on secondary marketplaces (like Tensor or Magic Eden) at any time.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-q">Where does the money go?</div>
-                <div class="faq-a">100% of funds go to the development budget: securing the land title, paying Enerzinx for grid studies, and filing permits with ERCOT. You can view the full budget breakdown on the <a href="index.html#model" class="accent">Capital Allocation</a> section.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-q">Is this legally compliant?</div>
-                <div class="faq-a">Yes. We operate under a strict legal framework. The sale is structured as a software license purchase, not an investment contract. However, we still implement KYC (Know Your Customer) for transparency.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-q">I need help. Can I talk to a human?</div>
-                <div class="faq-a">Absolutely. Our Concierge Support team is available 24/7 on Telegram to walk you through the process screen-by-screen.</div>
-            </div>
+            <div class="faq-item"><div class="faq-q">When will I start receiving rewards?</div><div class="faq-a">Rewards activate at the <strong>Token Generation Event (TGE)</strong>. If you buy a license now, you are positioned for Day 1 emissions. Once live, rewards accrue daily and can be claimed via the dashboard.</div></div>
+            <div class="faq-item"><div class="faq-q">How many tokens will I receive?</div><div class="faq-a">Each license earns approximately <strong>110 tokens per day</strong> for 36 months. This is calculated by dividing the 300M reward pool by 2,500 licenses over 3 years.</div></div>
+            <div class="faq-item"><div class="faq-q">Do I need to run a server or keep my computer on?</div><div class="faq-a">No. This is a <strong>"Virtual Node."</strong> The physical batteries are managed by our professional engineering partners. Your license works automatically in your wallet.</div></div>
+            <div class="faq-item"><div class="faq-q">What exactly am I buying?</div><div class="faq-a">You are purchasing a "Capacity License" (NFT). This digital license proves you supported the pre-development phase. Holding this license automatically qualifies you for token rewards.</div></div>
+            <div class="faq-item"><div class="faq-q">Can I sell my license later?</div><div class="faq-a">Yes. Your Capacity License is a standard Solana NFT. While we encourage long-term holding to maximize rewards, you can trade your license on secondary marketplaces (like Tensor or Magic Eden) at any time.</div></div>
+            <div class="faq-item"><div class="faq-q">Where does the money go?</div><div class="faq-a">100% of funds go to the development budget: securing the land title, paying Enerzinx for grid studies, and filing permits with ERCOT. You can view the full budget breakdown on the <a href="index.html#model" class="accent">Capital Allocation</a> section.</div></div>
+            <div class="faq-item"><div class="faq-q">Is this legally compliant?</div><div class="faq-a">Yes. We operate under a strict legal framework. The sale is structured as a software license purchase, not an investment contract. However, we still implement KYC (Know Your Customer) for transparency.</div></div>
+            <div class="faq-item"><div class="faq-q">I need help. Can I talk to a human?</div><div class="faq-a">Absolutely. Our Concierge Support team is available 24/7 on Telegram to walk you through the process screen-by-screen.</div></div>
         </div>
-
         <div class="card" style="margin-top: 60px; text-align: center; border-color: var(--acid);">
             <i class="fas fa-headset" style="font-size: 3rem; color: var(--acid); margin-bottom: 20px;"></i>
             <h2>NEED WHITE-GLOVE ASSISTANCE?</h2>
-            <p class="text-dim" style="max-width: 600px; margin: 0 auto 30px;">
-                We understand this technology can be new. Join our secure support channel and a team member will guide you personally.
-            </p>
+            <p class="text-dim" style="max-width: 600px; margin: 0 auto 30px;">We understand this technology can be new. Join our secure support channel and a team member will guide you personally.</p>
             <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank" class="btn" style="max-width: 300px;">OPEN SUPPORT CHAT</a>
         </div>
-
     </div>
-
     <footer>
         <div class="container footer-inner">
             <div class="footer-left">
@@ -383,9 +324,8 @@
                 <a href="litepaper/index.html" class="footer-tech-btn">
                     <i class="fas fa-file-code"></i> LITEPAPER_V1.0
                 </a>
-                
-                <a href="https://x.com/ReDewable" style="color: var(--text-dim); font-size: 1.5rem; transition: 0.3s;"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://t.me/+gMV0it-OXBA4NWIx" style="color: var(--text-dim); font-size: 1.5rem; transition: 0.3s;"><i class="fab fa-telegram-plane"></i></a>
+                <a href="https://x.com/ReDewable" class="footer-social-link"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://t.me/+gMV0it-OXBA4NWIx" class="footer-social-link"><i class="fab fa-telegram-plane"></i></a>
             </div>
         </div>
     </footer>
@@ -394,10 +334,8 @@
         const themeBtn = document.getElementById('theme-btn');
         const body = document.body;
         const savedTheme = localStorage.getItem('theme') || 'dark';
-        
         body.setAttribute('data-theme', savedTheme);
         updateLabel(savedTheme);
-
         themeBtn.addEventListener('click', () => {
             const current = body.getAttribute('data-theme');
             const newTheme = current === 'dark' ? 'light' : 'dark';
@@ -405,12 +343,10 @@
             localStorage.setItem('theme', newTheme);
             updateLabel(newTheme);
         });
-
         function updateLabel(theme) {
             const span = themeBtn.querySelector('span');
             span.innerText = theme === 'dark' ? 'LIGHT' : 'DARK';
         }
-
         let solPrice = 125; 
         async function fetchSolPrice() {
             try {
@@ -427,6 +363,5 @@
         fetchSolPrice();
         setInterval(fetchSolPrice, 60000); 
     </script>
-
 </body>
 </html>
