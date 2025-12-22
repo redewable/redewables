@@ -17,8 +17,8 @@
         :root {
             /* DARK THEME (DEFAULT) */
             --bg-main: #020403;
-            --bg-paper: #080c0a;  /* Matches main site panel */
-            --bg-code: #000000;   /* Matches main site card */
+            --bg-paper: #080c0a;
+            --bg-code: #000000;
             --text-main: #ffffff;
             --text-dim: #8f9fa3;
             --border: #333;
@@ -33,7 +33,6 @@
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
         }
 
-        /* LIGHT THEME OVERRIDES */
         [data-theme="light"] {
             --bg-main: #f0f2f5;
             --bg-paper: #ffffff;
@@ -57,7 +56,7 @@
         a { color: inherit; text-decoration: none; transition: 0.2s; }
         a:hover { color: var(--acid); }
 
-        /* ========== HEADER (Synced) ========== */
+        /* ========== HEADER ========== */
         header { padding: 30px 20px; border-bottom: 1px solid var(--border); margin-bottom: 60px; }
         .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-family: var(--font-head); font-weight: 800; font-size: 1.4rem; color: var(--text-main); }
@@ -89,130 +88,80 @@
         }
         [data-theme="light"] .theme-switch .toggle-switch::after { transform: translateX(18px); }
 
-        /* ========== PAPER STYLES (Restored Original) ========== */
+        /* ========== PAPER STYLES ========== */
         .paper-container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+        .paper-title { text-align: center; margin-bottom: 60px; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
+        h1 { font-family: var(--font-head); font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1; margin: 0 0 20px; text-transform: uppercase; font-weight: 800; }
+        .doc-meta { font-family: var(--font-mono); color: var(--text-dim); font-size: 0.9rem; letter-spacing: 0.06em; text-transform: uppercase; }
+        .blur-secret { filter: blur(5px); user-select: none; background: var(--text-dim); color: transparent; display: inline-block; border-radius: 4px; padding: 0 5px; width: 40px; height: 1em; }
 
-        .paper-title {
-            text-align: center; margin-bottom: 60px; border-bottom: 1px solid var(--border); padding-bottom: 40px;
-        }
-        h1 {
-            font-family: var(--font-head); font-size: clamp(2.5rem, 5vw, 4rem);
-            line-height: 1; margin: 0 0 20px; text-transform: uppercase; font-weight: 800;
-        }
-        .doc-meta {
-            font-family: var(--font-mono); color: var(--text-dim); font-size: 0.9rem;
-            letter-spacing: 0.06em; text-transform: uppercase;
-        }
-        
-        /* Blur Effect */
-        .blur-secret {
-            filter: blur(5px); user-select: none; background: var(--text-dim);
-            color: transparent; display: inline-block; border-radius: 4px;
-            padding: 0 5px; margin: 0 2px; vertical-align: middle; cursor: not-allowed;
-            width: 40px; height: 1em;
-        }
-
-        /* Sections */
         .paper-section { margin-bottom: 80px; }
-        .sec-num {
-            font-family: var(--font-mono); color: var(--acid); display: block;
-            margin-bottom: 10px; font-size: 0.9rem; letter-spacing: 0.12em; text-transform: uppercase;
-        }
-        h2 {
-            font-family: var(--font-head); font-size: 2rem; margin: 0 0 20px;
-            text-transform: uppercase; font-weight: 700; color: var(--text-main); letter-spacing: -0.01em;
-        }
-        h3 {
-            font-family: var(--font-head); font-size: 1.4rem; margin: 30px 0 15px;
-            color: var(--text-main); font-weight: 700;
-        }
+        .sec-num { font-family: var(--font-mono); color: var(--acid); display: block; margin-bottom: 10px; font-size: 0.9rem; letter-spacing: 0.12em; text-transform: uppercase; }
+        h2 { font-family: var(--font-head); font-size: 2rem; margin: 0 0 20px; text-transform: uppercase; font-weight: 700; color: var(--text-main); letter-spacing: -0.01em; }
+        h3 { font-family: var(--font-head); font-size: 1.4rem; margin: 30px 0 15px; color: var(--text-main); font-weight: 700; }
         p { margin-bottom: 20px; font-size: 1.05rem; color: var(--text-dim); }
         strong { color: var(--text-main); }
 
-        /* Lists */
         ul { list-style: none; padding: 0; margin-bottom: 25px; }
-        li {
-            margin-bottom: 12px; padding-left: 20px; position: relative;
-            color: var(--text-dim); font-size: 1.05rem;
-        }
-        li::before {
-            content: ">>"; position: absolute; left: 0; color: var(--acid);
-            font-family: var(--font-mono); font-size: 0.8rem; top: 4px;
-        }
+        li { margin-bottom: 12px; padding-left: 20px; position: relative; color: var(--text-dim); font-size: 1.05rem; }
+        li::before { content: ">>"; position: absolute; left: 0; color: var(--acid); font-family: var(--font-mono); font-size: 0.8rem; top: 4px; }
 
-        /* Callout */
-        .callout {
-            background: var(--bg-paper); border-left: 4px solid var(--acid);
-            padding: 20px 30px; margin: 30px 0; font-family: var(--font-mono);
-            font-size: 0.95rem; color: var(--text-main); box-shadow: var(--shadow);
-        }
+        .callout { background: var(--bg-paper); border-left: 4px solid var(--acid); padding: 20px 30px; margin: 30px 0; font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-main); box-shadow: var(--shadow); }
 
-        /* Data Grids */
         .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
-        .data-box {
-            background: var(--bg-paper); border: 1px solid var(--border);
-            padding: 20px; box-shadow: var(--shadow);
-        }
-        .data-label {
-            display: block; font-size: 0.8rem; color: var(--text-dim);
-            margin-bottom: 5px; font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase;
-        }
-        .data-val {
-            font-size: 1.2rem; font-family: var(--font-head); font-weight: 700;
-            color: var(--acid); text-transform: uppercase;
-        }
+        .data-box { background: var(--bg-paper); border: 1px solid var(--border); padding: 20px; box-shadow: var(--shadow); }
+        .data-label { display: block; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 5px; font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+        .data-val { font-size: 1.2rem; font-family: var(--font-head); font-weight: 700; color: var(--acid); text-transform: uppercase; }
 
-        /* Roadmap */
-        .roadmap-phase {
-            position: relative; padding-left: 32px; padding-bottom: 32px;
-            border-left: 2px solid var(--border); margin-left: 8px;
-        }
+        .roadmap-phase { position: relative; padding-left: 32px; padding-bottom: 32px; border-left: 2px solid var(--border); margin-left: 8px; }
         .roadmap-phase:last-child { border-left-color: transparent; padding-bottom: 0; }
-        .roadmap-phase::before {
-            content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px;
-            background: var(--bg-main); border: 2px solid var(--acid); border-radius: 50%;
-        }
+        .roadmap-phase::before { content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px; background: var(--bg-main); border: 2px solid var(--acid); border-radius: 50%; }
         .roadmap-phase.completed::before { background: var(--acid); }
         .roadmap-phase.current::before { background: var(--acid); box-shadow: 0 0 0 4px var(--acid-dim); }
-        
-        .phase-header {
-            font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
-            letter-spacing: 0.1em; text-transform: uppercase; color: var(--acid); margin-bottom: 4px;
-        }
+        .phase-header { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--acid); margin-bottom: 4px; }
         .phase-title { font-weight: 600; margin-bottom: 8px; color: var(--text-main); font-family: var(--font-head); font-size: 1.1rem; }
         .phase-items { color: var(--text-dim); font-size: 14px; }
 
-        /* Partners */
         .partner { padding: 16px 0; border-bottom: 1px solid var(--border); }
         .partner:last-child { border-bottom: none; }
         .partner-name { font-weight: 800; font-family: var(--font-head); color: var(--text-main); margin-bottom: 4px; font-size: 1.1rem; }
         .partner-desc { font-size: 14px; color: var(--text-dim); margin-bottom: 4px; }
         .partner-link { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--acid); }
 
-        /* Legal Block */
-        .legal-block {
-            background: var(--bg-code); border: 1px solid var(--border);
-            padding: 40px; margin-top: 80px; font-family: var(--font-mono);
-            font-size: 0.75rem; color: var(--text-dim); line-height: 1.6;
-            box-shadow: var(--shadow);
-        }
+        .legal-block { background: var(--bg-code); border: 1px solid var(--border); padding: 40px; margin-top: 80px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); line-height: 1.6; box-shadow: var(--shadow); }
         .legal-block strong { color: var(--text-main); display: block; margin-bottom: 10px; }
         .legal-block p { font-size: 0.75rem; margin-bottom: 15px; color: var(--text-dim); }
 
-        /* Tokenomics Table */
         .tokenomics-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
         .tokenomics-table th, .tokenomics-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
-        .tokenomics-table th {
-            font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
-            letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); background: var(--bg-code);
-        }
+        .tokenomics-table th { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); background: var(--bg-code); }
         .tokenomics-table td { color: var(--text-dim); }
         .tokenomics-table td:first-child { color: var(--text-main); font-weight: 500; }
         .tokenomics-table .percent { font-family: 'JetBrains Mono', monospace; color: var(--acid); font-weight: 600; }
 
+        /* ========== FOOTER & ANIMATIONS ========== */
+        footer { border-top: 1px solid var(--border); padding: 50px 0; margin-top: 80px; font-size: 0.9rem; color: var(--text-dim); }
+        .footer-inner { display: flex; justify-content: space-between; align-items: center; } /* Uses same class as index for stacking */
+        
+        @keyframes slow-pulse {
+            0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; }
+        }
+        .ticker-box { 
+            font-family: var(--font-mono); color: var(--acid); padding-left: 20px; border-left: 1px solid var(--border);
+            animation: slow-pulse 4s ease-in-out infinite; 
+        }
+        .footer-social-link { color: var(--text-dim); font-size: 1.5rem; transition: color 0.3s ease; }
+        .footer-social-link:hover { color: var(--acid); }
+
+        /* ========== RESPONSIVE ========== */
         @media (max-width: 768px) {
             .data-grid { grid-template-columns: 1fr; }
-            .header-right { flex-direction: column-reverse; align-items: flex-end; gap: 10px; }
+            /* Header Stack */
+            .nav-inner { flex-direction: column; gap: 20px; }
+            .header-right { width: 100%; justify-content: space-between; flex-direction: row; }
+            /* Footer Stack */
+            .footer-inner { flex-direction: column; gap: 30px; text-align: center; }
+            .ticker-box { border-left: none; padding-left: 0; margin-top: 10px; display: block; }
         }
     </style>
 </head>
@@ -259,138 +208,61 @@
     <div class="paper-section">
       <span class="sec-num">02 // MARKET THESIS</span>
       <h2>The Perfect Storm</h2>
-      <p>
-        The Texas grid is under strain from two converging forces: accelerated load growth and volatility from renewables without enough storage.
-      </p>
-
+      <p>The Texas grid is under strain from two converging forces: accelerated load growth and volatility from renewables without enough storage.</p>
       <h3>1. AI Power Demand</h3>
-      <p>
-        AI and hyperscale data centers require large, reliable power. ERCOT has published load growth scenarios showing unusually high demand expansion
-        over the next decade driven by data centers and industrial development.
-      </p>
-
+      <p>AI and hyperscale data centers require large, reliable power. ERCOT has published load growth scenarios showing unusually high demand expansion over the next decade.</p>
       <h3>2. The “Duck Curve”</h3>
-      <p>
-        Texas has abundant solar at midday (prices compress) and tight supply in the evening when solar falls off (prices spike). That mismatch creates
-        volatility and curtailment.
-      </p>
-      <p>
-        <strong>The Solution:</strong> Batteries are the “shock absorber.” They charge when power is cheap and discharge when the grid is stressed.
-      </p>
+      <p>Texas has abundant solar at midday and tight supply in the evening. <strong>The Solution:</strong> Batteries are the “shock absorber.”</p>
     </div>
 
     <div class="paper-section">
-      <span class="sec-num">03 // THE ASSET</span>
-      <h2>ReDew Anson Flagship</h2>
-      <p>
-        Our flagship project is a 400MW BESS facility located in the “Stargate Corridor” of West Texas. The site was selected based on congestion, proximity to
-        generation, and grid demand growth.
-      </p>
-
-      <div class="data-grid">
-        <div class="data-box">
-          <span class="data-label">CAPACITY</span>
-          <span class="data-val">400 MW</span>
+        <span class="sec-num">03 // THE ASSET</span>
+        <h2>ReDew Anson Flagship</h2>
+        <p>Our flagship project is a 400MW BESS facility located in the “Stargate Corridor” of West Texas.</p>
+        <div class="data-grid">
+            <div class="data-box"><span class="data-label">CAPACITY</span><span class="data-val">400 MW</span></div>
+            <div class="data-box"><span class="data-label">DURATION</span><span class="data-val">2 HOURS</span></div>
+            <div class="data-box"><span class="data-label">STATUS</span><span class="data-val">SITE CONTROL SECURED</span></div>
+            <div class="data-box"><span class="data-label">GRID STUDY</span><span class="data-val">INTERCONNECTION IN PROGRESS</span></div>
         </div>
-        <div class="data-box">
-          <span class="data-label">DURATION</span>
-          <span class="data-val">2 HOURS</span>
-        </div>
-        <div class="data-box">
-          <span class="data-label">STATUS</span>
-          <span class="data-val">SITE CONTROL SECURED</span>
-        </div>
-        <div class="data-box">
-          <span class="data-label">GRID STUDY</span>
-          <span class="data-val">INTERCONNECTION IN PROGRESS</span>
-        </div>
-      </div>
-
-      <p>
-        We execute the “Pre-NTP” work: site control, environmental diligence, engineering, and the ERCOT interconnection.
-        Once a project reaches <strong>NTP (Notice to Proceed – when a project is ready to build)</strong>, it becomes a highly desirable asset for institutional buyers.
-      </p>
+        <p>We execute the “Pre-NTP” work. Once a project reaches <strong>NTP</strong>, it becomes a highly desirable asset for institutional buyers.</p>
     </div>
 
     <div class="paper-section">
-      <span class="sec-num">04 // BUSINESS MODEL</span>
-      <h2>Monetizing Volatility</h2>
-      <p>Our model is split into two distinct value drivers:</p>
-
-      <h3>1. Real-World Revenue (Post-Construction)</h3>
-      <p>Once built, BESS assets generate revenue through:</p>
-      <ul>
-        <li><strong>Arbitrage:</strong> charging when power is low-cost and discharging when demand is high.</li>
-        <li><strong>Ancillary Services (E-CRS):</strong> paid by ERCOT for fast-response reliability services.</li>
-        <li><strong>PPAs:</strong> contracted structures with investment-grade counterparties.</li>
-      </ul>
-
-      <h3>2. Infrastructure Exit (NTP Sale)</h3>
-      <p>
-        Our primary monetization is the <strong>NTP Sale</strong>. We de-risk the asset and sell the ready-to-build package to major infrastructure developers.
-      </p>
-      <p>
-        A portion of <strong>net proceeds</strong> from NTP exits is allocated to <strong>on-chain buybacks</strong> of the Network Token, executed gradually using a
-        <strong>TWAP</strong> schedule. Repurchased tokens are moved into a <strong>non-circulating vault</strong>.
-      </p>
+        <span class="sec-num">04 // BUSINESS MODEL</span>
+        <h2>Monetizing Volatility</h2>
+        <h3>1. Real-World Revenue</h3>
+        <ul>
+            <li><strong>Arbitrage:</strong> Buying low, selling high.</li>
+            <li><strong>Ancillary Services:</strong> Getting paid to stay on standby.</li>
+        </ul>
+        <h3>2. Infrastructure Exit (NTP Sale)</h3>
+        <p>We sell the ready-to-build package to major developers. Proceeds are used for <strong>on-chain buybacks</strong> of the Network Token.</p>
     </div>
 
     <div class="paper-section">
       <span class="sec-num">05 // PARTNERS</span>
       <h2>Execution Partners</h2>
-      <p>ReDewable works with specialized teams to deliver institutional-grade engineering.</p>
-
-      <div class="partner">
-        <div class="partner-name">ANS Engineering</div>
-        <div class="partner-desc">Environmental, geotechnical, 30% design packages.</div>
-        <a class="partner-link" href="https://ans-team.com" target="_blank">ans-team.com</a>
-      </div>
-      <div class="partner">
-        <div class="partner-name">Enerzinx</div>
-        <div class="partner-desc">ERCOT interconnection modeling and studies.</div>
-        <a class="partner-link" href="https://enerzinx.com" target="_blank">enerzinx.com</a>
-      </div>
-      <div class="partner">
-        <div class="partner-name">Houston PACE</div>
-        <div class="partner-desc">Development financing and buyer alignment.</div>
-        <a class="partner-link" href="https://www.pacehouston.com" target="_blank">pacehouston.com</a>
-      </div>
+      <div class="partner"><div class="partner-name">ANS Engineering</div><div class="partner-desc">Environmental, geotechnical, 30% design packages.</div><a class="partner-link" href="https://ans-team.com" target="_blank">ans-team.com</a></div>
+      <div class="partner"><div class="partner-name">Enerzinx</div><div class="partner-desc">ERCOT interconnection modeling and studies.</div><a class="partner-link" href="https://enerzinx.com" target="_blank">enerzinx.com</a></div>
+      <div class="partner"><div class="partner-name">Houston PACE</div><div class="partner-desc">Development financing and buyer alignment.</div><a class="partner-link" href="https://www.pacehouston.com" target="_blank">pacehouston.com</a></div>
     </div>
 
     <div class="paper-section">
       <span class="sec-num">06 // THE PRODUCT</span>
       <h2>Capacity Licenses (Nodes)</h2>
-      <p>
-        The Capacity License is a non-fungible token (NFT) on Solana representing a holder’s contribution to development capital.
-      </p>
-      <div class="callout">
-        <strong>LICENSE UTILITY:</strong><br><br>
-        1) <strong>Emissions:</strong> The primary method to earn Network Tokens.<br>
-        2) <strong>Validation:</strong> Future state validation of network metrics.<br>
-        3) <strong>Governance:</strong> Directional voting on future sites.
-      </div>
-      <p>There are <strong>2,500 total licenses</strong>. Once sold out, no additional licenses are minted for this phase.</p>
+      <div class="callout"><strong>LICENSE UTILITY:</strong><br><br>1) <strong>Emissions:</strong> Earn tokens daily.<br>2) <strong>Validation:</strong> Validate grid data.<br>3) <strong>Governance:</strong> Vote on future sites.</div>
+      <p>There are <strong>2,500 total licenses</strong>. Once sold out, no additional licenses are minted.</p>
     </div>
 
     <div class="paper-section">
       <span class="sec-num">07 // ECONOMICS</span>
       <h2>Supply & Distribution</h2>
-      <p>
-        The Network Reward Token ($<span class="blur-secret">TICKER</span>) is the settlement layer for emissions and incentives.
-        It is not equity and does not represent ownership of physical assets.
-      </p>
-
-      <h3>Supply: Fixed</h3>
-
+      <p>The Network Reward Token ($<span class="blur-secret">TICKER</span>) is the settlement layer for emissions.</p>
       <table class="tokenomics-table">
-        <thead>
-          <tr>
-            <th>Allocation</th>
-            <th class="percent">%</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Allocation</th><th class="percent">%</th></tr></thead>
         <tbody>
-          <tr><td>Node Rewards (Emissions)</td><td class="percent">30%</td></tr>
+          <tr><td>Node Rewards</td><td class="percent">30%</td></tr>
           <tr><td>RWA Reserve</td><td class="percent">25%</td></tr>
           <tr><td>Fair Launch</td><td class="percent">25%</td></tr>
           <tr><td>Treasury</td><td class="percent">15%</td></tr>
@@ -402,66 +274,30 @@
     <div class="paper-section">
       <span class="sec-num">08 // ROADMAP</span>
       <h2>The Path</h2>
-
-      <div class="roadmap-phase completed">
-        <div class="phase-header">Phase 00</div>
-        <div class="phase-title">Site & Vendor Selection</div>
-        <div class="phase-items">Land secured • Partners selected • Feasibility validated</div>
-      </div>
-
-      <div class="roadmap-phase current">
-        <div class="phase-header">Phase 01</div>
-        <div class="phase-title">Pre-Launch</div>
-        <div class="phase-items">Legal Framework • Tokenomics • Website live</div>
-      </div>
-
-      <div class="roadmap-phase">
-        <div class="phase-header">Phase 02</div>
-        <div class="phase-title">Capacity License Sale</div>
-        <div class="phase-items">Node sale live • Mint infrastructure deployed</div>
-      </div>
-
-      <div class="roadmap-phase">
-        <div class="phase-header">Phase 03</div>
-        <div class="phase-title">Pre-Development Execution</div>
-        <div class="phase-items">Environmental • Engineering • Interconnection study</div>
-      </div>
-
-      <div class="roadmap-phase">
-        <div class="phase-header">Phase 04</div>
-        <div class="phase-title">NTP & Exit</div>
-        <div class="phase-items">Institutional buyer selection • Asset Sale</div>
-      </div>
+      <div class="roadmap-phase completed"><div class="phase-header">Phase 00</div><div class="phase-title">Site & Vendor Selection</div></div>
+      <div class="roadmap-phase current"><div class="phase-header">Phase 01</div><div class="phase-title">Pre-Launch</div></div>
+      <div class="roadmap-phase"><div class="phase-header">Phase 02</div><div class="phase-title">Capacity License Sale</div></div>
+      <div class="roadmap-phase"><div class="phase-header">Phase 03</div><div class="phase-title">Pre-Development Execution</div></div>
+      <div class="roadmap-phase"><div class="phase-header">Phase 04</div><div class="phase-title">NTP & Exit</div></div>
     </div>
 
     <div class="legal-block">
-      <p><strong>LEGAL DISCLAIMER & FORWARD-LOOKING STATEMENTS</strong></p>
-      <p>
-        This document is provided for informational purposes only. It is not a prospectus, an offer to sell securities, or a solicitation of an offer to buy securities.
-        The Capacity Licenses described herein are digital software licenses. They do not represent equity, debt, or a claim on the assets of ReDewable Energy Company, LLC.
-      </p>
-      <p>
-        <strong>NO FINANCIAL ADVICE:</strong> Nothing in this document constitutes financial, investment, legal, or tax advice.
-      </p>
-      <p>
-        <strong>FORWARD-LOOKING STATEMENTS:</strong> This document contains forward-looking statements regarding development milestones and ERCOT grid conditions.
-        Actual results may differ materially. No specific profit or ROI is guaranteed. Physical infrastructure development involves regulatory, environmental,
-        and construction risks.
-      </p>
+      <p><strong>LEGAL DISCLAIMER</strong></p>
+      <p>This document is not a prospectus. Capacity Licenses are digital software licenses, not equity. No financial advice is given.</p>
     </div>
   </div>
 
-  <footer style="border-top: 1px solid var(--border); padding: 50px 0; margin-top: 80px; font-size: 0.9rem; color: var(--text-dim);">
-    <div class="paper-container" style="display: flex; justify-content: space-between; align-items: center;">
+  <footer>
+    <div class="paper-container footer-inner">
       <div style="display: flex; align-items: center; gap: 20px;">
         <span>© 2025 REDEWABLE ENERGY</span>
-        <span style="font-family: var(--font-mono); color: var(--acid); padding-left: 20px; border-left: 1px solid var(--border);" id="footer-price-ticker">
+        <span class="ticker-box" id="footer-price-ticker">
           SOL: <span class="blink">●</span> CONNECTING...
         </span>
       </div>
       <div style="display: flex; gap: 30px;">
-        <a href="https://x.com/ReDewable" target="_blank"><i class="fab fa-x-twitter"></i></a>
-        <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+        <a href="https://x.com/ReDewable" target="_blank" class="footer-social-link"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank" class="footer-social-link"><i class="fab fa-telegram-plane"></i></a>
       </div>
     </div>
   </footer>
@@ -470,7 +306,6 @@
     // --- THEME TOGGLE LOGIC ---
     const themeBtn = document.getElementById('theme-btn');
     const body = document.body;
-
     const savedTheme = localStorage.getItem('theme') || 'dark';
     body.setAttribute('data-theme', savedTheme);
     updateLabel(savedTheme);
