@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReDewable // INFRASTRUCTURE LITEPAPER</title>
+    <title>ReDewable // LITEPAPER</title>
     
     <meta property="og:title" content="ReDewable // THE SHOCK ABSORBER FOR THE GRID">
-    <meta property="og:description" content="Technical Litepaper for the ReDewable DePIN Protocol. Funding the Texas Grid.">
+    <meta property="og:description" content="Technical overview of the ReDewable DePIN Protocol. Building battery storage for the Texas grid.">
     <meta property="og:image" content="../assets/social-share.png">
     
     <link rel="icon" href="../assets/favicon.png" type="image/png">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text x='0' y='14' fill='%2300FF9D' style='font-size: 16px; font-weight: bold;'>🔋</text></svg>">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        /* ========== THEME ENGINE ========== */
         :root {
             --bg-main: #020403;
             --bg-paper: #080c0a;
@@ -28,11 +25,9 @@
             --border: #333;
             --acid: #00FF9D;
             --acid-dim: rgba(0, 255, 157, 0.1);
-            
             --font-head: 'Space Grotesk', sans-serif;
             --font-body: 'Inter', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
-            
             --max-width: 800px;
             --content-max-width: 1200px; 
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
@@ -50,7 +45,6 @@
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        /* ========== BASE ========== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body {
@@ -62,7 +56,6 @@
         a { color: inherit; text-decoration: none; transition: 0.2s; }
         a:hover { color: var(--acid); }
 
-        /* ========== HEADER ========== */
         header { padding: 30px 20px; border-bottom: 1px solid var(--border); margin-bottom: 80px; }
         .nav-inner { max-width: var(--content-max-width); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-family: var(--font-head); font-weight: 800; font-size: 1.4rem; color: var(--text-main); font-style: italic; }
@@ -76,7 +69,6 @@
         }
         .back-btn:hover { border-color: var(--acid); color: var(--acid); }
 
-        /* Pill Toggle */
         .pill-toggle {
             display: flex; align-items: center; gap: 8px;
             background: var(--bg-paper); border: 1px solid var(--border);
@@ -94,16 +86,15 @@
         }
         [data-theme="light"] .theme-switch .toggle-switch::after { transform: translateX(18px); }
 
-        /* ========== PAPER STYLES ========== */
         .paper-container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
         .paper-title { text-align: center; margin-bottom: 80px; border-bottom: 1px solid var(--border); padding-bottom: 50px; }
         h1 { font-family: var(--font-head); font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1; margin: 0 0 20px; text-transform: uppercase; font-weight: 800; }
         .doc-meta { font-family: var(--font-mono); color: var(--text-dim); font-size: 0.9rem; letter-spacing: 0.06em; text-transform: uppercase; }
 
-        .paper-section { margin-bottom: 100px; }
+        .paper-section { margin-bottom: 80px; }
         .sec-num { font-family: var(--font-mono); color: var(--acid); display: block; margin-bottom: 15px; font-size: 0.9rem; letter-spacing: 0.12em; text-transform: uppercase; }
-        h2 { font-family: var(--font-head); font-size: 2.2rem; margin: 0 0 25px; text-transform: uppercase; font-weight: 700; color: var(--text-main); letter-spacing: -0.01em; }
-        h3 { font-family: var(--font-head); font-size: 1.5rem; margin: 40px 0 20px; color: var(--text-main); font-weight: 700; text-transform: uppercase; }
+        h2 { font-family: var(--font-head); font-size: 2rem; margin: 0 0 25px; text-transform: uppercase; font-weight: 700; color: var(--text-main); }
+        h3 { font-family: var(--font-head); font-size: 1.4rem; margin: 40px 0 20px; color: var(--text-main); font-weight: 700; text-transform: uppercase; }
         p { margin-bottom: 25px; font-size: 1.1rem; color: var(--text-dim); }
         strong { color: var(--text-main); font-weight: 600; }
 
@@ -114,17 +105,23 @@
         .callout { 
             background: var(--bg-paper); border-left: 4px solid var(--acid); 
             padding: 30px 40px; margin: 40px 0; 
-            font-family: var(--font-mono); font-size: 1rem; color: var(--text-main); 
+            font-family: var(--font-body); font-size: 1rem; color: var(--text-dim); 
             box-shadow: var(--shadow); line-height: 1.6;
         }
+        .callout strong { color: var(--text-main); display: block; margin-bottom: 15px; font-family: var(--font-mono); }
 
-        /* Data Grids */
+        .warning-callout {
+            background: rgba(255, 200, 0, 0.08);
+            border-left: 4px solid #ffcc00;
+            padding: 30px 40px; margin: 40px 0;
+        }
+        .warning-callout strong { color: #ffcc00; }
+
         .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
         .data-box { background: var(--bg-paper); border: 1px solid var(--border); padding: 25px; }
         .data-label { display: block; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 8px; font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
         .data-val { font-size: 1.3rem; font-family: var(--font-head); font-weight: 700; color: var(--acid); text-transform: uppercase; }
 
-        /* Tech Diagrams (NEW) */
         .tech-stack {
             display: flex; flex-direction: column; gap: 15px; margin: 40px 0;
             background: var(--bg-code); padding: 30px; border: 1px solid var(--border);
@@ -137,60 +134,42 @@
         .stack-label { font-family: var(--font-mono); color: var(--text-dim); font-size: 0.9rem; }
         .stack-val { font-family: var(--font-head); color: var(--text-main); font-weight: 700; text-transform: uppercase; }
 
-        /* Dashboard Mockups */
-        .dashboard-grid { display: flex; justify-content: center; gap: 30px; margin: 40px 0; flex-wrap: wrap; }
-        .dash-mockup {
-            width: 200px; height: 120px; background: var(--bg-paper); border: 1px solid var(--border);
-            display: flex; align-items: center; justify-content: center; font-family: var(--font-head);
-            color: var(--text-dim); text-align: center; transition: 0.3s;
-        }
-        .dash-mockup:hover { border-color: var(--acid); color: var(--acid); box-shadow: 0 0 20px var(--acid-dim); }
-
-        /* Roadmap */
         .roadmap-phase { position: relative; padding-left: 32px; padding-bottom: 40px; border-left: 2px solid var(--border); margin-left: 8px; }
         .roadmap-phase:last-child { border-left-color: transparent; padding-bottom: 0; }
         .roadmap-phase::before { content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px; background: var(--bg-main); border: 2px solid var(--acid); border-radius: 50%; }
-        .phase-header { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--acid); margin-bottom: 6px; }
+        .phase-header { font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--acid); margin-bottom: 6px; }
         .phase-title { font-weight: 600; margin-bottom: 10px; color: var(--text-main); font-family: var(--font-head); font-size: 1.2rem; }
         .phase-items { color: var(--text-dim); font-size: 1rem; }
 
-        /* Partners */
+        .tokenomics-table { width: 100%; border-collapse: collapse; margin: 30px 0; font-size: 1rem; }
+        .tokenomics-table th, .tokenomics-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border); }
+        .tokenomics-table th { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); background: var(--bg-code); }
+        .tokenomics-table td { color: var(--text-dim); }
+        .tokenomics-table td:first-child { color: var(--text-main); font-weight: 500; }
+        .tokenomics-table .percent { font-family: var(--font-mono); color: var(--acid); font-weight: 600; }
+
         .partner { padding: 20px 0; border-bottom: 1px solid var(--border); }
         .partner:last-child { border-bottom: none; }
         .partner-name { font-weight: 800; font-family: var(--font-head); color: var(--text-main); margin-bottom: 5px; font-size: 1.2rem; }
         .partner-desc { font-size: 1rem; color: var(--text-dim); margin-bottom: 8px; }
-        .partner-link { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--acid); }
+        .partner-link { font-family: var(--font-mono); font-size: 0.85rem; color: var(--acid); }
 
-        /* Operator Profile */
-        .operator-box { background: var(--bg-paper); border: 1px solid var(--border); padding: 40px; text-align: center; margin-top: 60px; }
-        
-        /* Legal Block */
-        .legal-block { background: var(--bg-code); border: 1px solid var(--border); padding: 40px; margin-top: 100px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim); line-height: 1.6; }
-        .legal-block strong { color: var(--text-main); display: block; margin-bottom: 10px; margin-top: 20px; }
-        .legal-block p { font-size: 0.8rem; margin-bottom: 15px; color: var(--text-dim); }
+        .operator-box { background: var(--bg-paper); border: 1px solid var(--border); padding: 40px; text-align: center; margin-top: 40px; }
 
-        /* Tokenomics Table */
-        .tokenomics-table { width: 100%; border-collapse: collapse; margin: 30px 0; font-size: 1rem; }
-        .tokenomics-table th, .tokenomics-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border); }
-        .tokenomics-table th { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); background: var(--bg-code); }
-        .tokenomics-table td { color: var(--text-dim); }
-        .tokenomics-table td:first-child { color: var(--text-main); font-weight: 500; }
-        .tokenomics-table .percent { font-family: 'JetBrains Mono', monospace; color: var(--acid); font-weight: 600; }
+        .legal-block { background: var(--bg-code); border: 1px solid var(--border); padding: 40px; margin-top: 100px; font-size: 0.85rem; color: var(--text-dim); line-height: 1.7; }
+        .legal-block h4 { color: var(--text-main); margin: 25px 0 10px; font-family: var(--font-mono); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .legal-block h4:first-child { margin-top: 0; }
+        .legal-block p { font-size: 0.85rem; margin-bottom: 15px; }
 
-        /* ========== FOOTER ========== */
         footer { border-top: 1px solid var(--border); padding: 60px 0; margin-top: 100px; font-size: 0.9rem; color: var(--text-dim); }
         .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        
         .footer-left { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
         .footer-right { display: flex; gap: 25px; align-items: center; padding-top: 5px; }
 
         .corp-link { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); opacity: 0.7; text-decoration: none; letter-spacing: 0.05em; border-bottom: 1px dotted var(--border); transition: 0.3s; }
         .corp-link:hover { color: var(--acid); opacity: 1; border-bottom-color: var(--acid); }
 
-        .ticker-box { 
-            font-family: var(--font-mono); color: var(--acid); font-size: 0.85rem;
-            animation: slow-pulse 4s ease-in-out infinite; 
-        }
+        .ticker-box { font-family: var(--font-mono); color: var(--acid); font-size: 0.85rem; animation: slow-pulse 4s ease-in-out infinite; }
         @keyframes slow-pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
         .footer-tech-btn {
@@ -199,23 +178,16 @@
             color: var(--text-dim); text-decoration: none; transition: all 0.3s ease;
             display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.02);
         }
-        .footer-tech-btn:hover {
-            border-color: var(--acid); color: var(--acid);
-            box-shadow: 0 0 15px var(--acid-dim); transform: translateY(-1px);
-        }
+        .footer-tech-btn:hover { border-color: var(--acid); color: var(--acid); box-shadow: 0 0 15px var(--acid-dim); }
         .footer-social-link { color: var(--text-dim); font-size: 1.5rem; transition: color 0.3s ease; }
         .footer-social-link:hover { color: var(--acid); }
 
-        /* ========== RESPONSIVE ========== */
         @media (max-width: 800px) {
             .data-grid { grid-template-columns: 1fr; }
             .nav-inner { flex-direction: column; gap: 20px; }
-            .header-right { width: 100%; justify-content: space-between; flex-direction: row; }
-            
-            /* Footer Stack */
+            .header-right { width: 100%; justify-content: space-between; }
             .footer-inner { flex-direction: column; gap: 30px; text-align: center; }
             .footer-left { align-items: center; }
-            .ticker-box { border-left: none; padding-left: 0; display: block; }
             .footer-right { flex-direction: column; gap: 20px; }
         }
     </style>
@@ -230,145 +202,271 @@
           <span>LIGHT</span>
           <div class="toggle-switch"></div>
         </div>
-        <a href="../index.html" class="back-btn"><i class="fas fa-arrow-left"></i> RETURN TO TERMINAL</a>
+        <a href="../index.html" class="back-btn"><i class="fas fa-arrow-left"></i> BACK TO MAIN</a>
       </div>
     </div>
   </header>
 
   <div class="paper-container">
     <div class="paper-title">
-      <div class="doc-meta" style="margin-bottom: 20px;">DOCUMENT ID: RDW-LITE-V2 // STATUS: PUBLIC</div>
+      <div class="doc-meta" style="margin-bottom: 20px;">VERSION 2.0 // PUBLIC DOCUMENT</div>
       <h1>The Shock Absorber<br><span style="color: var(--acid);">For The Grid.</span></h1>
-      <div class="doc-meta" style="margin-top: 20px;">TYPE: INFRASTRUCTURE OVERVIEW</div>
+      <div class="doc-meta" style="margin-top: 20px;">REDEWABLE PROTOCOL OVERVIEW</div>
     </div>
 
+    <!-- SECTION 1: SUMMARY -->
     <div class="paper-section">
-      <span class="sec-num">01 // EXECUTIVE SUMMARY</span>
-      <h2>Bridging DeFi & Energy</h2>
-      <p>ReDewable Energy connects decentralized liquidity to real-world infrastructure. We fund the pre-development of utility-scale Battery Energy Storage Systems (BESS) in ERCOT (the Texas grid operator).</p>
-      <p>Instead of a traditional token sale, we utilize a <strong>Capacity License (Node)</strong> model. Participants purchase a digital license that funds the high-risk, high-reward "Pre-NTP" phase. In exchange, holders receive daily emissions of the Network Reward Token (<strong>$RDW</strong>).</p>
+      <span class="sec-num">01 // WHAT WE'RE BUILDING</span>
+      <h2>The Short Version</h2>
+      <p>ReDewable connects people who want to support energy infrastructure with the capital-intensive work of building battery storage systems in Texas.</p>
+      <p>We're using a <strong>Validator License</strong> model. You buy a license, you actively participate in the network (monthly check-ins, quarterly votes), and you can claim $RDW tokens for that participation.</p>
+      <p>The funds go toward developing utility-scale Battery Energy Storage Systems (BESS) in ERCOT—the Texas grid operator's territory. We do the hard "pre-development" work that gets projects to shovel-ready status.</p>
+      
       <div class="callout">
-        <strong>THE MISSION:</strong><br><br>
-        Stabilize the Texas power grid against rapidly growing AI and data center load by accelerating battery storage development.
+        <strong>THE MISSION</strong>
+        Help stabilize the Texas power grid against growing AI and data center demand by accelerating battery storage development.
+      </div>
+
+      <div class="warning-callout">
+        <strong>⚠️ IMPORTANT DISCLAIMER</strong>
+        This is not an investment. You are buying a software license, not equity, debt, or any claim on company assets. The tokens you may receive could be worth nothing. Only participate with funds you can afford to lose completely.
       </div>
     </div>
 
+    <!-- SECTION 2: WHY THIS MATTERS -->
     <div class="paper-section">
-      <span class="sec-num">02 // MARKET THESIS</span>
-      <h2>The Perfect Storm</h2>
-      <p>The Texas grid is under strain from two converging forces: accelerated load growth and volatility from renewables without enough storage.</p>
-      <h3>1. AI Power Demand</h3>
-      <p>AI and hyperscale data centers require large, reliable power. ERCOT has published load growth scenarios showing unusually high demand expansion.</p>
-      <h3>2. The "Duck Curve"</h3>
-      <p>Texas has abundant solar at midday and tight supply in the evening. <strong>The Solution:</strong> Batteries charge when power is cheap and discharge when prices spike.</p>
+      <span class="sec-num">02 // THE PROBLEM</span>
+      <h2>Why Texas Needs Batteries</h2>
+      <p>The Texas grid is under pressure from two directions at once: demand is growing fast, and supply is getting more volatile.</p>
+      
+      <h3>1. AI Is Hungry for Power</h3>
+      <p>Data centers and AI training facilities require massive, reliable electricity. ERCOT projects that Texas power demand could grow 70% by 2031—most of that from new data centers. The grid wasn't built for this.</p>
+      
+      <h3>2. Renewables Need Storage</h3>
+      <p>Texas has tons of solar and wind, but they're intermittent. Solar floods the grid at midday (sometimes pushing prices negative), then disappears at sunset right when everyone turns on their AC. This creates the "duck curve" problem.</p>
+      <p><strong>The solution:</strong> Batteries charge when power is cheap and plentiful, then discharge when it's scarce and expensive. They smooth out the curve.</p>
+      
+      <h3>3. Regulations Are Tightening</h3>
+      <p>Texas Senate Bill 6 now requires large data centers to disconnect during grid emergencies. AI companies can't just pause training mid-run—that destroys expensive compute jobs. They need grid stability, and batteries provide it.</p>
     </div>
 
+    <!-- SECTION 3: THE ASSET -->
     <div class="paper-section">
-        <span class="sec-num">03 // THE ASSET</span>
-        <h2>ReDew Anson Flagship</h2>
-        <p>Our flagship project is a 400MW BESS facility located in the "Stargate Corridor" of West Texas.</p>
-        <div class="data-grid">
-            <div class="data-box"><span class="data-label">CAPACITY</span><span class="data-val">400 MW</span></div>
-            <div class="data-box"><span class="data-label">DURATION</span><span class="data-val">2 HOURS</span></div>
-            <div class="data-box"><span class="data-label">STATUS</span><span class="data-val">SITE CONTROL</span></div>
-            <div class="data-box"><span class="data-label">GRID STUDY</span><span class="data-val">IN PROGRESS</span></div>
-        </div>
-        <p>We execute the "Pre-NTP" work. Once a project reaches <strong>NTP</strong>, it becomes a highly desirable asset for institutional buyers.</p>
+      <span class="sec-num">03 // THE ASSET</span>
+      <h2>ReDew Anson — Our First Project</h2>
+      <p>We're developing a 400MW battery storage facility in West Texas, near major solar installations in the "Stargate Corridor."</p>
+      
+      <div class="data-grid">
+        <div class="data-box"><span class="data-label">TARGET CAPACITY</span><span class="data-val">400 MW</span></div>
+        <div class="data-box"><span class="data-label">STORAGE DURATION</span><span class="data-val">2 HOURS</span></div>
+        <div class="data-box"><span class="data-label">CURRENT STATUS</span><span class="data-val">SITE CONTROL</span></div>
+        <div class="data-box"><span class="data-label">GRID STUDY</span><span class="data-val">IN PROGRESS</span></div>
+      </div>
+      
+      <p>Our strategy is to handle the "Pre-NTP" phase—the risky, complex work of securing land, filing permits, completing engineering studies, and getting interconnection approval. Once a project reaches NTP (Notice to Proceed) status, it becomes attractive to institutional buyers who pay premium prices for de-risked assets.</p>
+      
+      <p>We're developers, not long-term operators. We create value by doing the hard early work, then exit to buyers with deeper pockets.</p>
     </div>
 
+    <!-- SECTION 4: HOW IT WORKS -->
     <div class="paper-section">
-        <span class="sec-num">04 // TECHNICAL ARCHITECTURE</span>
-        <h2>The DePIN Stack</h2>
-        <p>ReDewable is built on Solana to ensure low-latency validation and high throughput.</p>
-        <div class="tech-stack">
-            <div class="stack-row"><span class="stack-label">SETTLEMENT LAYER</span><span class="stack-val">SOLANA L1</span></div>
-            <div class="stack-row"><span class="stack-label">LICENSE STANDARD</span><span class="stack-val">METAPLEX (cNFT)</span></div>
-            <div class="stack-row"><span class="stack-label">TREASURY SECURITY</span><span class="stack-val">SQUADS MULTI-SIG (2/3)</span></div>
-            <div class="stack-row"><span class="stack-label">VESTING CONTRACTS</span><span class="stack-val">STREAMFLOW</span></div>
-        </div>
-        <p>This stack ensures that no single person controls the treasury or the emission schedule.</p>
+      <span class="sec-num">04 // HOW IT WORKS</span>
+      <h2>The Validator Model</h2>
+      <p>This isn't a typical token sale. Here's the actual structure:</p>
+      
+      <h3>What You're Buying</h3>
+      <p>A <strong>Validator License</strong>—an NFT on Solana that grants you:</p>
+      <ul>
+        <li>Access to the Validator Dashboard</li>
+        <li>The right to participate in network validation (reviewing project data, voting on proposals)</li>
+        <li>Eligibility to claim $RDW tokens for active participation</li>
+      </ul>
+      <p>You are NOT buying equity, debt, revenue share, or any claim on company assets. The license is a software tool, not a financial instrument.</p>
+      
+      <h3>What You Have to Do</h3>
+      <p>This is not passive income. Validators must actively participate:</p>
+      <ul>
+        <li><strong>Monthly:</strong> Review project updates, confirm data accuracy (~30 seconds)</li>
+        <li><strong>Quarterly:</strong> Vote on network proposals (~15 seconds)</li>
+        <li><strong>Quarterly:</strong> Attend or watch the Validator Webcast</li>
+        <li><strong>Annually:</strong> Renew your license (free)</li>
+      </ul>
+      <p>Miss a requirement? Your rewards pause until you catch up. No participation = no tokens.</p>
+      
+      <h3>The Tokens</h3>
+      <p>$RDW tokens don't exist yet. During the license sale, you accumulate "points." At the Token Generation Event (TGE), those points convert to actual tokens.</p>
+      <p>Token utility includes:</p>
+      <ul>
+        <li><strong>Governance:</strong> Vote on protocol parameters (not company decisions)</li>
+        <li><strong>Access:</strong> Pay for premium grid data feeds</li>
+        <li><strong>Staking:</strong> Lock tokens to increase validator weight</li>
+      </ul>
+      <p><strong>Important:</strong> Tokens may have zero market value. Don't assume they'll be worth anything.</p>
     </div>
 
+    <!-- SECTION 5: TECHNICAL STACK -->
     <div class="paper-section">
-        <span class="sec-num">05 // VALUE ACCRUAL</span>
-        <h2>Supply Shock Protocol</h2>
-        <p>When the physical asset is sold (NTP Exit), net proceeds are used to sweep the floor of the <strong>$RDW</strong> token. These tokens are not burned; they are sent to a <strong>Non-Circulating Vault (Lock)</strong>.</p>
-        <div class="callout">
-            <strong>WHY LOCK INSTEAD OF BURN?</strong><br><br>
-            Locking removes supply from circulation (creating price pressure) while keeping the tokens on the balance sheet for future DAO use (liquidity/collateral).
-        </div>
+      <span class="sec-num">05 // TECHNICAL ARCHITECTURE</span>
+      <h2>The Infrastructure</h2>
+      <p>ReDewable is built on Solana for speed and low transaction costs.</p>
+      
+      <div class="tech-stack">
+        <div class="stack-row"><span class="stack-label">BLOCKCHAIN</span><span class="stack-val">SOLANA L1</span></div>
+        <div class="stack-row"><span class="stack-label">LICENSE FORMAT</span><span class="stack-val">METAPLEX NFT</span></div>
+        <div class="stack-row"><span class="stack-label">TREASURY</span><span class="stack-val">SQUADS MULTI-SIG (2/3)</span></div>
+        <div class="stack-row"><span class="stack-label">VESTING</span><span class="stack-val">STREAMFLOW</span></div>
+      </div>
+      
+      <p>The multi-sig treasury ensures no single person can move funds unilaterally. All major transactions require multiple approvals.</p>
     </div>
 
+    <!-- SECTION 6: TOKEN DISTRIBUTION -->
     <div class="paper-section">
-        <span class="sec-num">06 // LICENSE UTILITY</span>
-        <h2>The Node Dashboard</h2>
-        <p>Holders of Capacity Licenses gain access to the Command Center to view real-time engineering updates and claim rewards.</p>
-        <div class="dashboard-grid">
-            <div class="dash-mockup">PERMITTING<br>STATUS</div>
-            <div class="dash-mockup">DAILY<br>REWARDS</div>
-            <div class="dash-mockup">ENGINEERING<br>DOCS</div>
-        </div>
-    </div>
-
-    <div class="paper-section">
-      <span class="sec-num">07 // ECONOMICS</span>
-      <h2>Supply & Distribution</h2>
-      <p>The Network Reward Token (<strong>$RDW</strong>) is the settlement layer for emissions.</p>
+      <span class="sec-num">06 // TOKEN ALLOCATION</span>
+      <h2>$RDW Distribution</h2>
+      
       <table class="tokenomics-table">
-        <thead><tr><th>Allocation</th><th class="percent">%</th></tr></thead>
+        <thead>
+          <tr><th>Allocation</th><th>Percentage</th><th>Notes</th></tr>
+        </thead>
         <tbody>
-          <tr><td>Node Rewards</td><td class="percent">30%</td></tr>
-          <tr><td>RWA Reserve</td><td class="percent">25%</td></tr>
-          <tr><td>Fair Launch</td><td class="percent">25%</td></tr>
-          <tr><td>Treasury</td><td class="percent">15%</td></tr>
-          <tr><td>Ecosystem</td><td class="percent">5%</td></tr>
+          <tr><td>Validator Rewards</td><td class="percent">30%</td><td>Distributed to active validators over 36 months</td></tr>
+          <tr><td>RWA Reserve</td><td class="percent">25%</td><td>Backed by physical asset development</td></tr>
+          <tr><td>Treasury</td><td class="percent">15%</td><td>Operations, ecosystem, marketing (multi-sig controlled)</td></tr>
+          <tr><td>Team</td><td class="percent">15%</td><td>1-year cliff, 3-year vesting</td></tr>
+          <tr><td>Ecosystem</td><td class="percent">10%</td><td>Grants, partnerships, integrations</td></tr>
+          <tr><td>Initial Liquidity</td><td class="percent">5%</td><td>DEX liquidity at launch</td></tr>
         </tbody>
       </table>
     </div>
 
+    <!-- SECTION 7: TREASURY OPERATIONS -->
     <div class="paper-section">
-      <span class="sec-num">08 // THE PATH</span>
-      <h2>Roadmap</h2>
-      <div class="roadmap-phase completed"><div class="phase-header">Phase 00</div><div class="phase-title">Site & Vendor Selection</div><div class="phase-items">Land secured • Partners selected • Feasibility validated</div></div>
-      <div class="roadmap-phase current"><div class="phase-header">Phase 01</div><div class="phase-title">Pre-Launch</div><div class="phase-items">Legal Framework • Tokenomics • Website live</div></div>
-      <div class="roadmap-phase"><div class="phase-header">Phase 02</div><div class="phase-title">Capacity License Sale</div><div class="phase-items">Node sale live • Mint infrastructure deployed</div></div>
-      <div class="roadmap-phase"><div class="phase-header">Phase 03</div><div class="phase-title">Pre-Development Execution</div><div class="phase-items">Environmental • Engineering • Interconnection study</div></div>
-      <div class="roadmap-phase"><div class="phase-header">Phase 04</div><div class="phase-title">NTP & Exit</div><div class="phase-items">Institutional buyer selection • Asset Sale</div></div>
-      <div class="roadmap-phase"><div class="phase-header">Phase 05</div><div class="phase-title">NETWORK STATE</div><div class="phase-items">DAO Governance • Expansion to ERCOT North • 1GW Target</div></div>
-    </div>
-
-    <div class="paper-section">
-        <span class="sec-num">09 // OPERATOR</span>
-        <h2>Talor Byington</h2>
-        <div class="operator-box">
-            <p>10+ years operational leadership. Scaled consumer electronics repair to revenue. Building the bridge between physical energy infrastructure and decentralized finance.</p>
-            <a href="https://x.com/TalorMayde" target="_blank" style="font-family:var(--font-mono); color:var(--acid); text-decoration:none;">@TALORMAYDE</a>
-        </div>
-    </div>
-
-    <div class="paper-section">
-      <span class="sec-num">10 // PARTNERS</span>
-      <h2>Execution Partners</h2>
-      <div class="partner"><div class="partner-name">ANS Engineering</div><div class="partner-desc">Environmental, geotechnical, 30% design packages.</div><a class="partner-link" href="https://ans-team.com" target="_blank">ans-team.com</a></div>
-      <div class="partner"><div class="partner-name">Enerzinx</div><div class="partner-desc">ERCOT interconnection modeling and studies.</div><a class="partner-link" href="https://enerzinx.com" target="_blank">enerzinx.com</a></div>
-      <div class="partner"><div class="partner-name">Houston PACE</div><div class="partner-desc">Development financing and buyer alignment.</div><a class="partner-link" href="https://www.pacehouston.com" target="_blank">pacehouston.com</a></div>
-    </div>
-
-    <div class="legal-block">
-      <strong>LEGAL DISCLAIMER & RISK DISCLOSURE</strong>
-      <p><strong>NOT FINANCIAL ADVICE:</strong> This document is provided for informational purposes only. It is not a prospectus, an offer to sell securities, or a solicitation of an offer to buy securities. Nothing herein constitutes financial, investment, legal, or tax advice. You should consult with your own professional advisors before purchasing any digital asset.</p>
+      <span class="sec-num">07 // TREASURY OPERATIONS</span>
+      <h2>What Happens When Projects Sell</h2>
+      <p>When a project reaches NTP and sells to an institutional buyer, here's the flow:</p>
+      <ul>
+        <li>Buyer pays USD to the asset SPV (ReDew Anson LLC)</li>
+        <li>SPV covers expenses, distributes profit to the operating company</li>
+        <li>Operating company may contribute a portion to the Protocol Treasury</li>
+        <li>Treasury may conduct market operations (buybacks) at DAO discretion</li>
+      </ul>
       
-      <strong>NATURE OF ASSETS</strong>
-      <p>The Capacity Licenses described herein are digital software licenses that provide access to network validation features and potential future utility tokens. They do not represent equity, debt, or a claim on the assets of ReDewable Energy Company, LLC. The $RDW token is a utility token for the decentralized network and holds no inherent rights to profit.</p>
+      <div class="callout">
+        <strong>NO GUARANTEED BUYBACKS</strong>
+        Treasury market operations are discretionary and subject to DAO governance. There is no promise, guarantee, or obligation to conduct buybacks. Any contribution from the operating company to the Protocol is voluntary.
+      </div>
+      
+      <p>Token holders never receive direct payments, dividends, or profit distributions. Any benefit comes indirectly through potential market effects of Treasury operations—which are not guaranteed to occur or have any specific outcome.</p>
+    </div>
 
-      <strong>RISK OF LOSS</strong>
-      <p>Buying digital assets involves a high degree of risk. You could lose some or all of your capital. The development of physical infrastructure involves regulatory, environmental, and construction risks that are outside the control of the protocol. Do not use funds you cannot afford to lose.</p>
+    <!-- SECTION 8: ROADMAP -->
+    <div class="paper-section">
+      <span class="sec-num">08 // THE PATH FORWARD</span>
+      <h2>Development Roadmap</h2>
+      
+      <div class="roadmap-phase">
+        <div class="phase-header">Phase 00 — Complete</div>
+        <div class="phase-title">Site Selection & Feasibility</div>
+        <div class="phase-items">Land identified • Vendors selected • Initial feasibility validated</div>
+      </div>
+      
+      <div class="roadmap-phase">
+        <div class="phase-header">Phase 01 — Current</div>
+        <div class="phase-title">Validator License Sale</div>
+        <div class="phase-items">Legal framework complete • Tokenomics finalized • License sale live</div>
+      </div>
+      
+      <div class="roadmap-phase">
+        <div class="phase-header">Phase 02</div>
+        <div class="phase-title">Pre-Development Execution</div>
+        <div class="phase-items">Land acquisition • ERCOT interconnection filing • Engineering studies</div>
+      </div>
+      
+      <div class="roadmap-phase">
+        <div class="phase-header">Phase 03</div>
+        <div class="phase-title">Token Generation Event</div>
+        <div class="phase-items">$RDW token launch • Validator rewards activated • Trading begins</div>
+      </div>
+      
+      <div class="roadmap-phase">
+        <div class="phase-header">Phase 04</div>
+        <div class="phase-title">NTP & Exit</div>
+        <div class="phase-items">Project reaches shovel-ready status • Sale to institutional buyer</div>
+      </div>
+      
+      <div class="roadmap-phase">
+        <div class="phase-header">Phase 05</div>
+        <div class="phase-title">Network Expansion</div>
+        <div class="phase-items">Additional sites • DAO governance • Target: 1GW portfolio</div>
+      </div>
+    </div>
 
-      <strong>JURISDICTION</strong>
-      <p>This offering is not available to residents of sanctioned countries (e.g., North Korea, Iran) or jurisdictions where such sales are prohibited by law.</p>
+    <!-- SECTION 9: TEAM -->
+    <div class="paper-section">
+      <span class="sec-num">09 // THE OPERATOR</span>
+      <h2>Talor Byington</h2>
+      
+      <div class="operator-box">
+        <p style="margin-bottom: 20px;">10+ years of operational leadership. Built and scaled physical businesses. Now bridging real-world energy infrastructure with decentralized coordination.</p>
+        <a href="https://x.com/TalorMayde" target="_blank" style="font-family:var(--font-mono); color:var(--acid);">@TALORMAYDE</a>
+      </div>
+    </div>
 
-      <strong>FORWARD-LOOKING STATEMENTS</strong>
-      <p>This document contains forward-looking statements regarding future milestones. These statements are based on current market assumptions and are subject to change. Actual results may differ materially.</p>
+    <!-- SECTION 10: VENDORS -->
+    <div class="paper-section">
+      <span class="sec-num">10 // VENDORS & SERVICE PROVIDERS</span>
+      <h2>Who We Work With</h2>
+      
+      <div class="partner">
+        <div class="partner-name">ANS Engineering</div>
+        <div class="partner-desc">Environmental studies, geotechnical analysis, engineering design packages.</div>
+        <a class="partner-link" href="https://ans-team.com" target="_blank">ans-team.com</a>
+      </div>
+      
+      <div class="partner">
+        <div class="partner-name">Enerzinx</div>
+        <div class="partner-desc">ERCOT interconnection modeling and grid studies.</div>
+        <a class="partner-link" href="https://enerzinx.com" target="_blank">enerzinx.com</a>
+      </div>
+      
+      <div class="partner">
+        <div class="partner-name">Houston PACE</div>
+        <div class="partner-desc">PACE financing preparation for eventual project buyers.</div>
+        <a class="partner-link" href="https://www.pacehouston.com" target="_blank">pacehouston.com</a>
+      </div>
+      
+      <div class="partner">
+        <div class="partner-name">Tesla (OEM)</div>
+        <div class="partner-desc">Megapack battery systems—equipment specification for interconnection filing.</div>
+        <a class="partner-link" href="https://www.tesla.com/megapack" target="_blank">tesla.com/megapack</a>
+      </div>
+    </div>
+
+    <!-- LEGAL DISCLAIMER -->
+    <div class="legal-block">
+      <h4>Legal Disclaimer & Risk Disclosure</h4>
+      
+      <h4>Not Financial Advice</h4>
+      <p>This document is for informational purposes only. It is not a prospectus, an offer to sell securities, or a solicitation of an offer to buy securities. Nothing here constitutes financial, investment, legal, or tax advice. Consult your own professional advisors before purchasing any digital asset.</p>
+      
+      <h4>Nature of the License</h4>
+      <p>The Validator License is a digital software license granting access to network validation features and potential future token eligibility. It does NOT represent equity, debt, profit-sharing rights, or any claim on the assets or revenue of ReDewable Energy Company, LLC or any affiliated entity. The $RDW token is a utility token for the decentralized network and confers no rights to profit.</p>
+      
+      <h4>Risk of Total Loss</h4>
+      <p>Purchasing digital assets involves extreme risk. You may lose 100% of your purchase amount. Physical infrastructure development involves regulatory, environmental, construction, and market risks outside the control of any party. Projects may fail, be delayed indefinitely, or be abandoned. Tokens may have zero value. Do not use funds you cannot afford to lose.</p>
+      
+      <h4>No Guaranteed Returns</h4>
+      <p>There is no guarantee of any financial return. Token distribution depends on active participation and future protocol development that may never occur. Treasury operations including buybacks are discretionary and not guaranteed. Past performance of similar projects is not indicative of future results.</p>
+      
+      <h4>Active Participation Required</h4>
+      <p>Rewards require active validator participation. Inactive licenses do not earn tokens. This is not passive income.</p>
+      
+      <h4>Jurisdiction</h4>
+      <p>This offering is not available to residents of sanctioned countries or jurisdictions where such sales are prohibited by law. Purchasers are responsible for compliance with their local laws.</p>
+      
+      <h4>Forward-Looking Statements</h4>
+      <p>This document contains forward-looking statements about future development, milestones, and market conditions. These are based on current assumptions and subject to change. Actual results may differ materially.</p>
     </div>
   </div>
 
@@ -376,26 +474,20 @@
     <div class="paper-container footer-inner">
       <div class="footer-left">
         <span>© 2025 REDEWABLE PROTOCOL</span>
-        <a href="https://your-traditional-site.com" target="_blank" class="corp-link">OPERATED BY REDEWABLE ENERGY COMPANY, LLC ↗</a>
-        <span class="ticker-box" id="footer-price-ticker">
-          SOL: <span class="blink">●</span> CONNECTING...
-        </span>
+        <a href="https://redewable.com" target="_blank" class="corp-link">SERVICE PROVIDER: REDEWABLE ENERGY COMPANY, LLC ↗</a>
+        <span class="ticker-box" id="footer-price-ticker">SOL: <span class="blink">●</span> CONNECTING...</span>
       </div>
       <div class="footer-right">
-        <a href="../index.html#presale" class="footer-tech-btn">
-            <i class="fas fa-terminal"></i> NODE SALE TERMINAL
-        </a>
-        
+        <a href="../index.html#presale" class="footer-tech-btn"><i class="fas fa-terminal"></i> VALIDATOR SALE</a>
         <div style="display:flex; gap: 20px;">
-            <a href="https://x.com/ReDewable" target="_blank" class="footer-social-link"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank" class="footer-social-link"><i class="fab fa-telegram-plane"></i></a>
+          <a href="https://x.com/ReDewable" target="_blank" class="footer-social-link"><i class="fab fa-x-twitter"></i></a>
+          <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank" class="footer-social-link"><i class="fab fa-telegram-plane"></i></a>
         </div>
       </div>
     </div>
   </footer>
 
   <script>
-    // --- THEME TOGGLE LOGIC ---
     const themeBtn = document.getElementById('theme-btn');
     const body = document.body;
     const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -415,7 +507,6 @@
       span.innerText = theme === 'dark' ? 'LIGHT' : 'DARK';
     }
 
-    // --- SOL PRICE ENGINE ---
     let solPrice = 125;
     async function fetchSolPrice() {
       try {
@@ -423,12 +514,10 @@
         const data = await res.json();
         if (data.solana && data.solana.usd) {
           solPrice = data.solana.usd;
-          document.getElementById('footer-price-ticker').innerHTML =
-            `SOL: $${solPrice.toFixed(2)} <span class="blink" style="color:var(--acid)">●</span>`;
+          document.getElementById('footer-price-ticker').innerHTML = `SOL: $${solPrice.toFixed(2)} <span class="blink" style="color:var(--acid)">●</span>`;
         }
       } catch (e) {
-        document.getElementById('footer-price-ticker').innerHTML =
-          `SOL: $${solPrice.toFixed(2)} (SIM) <span class="blink" style="color:orange">●</span>`;
+        document.getElementById('footer-price-ticker').innerHTML = `SOL: $${solPrice.toFixed(2)} (SIM) <span class="blink" style="color:orange">●</span>`;
       }
     }
     fetchSolPrice();
