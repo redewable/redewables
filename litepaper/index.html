@@ -137,6 +137,8 @@
         .roadmap-phase { position: relative; padding-left: 32px; padding-bottom: 40px; border-left: 2px solid var(--border); margin-left: 8px; }
         .roadmap-phase:last-child { border-left-color: transparent; padding-bottom: 0; }
         .roadmap-phase::before { content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px; background: var(--bg-main); border: 2px solid var(--acid); border-radius: 50%; }
+        .roadmap-phase.complete::before { background: var(--acid); }
+        .roadmap-phase.current::before { background: var(--acid); box-shadow: 0 0 10px var(--acid); }
         .phase-header { font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--acid); margin-bottom: 6px; }
         .phase-title { font-weight: 600; margin-bottom: 10px; color: var(--text-main); font-family: var(--font-head); font-size: 1.2rem; }
         .phase-items { color: var(--text-dim); font-size: 1rem; }
@@ -209,7 +211,7 @@
 
   <div class="paper-container">
     <div class="paper-title">
-      <div class="doc-meta" style="margin-bottom: 20px;">VERSION 2.0 // PUBLIC DOCUMENT</div>
+      <div class="doc-meta" style="margin-bottom: 20px;">VERSION 2.1 // PUBLIC DOCUMENT</div>
       <h1>The Shock Absorber<br><span style="color: var(--acid);">For The Grid.</span></h1>
       <div class="doc-meta" style="margin-top: 20px;">REDEWABLE PROTOCOL OVERVIEW</div>
     </div>
@@ -219,12 +221,12 @@
       <span class="sec-num">01 // WHAT WE'RE BUILDING</span>
       <h2>The Short Version</h2>
       <p>ReDewable connects people who want to support energy infrastructure with the capital-intensive work of building battery storage systems in Texas.</p>
-      <p>We're using a <strong>Validator License</strong> model. You buy a license, you actively participate in the network (monthly check-ins, quarterly votes), and you can claim $RDW tokens for that participation.</p>
+      <p>We're using a <strong>Validator License</strong> model. You buy a license, you actively participate in the network by verifying real grid data and signing on-chain attestations, and you can claim $RDW tokens for that participation.</p>
       <p>The funds go toward developing utility-scale Battery Energy Storage Systems (BESS) in ERCOT—the Texas grid operator's territory. We do the hard "pre-development" work that gets projects to shovel-ready status.</p>
       
       <div class="callout">
         <strong>THE MISSION</strong>
-        Help stabilize the Texas power grid against growing AI and data center demand by accelerating battery storage development.
+        Build a decentralized oracle network for energy infrastructure while accelerating battery storage development to stabilize the Texas grid.
       </div>
 
       <div class="warning-callout">
@@ -260,12 +262,15 @@
         <div class="data-box"><span class="data-label">TARGET CAPACITY</span><span class="data-val">400 MW</span></div>
         <div class="data-box"><span class="data-label">STORAGE DURATION</span><span class="data-val">2 HOURS</span></div>
         <div class="data-box"><span class="data-label">CURRENT STATUS</span><span class="data-val">SITE CONTROL</span></div>
-        <div class="data-box"><span class="data-label">GRID STUDY</span><span class="data-val">IN PROGRESS</span></div>
+        <div class="data-box"><span class="data-label">POI SENSORS</span><span class="data-val">DEPLOYED</span></div>
       </div>
       
       <p>Our strategy is to handle the "Pre-NTP" phase—the risky, complex work of securing land, filing permits, completing engineering studies, and getting interconnection approval. Once a project reaches NTP (Notice to Proceed) status, it becomes attractive to institutional buyers who pay premium prices for de-risked assets.</p>
       
       <p>We're developers, not long-term operators. We create value by doing the hard early work, then exit to buyers with deeper pockets.</p>
+
+      <h3>Live Site Data</h3>
+      <p>We've deployed weather sensors at the Anson site to provide real-time conditions that validators verify each month. This data feeds directly into the attestation bundles.</p>
     </div>
 
     <!-- SECTION 4: HOW IT WORKS -->
@@ -278,7 +283,7 @@
       <p>A <strong>Validator License</strong>—an NFT on Solana that grants you:</p>
       <ul>
         <li>Access to the Validator Dashboard</li>
-        <li>The right to participate in network validation (reviewing project data, voting on proposals)</li>
+        <li>The right to participate in network validation (verifying grid data, signing attestations, voting on proposals)</li>
         <li>Eligibility to claim $RDW tokens for active participation</li>
       </ul>
       <p>You are NOT buying equity, debt, revenue share, or any claim on company assets. The license is a software tool, not a financial instrument.</p>
@@ -286,43 +291,95 @@
       <h3>What You Have to Do</h3>
       <p>This is not passive income. Validators must actively participate:</p>
       <ul>
-        <li><strong>Monthly:</strong> Review project updates, confirm data accuracy (~30 seconds)</li>
-        <li><strong>Quarterly:</strong> Vote on network proposals (~15 seconds)</li>
-        <li><strong>Quarterly:</strong> Attend or watch the Validator Webcast</li>
+        <li><strong>Monthly:</strong> Review the data bundle (ERCOT pricing, queue position, vendor milestones, POI sensor data), then sign an on-chain attestation confirming accuracy</li>
+        <li><strong>Random (20% of validators):</strong> Provide verification evidence—screenshot or hash proving you checked the source</li>
+        <li><strong>Quarterly:</strong> Vote on a network governance proposal</li>
         <li><strong>Annually:</strong> Renew your license (free)</li>
       </ul>
       <p>Miss a requirement? Your rewards pause until you catch up. No participation = no tokens.</p>
+
+      <h3>The Attestation System</h3>
+      <p>Each month, the protocol publishes a Data Bundle containing:</p>
+      <ul>
+        <li><strong>ERCOT Grid Data:</strong> Real-time LMP pricing, day-ahead settlements, system load</li>
+        <li><strong>Project Milestones:</strong> Engineering completion %, permit status, queue position</li>
+        <li><strong>POI Sensor Data:</strong> Temperature, solar irradiance, wind speed from the Anson site</li>
+      </ul>
+      <p>Validators review this data, can click "Verify Sources" to check against public ERCOT records and Weather.gov, then sign the bundle with their wallet. This creates a permanent on-chain record: validator ID, bundle hash, timestamp, and VALID or DISPUTE status.</p>
+
+      <h3>Dispute Mechanism</h3>
+      <p>If you find an error in the data bundle, you can flag a DISPUTE instead of signing VALID. If more than 10% of validators dispute a bundle, it's flagged for manual review. Accurate disputes earn 2x bonus points. Frivolous disputes earn nothing.</p>
       
       <h3>The Tokens</h3>
-      <p>$RDW tokens don't exist yet. During the license sale, you accumulate "points." At the Token Generation Event (TGE), those points convert to actual tokens.</p>
+      <p>$RDW tokens don't exist yet. During the license sale, you accumulate "points" for each attestation you sign. At the Token Generation Event (TGE), those points convert to actual tokens.</p>
       <p>Token utility includes:</p>
       <ul>
-        <li><strong>Governance:</strong> Vote on protocol parameters (not company decisions)</li>
+        <li><strong>Governance:</strong> Vote on protocol parameters and treasury allocation</li>
         <li><strong>Access:</strong> Pay for premium grid data feeds</li>
         <li><strong>Staking:</strong> Lock tokens to increase validator weight</li>
       </ul>
       <p><strong>Important:</strong> Tokens may have zero market value. Don't assume they'll be worth anything.</p>
     </div>
 
-    <!-- SECTION 5: TECHNICAL STACK -->
+    <!-- SECTION 5: GRID ORACLE NETWORK -->
     <div class="paper-section">
-      <span class="sec-num">05 // TECHNICAL ARCHITECTURE</span>
+      <span class="sec-num">05 // THE ORACLE NETWORK</span>
+      <h2>Building Decentralized Energy Data</h2>
+      <p>Validators aren't just verifying our project—they're building a decentralized oracle network for energy infrastructure data.</p>
+      
+      <h3>Why This Matters</h3>
+      <p>Today, energy data is siloed. ERCOT publishes grid data, but there's no decentralized, cryptographically-signed record of it. Project milestones live in PDFs and emails. Weather data comes from centralized APIs.</p>
+      <p>ReDewable validators create verified, on-chain attestations of this data. Over time, this becomes a valuable dataset for:</p>
+      <ul>
+        <li>Other DePIN energy projects needing oracle feeds</li>
+        <li>Researchers studying grid patterns</li>
+        <li>Traders building energy market models</li>
+        <li>Regulators wanting transparent records</li>
+      </ul>
+
+      <h3>Data Sources</h3>
+      <div class="tech-stack">
+        <div class="stack-row"><span class="stack-label">ERCOT GRID DATA</span><span class="stack-val">PUBLIC API</span></div>
+        <div class="stack-row"><span class="stack-label">PROJECT MILESTONES</span><span class="stack-val">VENDOR REPORTS</span></div>
+        <div class="stack-row"><span class="stack-label">SITE CONDITIONS</span><span class="stack-val">POI SENSORS</span></div>
+        <div class="stack-row"><span class="stack-label">VERIFICATION</span><span class="stack-val">WEATHER.GOV</span></div>
+      </div>
+
+      <h3>User Contributions</h3>
+      <p>Validators can also submit supplemental data: local energy prices they observe, public ERCOT filings they find, or corrections to bundle data. High-quality contributions earn bonus points and build the network's dataset.</p>
+    </div>
+
+    <!-- SECTION 6: TECHNICAL STACK -->
+    <div class="paper-section">
+      <span class="sec-num">06 // TECHNICAL ARCHITECTURE</span>
       <h2>The Infrastructure</h2>
       <p>ReDewable is built on Solana for speed and low transaction costs.</p>
       
       <div class="tech-stack">
         <div class="stack-row"><span class="stack-label">BLOCKCHAIN</span><span class="stack-val">SOLANA L1</span></div>
         <div class="stack-row"><span class="stack-label">LICENSE FORMAT</span><span class="stack-val">METAPLEX NFT</span></div>
+        <div class="stack-row"><span class="stack-label">ATTESTATIONS</span><span class="stack-val">ON-CHAIN PROGRAM</span></div>
+        <div class="stack-row"><span class="stack-label">GOVERNANCE</span><span class="stack-val">REALMS DAO</span></div>
         <div class="stack-row"><span class="stack-label">TREASURY</span><span class="stack-val">SQUADS MULTI-SIG (2/3)</span></div>
         <div class="stack-row"><span class="stack-label">VESTING</span><span class="stack-val">STREAMFLOW</span></div>
       </div>
       
       <p>The multi-sig treasury ensures no single person can move funds unilaterally. All major transactions require multiple approvals.</p>
+
+      <h3>Attestation Data Structure</h3>
+      <p>Each attestation is recorded on-chain with:</p>
+      <ul>
+        <li>Validator wallet address</li>
+        <li>SHA-256 hash of the data bundle</li>
+        <li>Timestamp</li>
+        <li>Status: VALID or DISPUTE</li>
+        <li>Optional: dispute reason hash</li>
+      </ul>
     </div>
 
-    <!-- SECTION 6: TOKEN DISTRIBUTION -->
+    <!-- SECTION 7: TOKEN DISTRIBUTION -->
     <div class="paper-section">
-      <span class="sec-num">06 // TOKEN ALLOCATION</span>
+      <span class="sec-num">07 // TOKEN ALLOCATION</span>
       <h2>$RDW Distribution</h2>
       
       <table class="tokenomics-table">
@@ -332,7 +389,7 @@
         <tbody>
           <tr><td>Validator Rewards</td><td class="percent">30%</td><td>Distributed to active validators over 36 months</td></tr>
           <tr><td>RWA Reserve</td><td class="percent">25%</td><td>Backed by physical asset development</td></tr>
-          <tr><td>Treasury</td><td class="percent">15%</td><td>Operations, ecosystem, marketing (multi-sig controlled)</td></tr>
+          <tr><td>Treasury</td><td class="percent">15%</td><td>DAO-governed; all allocations by vote</td></tr>
           <tr><td>Team</td><td class="percent">15%</td><td>1-year cliff, 3-year vesting</td></tr>
           <tr><td>Ecosystem</td><td class="percent">10%</td><td>Grants, partnerships, integrations</td></tr>
           <tr><td>Initial Liquidity</td><td class="percent">5%</td><td>DEX liquidity at launch</td></tr>
@@ -340,41 +397,68 @@
       </table>
     </div>
 
-    <!-- SECTION 7: TREASURY OPERATIONS -->
+    <!-- SECTION 8: DAO TREASURY GOVERNANCE -->
     <div class="paper-section">
-      <span class="sec-num">07 // TREASURY OPERATIONS</span>
-      <h2>What Happens When Projects Sell</h2>
-      <p>When a project reaches NTP and sells to an institutional buyer, here's the flow:</p>
+      <span class="sec-num">08 // DAO TREASURY GOVERNANCE</span>
+      <h2>How Treasury Decisions Are Made</h2>
+      <p>The Protocol Treasury is controlled by the DAO—not by the company. Here's how it works:</p>
+      
+      <h3>What the Foundation/Company CANNOT Promise</h3>
       <ul>
-        <li>Buyer pays USD to the asset SPV (ReDew Anson LLC)</li>
-        <li>SPV covers expenses, distributes profit to the operating company</li>
-        <li>Operating company may contribute a portion to the Protocol Treasury</li>
-        <li>Treasury may conduct market operations (buybacks) at DAO discretion</li>
+        <li>Buybacks or token burns</li>
+        <li>Price support or market making</li>
+        <li>Specific treasury allocations</li>
+        <li>Any returns, profits, or dividends</li>
       </ul>
-      
-      <div class="callout">
-        <strong>NO GUARANTEED BUYBACKS</strong>
-        Treasury market operations are discretionary and subject to DAO governance. There is no promise, guarantee, or obligation to conduct buybacks. Any contribution from the operating company to the Protocol is voluntary.
+
+      <h3>What the DAO CAN Vote On (Post-TGE)</h3>
+      <ul>
+        <li>Treasury allocation to ecosystem development</li>
+        <li>Liquidity provision strategies</li>
+        <li>Market operations (which may include buybacks)</li>
+        <li>Grants for new site development</li>
+        <li>Protocol upgrades and parameter changes</li>
+      </ul>
+
+      <h3>Exit Proceeds Flow</h3>
+      <p>When a project sells to an institutional buyer:</p>
+      <ul>
+        <li><strong>Step 1:</strong> Buyer pays USD to the asset SPV (ReDew Anson LLC)</li>
+        <li><strong>Step 2:</strong> SPV distributes to ReDewable Energy Company LLC</li>
+        <li><strong>Step 3:</strong> Company MAY contribute to Protocol Treasury (voluntary, not obligated)</li>
+        <li><strong>Step 4:</strong> DAO votes on how to use any treasury funds</li>
+      </ul>
+
+      <div class="warning-callout">
+        <strong>⚠️ NO GUARANTEED BUYBACKS</strong>
+        Step 3 is voluntary. There is no promise, expectation, or guarantee that the company will contribute proceeds to the treasury. The DAO decides how to use treasury funds—the company does not. Token holders never receive direct payments, dividends, or profit distributions.
       </div>
-      
-      <p>Token holders never receive direct payments, dividends, or profit distributions. Any benefit comes indirectly through potential market effects of Treasury operations—which are not guaranteed to occur or have any specific outcome.</p>
+
+      <h3>Governance Parameters</h3>
+      <ul>
+        <li><strong>Pre-TGE:</strong> 1 license = 1 vote</li>
+        <li><strong>Post-TGE:</strong> Token-weighted voting</li>
+        <li><strong>Quorum:</strong> 20% of voting power</li>
+        <li><strong>Standard proposals:</strong> >50% approval</li>
+        <li><strong>Treasury/protocol changes:</strong> >66% approval</li>
+      </ul>
     </div>
 
-    <!-- SECTION 8: ROADMAP -->
+    <!-- SECTION 9: ROADMAP -->
     <div class="paper-section">
-      <span class="sec-num">08 // THE PATH FORWARD</span>
+      <span class="sec-num">09 // THE PATH FORWARD</span>
       <h2>Development Roadmap</h2>
       
-      <div class="roadmap-phase">
+      <div class="roadmap-phase complete">
         <div class="phase-header">Phase 00 — Complete</div>
-        <div class="phase-title">Site Selection & Feasibility</div>
-        <div class="phase-items">Land identified • Vendors selected • Initial feasibility validated</div>
+        <div class="phase-title">Foundation Secured</div>
+        <div class="phase-items">Land option executed • Vendor contracts signed (Enerzinx, ANS) • POI sensors deployed • Legal structure established</div>
       </div>
       
-      <div class="roadmap-phase">
+      <div class="roadmap-phase current">
         <div class="phase-header">Phase 01 — Current</div>
         <div class="phase-title">Validator License Sale</div>
-        <div class="phase-items">Legal framework complete • Tokenomics finalized • License sale live</div>
+        <div class="phase-items">Legal framework complete • Attestation system built • License sale live</div>
       </div>
       
       <div class="roadmap-phase">
@@ -386,25 +470,25 @@
       <div class="roadmap-phase">
         <div class="phase-header">Phase 03</div>
         <div class="phase-title">Token Generation Event</div>
-        <div class="phase-items">$RDW token launch • Validator rewards activated • Trading begins</div>
+        <div class="phase-items">$RDW token launch • Validator rewards activated • DAO governance live</div>
       </div>
       
       <div class="roadmap-phase">
         <div class="phase-header">Phase 04</div>
         <div class="phase-title">NTP & Exit</div>
-        <div class="phase-items">Project reaches shovel-ready status • Sale to institutional buyer</div>
+        <div class="phase-items">Project reaches shovel-ready status • Sale to institutional buyer • DAO votes on treasury</div>
       </div>
       
       <div class="roadmap-phase">
         <div class="phase-header">Phase 05</div>
         <div class="phase-title">Network Expansion</div>
-        <div class="phase-items">Additional sites • DAO governance • Target: 1GW portfolio</div>
+        <div class="phase-items">Deploy to additional sites • Scale validator network • Target: 1GW portfolio</div>
       </div>
     </div>
 
-    <!-- SECTION 9: TEAM -->
+    <!-- SECTION 10: TEAM -->
     <div class="paper-section">
-      <span class="sec-num">09 // THE OPERATOR</span>
+      <span class="sec-num">10 // THE OPERATOR</span>
       <h2>Talor Byington</h2>
       
       <div class="operator-box">
@@ -413,20 +497,20 @@
       </div>
     </div>
 
-    <!-- SECTION 10: VENDORS -->
+    <!-- SECTION 11: VENDORS -->
     <div class="paper-section">
-      <span class="sec-num">10 // VENDORS & SERVICE PROVIDERS</span>
+      <span class="sec-num">11 // VENDORS & SERVICE PROVIDERS</span>
       <h2>Who We Work With</h2>
       
       <div class="partner">
         <div class="partner-name">ANS Engineering</div>
-        <div class="partner-desc">Environmental studies, geotechnical analysis, engineering design packages.</div>
+        <div class="partner-desc">Environmental studies, geotechnical analysis, engineering design packages. Contract signed.</div>
         <a class="partner-link" href="https://ans-team.com" target="_blank">ans-team.com</a>
       </div>
       
       <div class="partner">
         <div class="partner-name">Enerzinx</div>
-        <div class="partner-desc">ERCOT interconnection modeling and grid studies.</div>
+        <div class="partner-desc">ERCOT interconnection modeling and grid studies. Contract signed.</div>
         <a class="partner-link" href="https://enerzinx.com" target="_blank">enerzinx.com</a>
       </div>
       
@@ -457,10 +541,13 @@
       <p>Purchasing digital assets involves extreme risk. You may lose 100% of your purchase amount. Physical infrastructure development involves regulatory, environmental, construction, and market risks outside the control of any party. Projects may fail, be delayed indefinitely, or be abandoned. Tokens may have zero value. Do not use funds you cannot afford to lose.</p>
       
       <h4>No Guaranteed Returns</h4>
-      <p>There is no guarantee of any financial return. Token distribution depends on active participation and future protocol development that may never occur. Treasury operations including buybacks are discretionary and not guaranteed. Past performance of similar projects is not indicative of future results.</p>
+      <p>There is no guarantee of any financial return. Token distribution depends on active participation and future protocol development that may never occur. Treasury operations including buybacks are decided by DAO governance and are not guaranteed. The company makes no promises about treasury contributions. Past performance of similar projects is not indicative of future results.</p>
       
       <h4>Active Participation Required</h4>
-      <p>Rewards require active validator participation. Inactive licenses do not earn tokens. This is not passive income.</p>
+      <p>Rewards require active validator participation including monthly attestations and quarterly governance votes. Inactive licenses do not earn tokens. This is not passive income.</p>
+      
+      <h4>DAO Governance</h4>
+      <p>Treasury allocation decisions are made by DAO vote, not by the company. The company has no obligation to contribute to the treasury. Token holders participate in governance but do not control company operations.</p>
       
       <h4>Jurisdiction</h4>
       <p>This offering is not available to residents of sanctioned countries or jurisdictions where such sales are prohibited by law. Purchasers are responsible for compliance with their local laws.</p>
