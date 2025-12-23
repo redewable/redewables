@@ -71,25 +71,40 @@
         [data-theme="light"] .grid-floor { opacity: 0.05; }
         [data-theme="light"] .crt-overlay { display: none; }
 
-        /* Battery animation - slowed down */
-        .battery-graphic {
-            width: 100px; height: 50px; border: 2px solid var(--acid); border-radius: 6px;
-            position: relative; margin: 15px auto; background: var(--bg-card);
+        /* Battery image graphics */
+        .battery-img-wrapper {
+            width: 100px; height: 60px; margin: 15px auto; position: relative;
+            display: flex; align-items: center; justify-content: center;
         }
-        .battery-graphic::after {
-            content: ""; position: absolute; right: -10px; top: 50%; transform: translateY(-50%);
-            width: 6px; height: 20px; background: var(--acid); border-radius: 0 3px 3px 0;
+        .battery-img {
+            width: 80px; height: auto; position: relative; z-index: 1;
         }
-        .battery-fill {
-            position: absolute; left: 3px; top: 3px; bottom: 3px; width: 0%;
-            background: linear-gradient(90deg, var(--acid), #00D486);
-            border-radius: 3px; animation: charge 5s ease-in-out infinite;
-            box-shadow: 0 0 15px var(--acid-dim);
+        /* Red drained battery - left box */
+        .battery-drained .battery-img {
+            filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.9);
+            animation: low-power 2s ease-in-out infinite;
         }
-        @keyframes charge {
-            0% { width: 15%; opacity: 0.6; }
-            50% { width: 80%; opacity: 1; }
-            100% { width: 15%; opacity: 0.6; }
+        @keyframes low-power {
+            0%, 100% { opacity: 0.7; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.8); }
+            50% { opacity: 1; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(1); }
+        }
+        /* Green charging battery - right box */
+        .battery-charged .battery-img {
+            filter: sepia(1) saturate(3) hue-rotate(80deg) brightness(1.1);
+            animation: charging-glow 2.5s ease-in-out infinite;
+        }
+        .battery-charged::after {
+            content: ""; position: absolute; inset: -5px; border-radius: 8px;
+            background: linear-gradient(90deg, transparent, rgba(0,255,157,0.3), transparent);
+            animation: charge-sweep 2s linear infinite; z-index: 0;
+        }
+        @keyframes charging-glow {
+            0%, 100% { filter: sepia(1) saturate(3) hue-rotate(80deg) brightness(1); box-shadow: 0 0 10px rgba(0,255,157,0.3); }
+            50% { filter: sepia(1) saturate(3) hue-rotate(80deg) brightness(1.3); box-shadow: 0 0 25px rgba(0,255,157,0.6); }
+        }
+        @keyframes charge-sweep {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         /* Energy flow with styled battery box */
@@ -112,28 +127,6 @@
         @keyframes flow-right {
             0%, 100% { opacity: 0.3; transform: translateX(-3px); }
             50% { opacity: 1; transform: translateX(3px); }
-        }
-
-        /* Texas SVG - accurate outline */
-        .texas-map {
-            width: 140px; height: 140px; margin: 15px auto; position: relative;
-        }
-        .texas-map svg {
-            width: 100%; height: 100%; fill: none; stroke: var(--acid); stroke-width: 1;
-            filter: drop-shadow(0 0 8px var(--acid-dim));
-        }
-        .texas-map .site-marker {
-            position: absolute; top: 32%; left: 38%; width: 10px; height: 10px;
-            background: var(--acid); border-radius: 50%; box-shadow: 0 0 12px var(--acid);
-            animation: marker-pulse 2.5s ease-in-out infinite;
-        }
-        .texas-map .site-label {
-            position: absolute; top: 28%; left: 48%; font-family: var(--font-mono);
-            font-size: 0.6rem; color: var(--acid); white-space: nowrap;
-        }
-        @keyframes marker-pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
         }
 
         /* Live data box */
@@ -169,6 +162,19 @@
         .live-data-item .value {
             font-family: var(--font-head); font-size: 0.95rem; color: var(--text-main); font-weight: 700;
         }
+
+        /* Site intel panel (replaces Texas map) */
+        .site-intel {
+            background: var(--bg-card); border: 1px solid var(--border); padding: 15px;
+            margin: 15px 0; font-family: var(--font-mono); font-size: 0.75rem;
+        }
+        .site-intel-row {
+            display: flex; justify-content: space-between; padding: 8px 0;
+            border-bottom: 1px dashed var(--border);
+        }
+        .site-intel-row:last-child { border-bottom: none; }
+        .site-intel-row .label { color: var(--text-dim); }
+        .site-intel-row .value { color: var(--acid); font-weight: 600; }
 
         /* Roadmap timeline */
         .roadmap-log { border-left: 2px solid var(--border); margin-left: 20px; padding-left: 40px; }
@@ -285,8 +291,8 @@
         .status-point span { display: block; font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-dim); margin-bottom: 6px; }
         .status-point strong { color: var(--acid); font-size: 0.95rem; letter-spacing: 0.05em; text-transform: uppercase; }
 
-        /* Capital allocation */
-        .allocation-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 50px; row-gap: 15px; }
+        /* Capital allocation - improved mobile */
+        .allocation-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 50px; row-gap: 20px; }
         .grid-head-left { grid-column: 1; grid-row: 1; }
         .grid-head-right { grid-column: 2; grid-row: 1; display: flex; align-items: center; }
         .grid-head-right p { font-size: 1rem; color: var(--text-dim); line-height: 1.6; margin: 0; }
@@ -357,6 +363,30 @@
         }
         [data-state="active"] .toggle-switch::after { transform: translateX(18px); }
 
+        /* Disclaimer Modal */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10001;
+            display: none; align-items: center; justify-content: center; padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: var(--bg-panel); border: 1px solid var(--acid); max-width: 500px; width: 100%;
+            padding: 35px; position: relative; box-shadow: 0 0 50px var(--acid-dim);
+        }
+        .modal-box::before { content: ""; position: absolute; top: -1px; left: -1px; width: 20px; height: 20px; border-top: 2px solid var(--acid); border-left: 2px solid var(--acid); }
+        .modal-box::after { content: ""; position: absolute; bottom: -1px; right: -1px; width: 20px; height: 20px; border-bottom: 2px solid var(--acid); border-right: 2px solid var(--acid); }
+        .modal-title { font-family: var(--font-head); font-size: 1.4rem; font-weight: 800; text-transform: uppercase; color: #ffcc00; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .modal-title i { font-size: 1.2rem; }
+        .modal-list { list-style: none; padding: 0; margin: 0 0 25px; }
+        .modal-list li { padding: 10px 0; border-bottom: 1px solid var(--border); color: var(--text-dim); font-size: 0.95rem; display: flex; align-items: flex-start; gap: 12px; }
+        .modal-list li:last-child { border-bottom: none; }
+        .modal-list li i { color: var(--acid); margin-top: 3px; flex-shrink: 0; }
+        .modal-buttons { display: flex; gap: 15px; flex-wrap: wrap; }
+        .modal-buttons .btn { flex: 1; min-width: 150px; justify-content: center; }
+        .modal-buttons .btn-cancel { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
+        .modal-buttons .btn-cancel:hover { border-color: var(--text-dim); color: var(--text-main); background: rgba(255,255,255,0.05); }
+
         /* Mobile menu */
         .hamburger { display: none; background: none; border: none; cursor: pointer; z-index: 10001; position: fixed; top: 80px; right: 20px; width: 35px; height: 25px; padding: 0; }
         .hamburger span { display: block; width: 100%; height: 3px; background: var(--acid); position: absolute; left: 0; transition: all 0.3s; box-shadow: 0 0 8px rgba(0, 255, 157, 0.6); }
@@ -396,7 +426,7 @@
         .footer-social-link { color: var(--text-dim); font-size: 1.4rem; transition: color 0.3s; }
         .footer-social-link:hover { color: var(--acid); }
 
-        /* Mobile */
+        /* Mobile responsive - improved Section 02 */
         @media (max-width: 900px) {
             .nav, .header-right { display: none; }
             .hamburger { display: block; }
@@ -406,11 +436,19 @@
             .legend-grid { grid-template-columns: 1fr; }
             h1 { font-size: 3rem; }
             .status-bar { flex-direction: column; text-align: center; }
-            .allocation-grid { grid-template-columns: 1fr; }
-            .grid-head-right { grid-row: 2; }
-            .grid-toggle-left { grid-row: 3; justify-content: flex-start; }
-            .grid-content-left { grid-row: 4; }
-            .grid-content-right { grid-row: 5; }
+            
+            /* Section 02 mobile fix */
+            .allocation-grid {
+                display: flex; flex-direction: column; gap: 20px;
+            }
+            .grid-head-left { order: 1; }
+            .grid-head-right { order: 2; }
+            .grid-head-right p { margin: 0; }
+            .grid-toggle-left { order: 3; justify-content: flex-start; }
+            .grid-content-left { order: 4; }
+            .grid-content-right { order: 5; }
+            .grid-content-right .feature-box { height: auto; }
+            
             .logo-grid { flex-direction: column; }
             .live-data-grid { grid-template-columns: 1fr; }
             .data-verify-grid { grid-template-columns: 1fr; }
@@ -418,6 +456,9 @@
             .footer-left { align-items: center; }
             .footer-right { flex-direction: column; gap: 25px; }
             .energy-flow { flex-wrap: wrap; }
+            
+            .modal-buttons { flex-direction: column; }
+            .modal-buttons .btn { width: 100%; }
         }
     </style>
 </head>
@@ -425,6 +466,25 @@
     <a href="#presale" class="saft-badge">VALIDATOR LICENSE SALE — TIER 1 NOW OPEN</a>
     <div class="grid-floor"></div>
     <div class="crt-overlay"></div>
+
+    <!-- Disclaimer Modal -->
+    <div class="modal-overlay" id="mint-modal">
+        <div class="modal-box">
+            <div class="modal-title"><i class="fas fa-exclamation-triangle"></i> BEFORE YOU MINT</div>
+            <ul class="modal-list">
+                <li><i class="fas fa-file-contract"></i> This is a software license — not an investment.</li>
+                <li><i class="fas fa-user-check"></i> Active validator participation is required (attestations, verification).</li>
+                <li><i class="fas fa-ban"></i> No returns. No refunds.</li>
+                <li><i class="fas fa-times-circle"></i> No equity, debt, revenue share, or claim on assets.</li>
+                <li><i class="fas fa-coins"></i> Tokens may have zero value.</li>
+                <li><i class="fas fa-skull-crossbones"></i> Only use funds you can afford to lose.</li>
+            </ul>
+            <div class="modal-buttons">
+                <button class="btn" onclick="proceedToMint()">I UNDERSTAND — CONTINUE</button>
+                <button class="btn btn-cancel" onclick="closeMintModal()">CANCEL</button>
+            </div>
+        </div>
+    </div>
 
     <nav class="mobile-menu" id="mobile-menu">
         <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu"><span></span><span></span></button>
@@ -462,6 +522,8 @@
             <div>
                 <div class="mono accent" style="margin-bottom: 10px;">/// NETWORK STATUS: ACCEPTING VALIDATORS</div>
                 <h1>The Shock Absorber<br>For The Grid.</h1>
+                <!-- F) "This is what ReDew" tagline -->
+                <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--acid); margin-bottom: 20px; font-style: italic; opacity: 0.9;">This is what ReDew: a fresh perspective.</p>
                 <p style="font-size: 1.1rem; color: var(--text-dim); line-height: 1.7; max-width: 90%; margin-bottom: 30px;">
                     We're building <strong>utility-scale batteries</strong> to stabilize the Texas grid. Validators fund early development—land, engineering, permits—and actively verify real grid data and project milestones.<br><br>
                     This isn't passive income. <strong>You're building the grid's oracle network.</strong>
@@ -511,7 +573,8 @@
                     This is a software license, not an investment. You are NOT buying equity, debt, or any claim on company assets. Tokens may have zero value. Active participation is required. You could lose everything. Only use funds you can afford to lose.
                 </div>
                 <div style="display: grid; gap: 15px;">
-                    <button class="btn" style="width: 100%; font-size: 1.1rem; padding: 15px;" onclick="connectWallet()">MINT VALIDATOR LICENSE</button>
+                    <!-- A) Changed to open modal instead of direct connectWallet() -->
+                    <button class="btn" style="width: 100%; font-size: 1.1rem; padding: 15px;" onclick="openMintDisclaimer()">MINT VALIDATOR LICENSE</button>
                     <a href="onboarding.html" class="btn-outline" style="width: 100%; justify-content: center;">NEW TO CRYPTO? START HERE →</a>
                 </div>
                 <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
@@ -528,7 +591,7 @@
             <div class="status-point"><span>STATUS</span><strong>PRE-NTP</strong></div>
         </div>
 
-        <!-- 01: THESIS -->
+        <!-- 01: THESIS - E) Battery images with animations -->
         <section id="thesis" class="section">
             <div class="section-head"><span class="section-sub">01 // THE THESIS</span><h2>WHY BATTERIES MATTER</h2></div>
             
@@ -547,12 +610,23 @@
             <div class="grid-2">
                 <div class="feature-box">
                     <h3>The Grid Is Maxed Out</h3>
-                    <div class="battery-graphic"><div class="battery-fill"></div></div>
+                    <!-- E) Red drained battery image -->
+                    <div class="battery-img-wrapper battery-drained">
+                        <img src="assets/battery.png" alt="Drained battery" class="battery-img">
+                    </div>
                     <p>Texas power demand will grow <strong>70% by 2031</strong>—driven by AI data centers. Add extreme weather (deep freezes, heat waves), and the grid faces collapse. Batteries absorb the shock, storing cheap solar energy and releasing it when demand spikes.</p>
-                    <div class="mono accent" style="font-size: 0.85rem; margin-top: auto;">THE PROBLEM: NOT ENOUGH STORAGE</div>
+                    <!-- E) Changed to check-item style -->
+                    <div class="check-item" style="margin-top: auto;">
+                        <i class="fas fa-exclamation-triangle" style="color: #ff6b6b;"></i>
+                        <span><strong>The Problem:</strong> Not enough storage to meet growing demand.</span>
+                    </div>
                 </div>
                 <div class="feature-box">
                     <h3>Data Centers Need Stability</h3>
+                    <!-- E) Green charging battery image -->
+                    <div class="battery-img-wrapper battery-charged">
+                        <img src="assets/battery.png" alt="Charging battery" class="battery-img">
+                    </div>
                     <p>Texas Senate Bill 6 now <strong>requires data centers to disconnect</strong> during grid emergencies. AI training can't pause mid-run—that destroys expensive compute jobs. Battery storage provides the frequency response that keeps voltage stable and operations online.</p>
                     <div style="margin-top: auto;">
                         <div class="check-item"><i class="fas fa-bolt"></i><span><strong>The Solution:</strong> Batteries deploy faster than new power lines.</span></div>
@@ -562,7 +636,7 @@
             </div>
         </section>
 
-        <!-- 02: CAPITAL -->
+        <!-- 02: CAPITAL - B) Mobile formatting improved via CSS -->
         <section id="model" class="section">
             <div class="allocation-grid">
                 <div class="grid-head-left"><div class="section-head" style="margin-bottom:0;"><span class="section-sub">02 // USE OF FUNDS</span><h2>WHERE THE MONEY GOES</h2></div></div>
@@ -602,21 +676,25 @@
             </div>
         </section>
 
-        <!-- 03: ASSET -->
+        <!-- 03: ASSET - D) Removed Texas map, added site intel panel + global hint -->
         <section id="asset" class="section">
             <div class="section-head"><span class="section-sub">03 // THE ASSET</span><h2>REDEW ANSON — FLAGSHIP SITE</h2></div>
             <div class="grid-2">
                 <div class="feature-box">
                     <h3>Strategic Location</h3>
-                    <div class="texas-map">
-                        <svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid meet">
-                            <path d="M95,8 L108,18 L112,35 L108,52 L100,68 L92,82 L78,98 L62,108 L45,105 L30,108 L18,98 L8,82 L12,62 L8,45 L18,28 L32,18 L48,12 L68,8 L85,10 Z"/>
-                        </svg>
-                        <div class="site-marker"></div>
-                        <span class="site-label">ANSON</span>
+                    <!-- D) Replaced Texas map with Site Intel panel -->
+                    <div class="site-intel">
+                        <div class="site-intel-row"><span class="label">LOCATION</span><span class="value">ANSON, TX</span></div>
+                        <div class="site-intel-row"><span class="label">GRID ZONE</span><span class="value">ERCOT WEST</span></div>
+                        <div class="site-intel-row"><span class="label">CORRIDOR</span><span class="value">STARGATE</span></div>
+                        <div class="site-intel-row"><span class="label">CAPACITY</span><span class="value">400 MW</span></div>
                     </div>
                     <p>Located in West Texas near massive solar farms in the "Stargate Corridor." When solar over-generates, prices crash (sometimes negative). Batteries charge cheap. When the sun sets and demand spikes, batteries discharge at premium rates.</p>
-                    <div class="mono accent" style="font-size: 0.85rem;">>> LAND UNDER OPTION</div>
+                    <!-- D) Global hint -->
+                    <div class="mono" style="font-size: 0.75rem; color: var(--text-dim); margin-top: 10px;">
+                        >> Anson is the flagship — future sites will be sourced via validator scouting (US + global).
+                    </div>
+                    <div class="mono accent" style="font-size: 0.85rem; margin-top: 15px;">>> LAND UNDER OPTION</div>
                     <div class="live-data-box">
                         <div class="live-data-header">
                             <span class="mono" style="font-size: 0.7rem; color: var(--acid);">ANSON, TEXAS — LIVE DATA</span>
@@ -650,13 +728,17 @@
             </div>
         </section>
 
-        <!-- 04: VALIDATORS -->
+        <!-- 04: VALIDATORS - C) Added "Coming Soon" teaser -->
         <section id="validator" class="section">
             <div class="feature-box" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <span class="mono accent">04 // WHAT VALIDATORS DO</span>
                 <h2 style="margin: 10px 0 15px;">BUILD THE GRID ORACLE NETWORK</h2>
-                <p style="max-width: 650px; margin-bottom: 25px; color: var(--text-dim);">
+                <p style="max-width: 650px; margin-bottom: 15px; color: var(--text-dim);">
                     Validators verify real data and sign on-chain attestations. You're helping build a decentralized network for energy infrastructure—not just clicking buttons.
+                </p>
+                <!-- C) Coming Soon teaser -->
+                <p style="max-width: 650px; margin-bottom: 25px; color: var(--text-dim); font-size: 0.85rem; font-style: italic;">
+                    Coming Soon: Global site scouting + PPA off-taker identification — validators help expand beyond ERCOT.
                 </p>
                 <p style="max-width: 650px; margin-bottom: 30px; color: var(--text-dim); font-size: 0.9rem;">
                     <strong>Time commitment:</strong> ~5 minutes per month. Real work, not busy work.
@@ -779,6 +861,7 @@
     </div>
 
     <script>
+        // Theme toggle
         const themeBtn = document.getElementById('theme-btn');
         const body = document.body;
         const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -792,6 +875,7 @@
         });
         function updateLabel(theme) { themeBtn.querySelector('span').innerText = theme === 'dark' ? 'LIGHT' : 'DARK'; }
 
+        // Currency & SOL price
         let currentCurrency = 'USD', solPrice = 125, raisedUSD = 0;
         async function fetchSolPrice() {
             try {
@@ -810,13 +894,57 @@
             else { const tSOL = Math.round(1000000 / solPrice).toLocaleString(); if (ts) ts.innerHTML = tSOL + " SOL"; if (rd) rd.innerHTML = Math.round(raisedUSD / solPrice).toLocaleString() + " SOL"; document.querySelectorAll('.dynamic-price').forEach(el => el.innerText = Math.round(parseInt(el.dataset.usd) / solPrice).toLocaleString() + " SOL"); }
         }
 
-        async function connectWallet() { if ("solana" in window) { try { const r = await window.solana.connect(); alert("Connected: " + r.publicKey.toString().slice(0, 6) + "..."); } catch { alert("Connection rejected!"); } } else { window.open("https://phantom.app/", "_blank"); } }
-        window.hl = function(id) { document.querySelectorAll('.segment').forEach(e => e.classList.remove('active')); document.querySelectorAll('.legend-item').forEach(e => e.classList.remove('active')); const s = document.querySelector(`.segment[data-id="${id}"]`), l = document.getElementById(`leg-${id}`); if (s) s.classList.add('active'); if (l) l.classList.add('active'); };
+        // A) Mint disclaimer modal
+        function openMintDisclaimer() {
+            document.getElementById('mint-modal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMintModal() {
+            document.getElementById('mint-modal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        function proceedToMint() {
+            closeMintModal();
+            connectWallet();
+        }
+        // Close on overlay click
+        document.getElementById('mint-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeMintModal();
+        });
+        // Close on ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeMintModal();
+        });
 
+        // Wallet connect
+        async function connectWallet() { 
+            if ("solana" in window) { 
+                try { 
+                    const r = await window.solana.connect(); 
+                    alert("Connected: " + r.publicKey.toString().slice(0, 6) + "..."); 
+                } catch { 
+                    alert("Connection rejected!"); 
+                } 
+            } else { 
+                window.open("https://phantom.app/", "_blank"); 
+            } 
+        }
+
+        // Tokenomics highlight
+        window.hl = function(id) { 
+            document.querySelectorAll('.segment').forEach(e => e.classList.remove('active')); 
+            document.querySelectorAll('.legend-item').forEach(e => e.classList.remove('active')); 
+            const s = document.querySelector(`.segment[data-id="${id}"]`), l = document.getElementById(`leg-${id}`); 
+            if (s) s.classList.add('active'); 
+            if (l) l.classList.add('active'); 
+        };
+
+        // Mobile menu
         const hamburger = document.getElementById('hamburger'), mobileMenu = document.getElementById('mobile-menu'), closeBtn = document.getElementById('mobile-menu-close');
         function toggleMenu() { hamburger.classList.toggle('active'); mobileMenu.classList.toggle('open'); document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : ''; }
         if (hamburger && mobileMenu) { hamburger.addEventListener('click', toggleMenu); if (closeBtn) closeBtn.addEventListener('click', toggleMenu); document.querySelectorAll('.mobile-menu a').forEach(a => a.addEventListener('click', function() { if (this.getAttribute('href').startsWith('#')) toggleMenu(); })); }
 
+        // POI data update
         function updatePOIData() { const now = new Date(); document.getElementById('poi-updated').textContent = now.toLocaleTimeString(); }
         setInterval(updatePOIData, 60000);
     </script>
