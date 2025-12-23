@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReDewable Energy // CAPACITY LICENSE SALE</title>
+    <title>ReDewable Energy // VALIDATOR LICENSE SALE</title>
     
+    <!-- UPDATED: Changed title from CAPACITY to VALIDATOR -->
     <meta property="og:title" content="ReDewable // THE SHOCK ABSORBER FOR THE GRID">
     <meta property="og:description" content="Validate the Texas Grid. Join the Network. The first DePIN Validator Sale funding a 400MW BESS.">
     <meta property="og:image" content="assets/social-share.png">
@@ -85,6 +86,140 @@
         
         [data-theme="light"] .grid-floor { opacity: 0.05; }
         [data-theme="light"] .crt-overlay { display: none; }
+
+        /* ========== ANIMATED GRAPHICS ========== */
+        /* Battery charging animation */
+        .battery-graphic {
+            width: 120px; height: 60px; border: 3px solid var(--acid); border-radius: 8px;
+            position: relative; margin: 20px auto; background: var(--bg-card);
+        }
+        .battery-graphic::after {
+            content: ""; position: absolute; right: -12px; top: 50%; transform: translateY(-50%);
+            width: 8px; height: 24px; background: var(--acid); border-radius: 0 4px 4px 0;
+        }
+        .battery-fill {
+            position: absolute; left: 4px; top: 4px; bottom: 4px; width: 0%;
+            background: linear-gradient(90deg, var(--acid), #00D486);
+            border-radius: 4px; animation: charge 3s ease-in-out infinite;
+            box-shadow: 0 0 20px var(--acid-dim);
+        }
+        @keyframes charge {
+            0% { width: 10%; opacity: 0.5; }
+            50% { width: 85%; opacity: 1; }
+            100% { width: 10%; opacity: 0.5; }
+        }
+
+        /* Pulse rings for live data */
+        .pulse-ring {
+            position: absolute; width: 100%; height: 100%; border: 2px solid var(--acid);
+            border-radius: 50%; animation: pulse-ring 2s ease-out infinite; opacity: 0;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        /* Grid connection lines */
+        .grid-lines {
+            position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;
+        }
+        .grid-lines::before {
+            content: ""; position: absolute; top: 0; left: 50%; width: 2px; height: 100%;
+            background: linear-gradient(180deg, transparent, var(--acid-dim), transparent);
+            animation: grid-pulse 4s ease-in-out infinite;
+        }
+        @keyframes grid-pulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed; inset: 0; pointer-events: none; z-index: -1; overflow: hidden;
+        }
+        .particle {
+            position: absolute; width: 4px; height: 4px; background: var(--acid);
+            border-radius: 50%; opacity: 0.3; animation: float 15s linear infinite;
+        }
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 20s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 18s; }
+        .particle:nth-child(3) { left: 35%; animation-delay: 4s; animation-duration: 22s; }
+        .particle:nth-child(4) { left: 50%; animation-delay: 1s; animation-duration: 16s; }
+        .particle:nth-child(5) { left: 65%; animation-delay: 3s; animation-duration: 19s; }
+        .particle:nth-child(6) { left: 80%; animation-delay: 5s; animation-duration: 21s; }
+        .particle:nth-child(7) { left: 90%; animation-delay: 2.5s; animation-duration: 17s; }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+        [data-theme="light"] .particles { display: none; }
+
+        /* Glowing stat boxes */
+        .glow-box {
+            position: relative; overflow: hidden;
+        }
+        .glow-box::before {
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--acid-dim), transparent);
+            animation: rotate-glow 8s linear infinite; opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .glow-box:hover::before { opacity: 1; }
+        .glow-box-inner {
+            position: relative; background: var(--bg-panel); padding: 20px;
+            border: 1px solid var(--border); z-index: 1;
+        }
+        @keyframes rotate-glow {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Energy flow arrows */
+        .energy-flow {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            margin: 30px 0; font-family: var(--font-mono); color: var(--acid);
+        }
+        .energy-flow .arrow {
+            display: inline-block; animation: flow-right 1.5s ease-in-out infinite;
+        }
+        .energy-flow .arrow:nth-child(2) { animation-delay: 0.2s; }
+        .energy-flow .arrow:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes flow-right {
+            0%, 100% { opacity: 0.3; transform: translateX(-5px); }
+            50% { opacity: 1; transform: translateX(5px); }
+        }
+
+        /* Texas map outline (SVG-based) */
+        .texas-graphic {
+            width: 150px; height: 150px; margin: 20px auto; position: relative;
+        }
+        .texas-graphic svg {
+            width: 100%; height: 100%; fill: none; stroke: var(--acid); stroke-width: 1.5;
+            filter: drop-shadow(0 0 10px var(--acid-dim));
+        }
+        .texas-graphic .site-dot {
+            position: absolute; width: 12px; height: 12px; background: var(--acid);
+            border-radius: 50%; animation: site-pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 15px var(--acid);
+        }
+        .texas-graphic .site-dot.anson { top: 35%; left: 45%; }
+        @keyframes site-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+        }
+
+        /* Stats counter animation */
+        .stat-counter {
+            font-family: var(--font-head); font-size: 2.5rem; font-weight: 800;
+            color: var(--acid); text-shadow: 0 0 20px var(--acid-dim);
+        }
+
+        /* Connection line between sections */
+        .section-connector {
+            width: 2px; height: 60px; margin: 0 auto;
+            background: linear-gradient(180deg, var(--acid), transparent);
+        }
 
         /* ========== UTILS ========== */
         .page { max-width: var(--content-max-width); margin: 0 auto; padding: 0 var(--content-padding); position: relative; z-index: 1; }
@@ -250,8 +385,12 @@
         }
         .segment:hover, .segment.active { opacity: 1; z-index: 10; box-shadow: 0 0 15px var(--acid); }
         
-        .seg-nodes { background: #00FF9D; } .seg-rwa { background: #00D486; } .seg-treasury { background: #00995e; }
-        .seg-team { background: #00663f; } .seg-eco { background: #004d2f; } .seg-liq { background: #00331f; }
+        .seg-nodes { background: #00FF9D; }
+        .seg-rwa { background: #00D486; }
+        .seg-treasury { background: #00995e; }
+        .seg-team { background: #00663f; }
+        .seg-eco { background: #004d2f; }
+        .seg-liq { background: #00331f; }
 
         .legend-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
         .legend-item { padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
@@ -280,18 +419,28 @@
             content: ""; position: absolute; left: -47px; top: 5px; width: 12px; height: 12px;
             background: var(--bg-card); border: 2px solid var(--border); border-radius: 50%;
         }
+        /* Completed phase styling */
+        .log-entry.completed { opacity: 0.7; }
+        .log-entry.completed .log-title { color: var(--text-dim); text-decoration: line-through; text-decoration-color: var(--acid); }
+        .log-entry.completed .log-phase { color: var(--acid); }
+        .log-entry.completed::before {
+            content: "✓"; position: absolute; left: -52px; top: 0px; width: 20px; height: 20px;
+            background: var(--acid); border: 2px solid var(--acid); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: bold; color: #000;
+        }
         .log-phase { color: var(--acid); font-family: var(--font-mono); font-size: 0.8rem; margin-bottom: 5px; display: block; }
         .log-title { font-family: var(--font-head); font-size: 1.4rem; color: var(--text-dim); margin-bottom: 10px; text-transform: uppercase; }
 
         /* ========== PILL TOGGLE ========== */
         .pill-toggle {
             display: flex; align-items: center; gap: 8px;
-            background: var(--bg-paper); border: 1px solid var(--border);
+            background: var(--bg-panel); border: 1px solid var(--border);
             border-radius: 100px; padding: 4px 8px;
-            box-shadow: var(--shadow); transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5); transition: all 0.3s ease;
             cursor: pointer; width: fit-content;
         }
-        .pill-toggle:hover { box-shadow: var(--shadow-lg); border-color: var(--acid); }
+        .pill-toggle:hover { box-shadow: 0 4px 12px -1px rgba(0, 0, 0, 0.7); border-color: var(--acid); }
         .pill-toggle span {
             font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
             letter-spacing: 0.05em; color: var(--text-dim);
@@ -311,13 +460,65 @@
         [data-state="active"] .toggle-switch::after,
         [data-theme="light"] .theme-switch .toggle-switch::after { transform: translateX(18px); }
 
+        /* ========== LIVE SITE DATA BOX (NEW) ========== */
+        .live-data-box {
+            background: var(--bg-card);
+            border: 1px solid var(--acid);
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .live-data-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        .live-data-header .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--acid);
+            border-radius: 50%;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; box-shadow: 0 0 5px var(--acid); }
+            50% { opacity: 0.5; box-shadow: 0 0 10px var(--acid); }
+        }
+        .live-data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .live-data-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .live-data-item .label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .live-data-item .value {
+            font-family: var(--font-head);
+            font-size: 1rem;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
         /* ========== MOBILE MENU ========== */
         .hamburger { 
             display: none; background: none; border: none; cursor: pointer; z-index: 10001; 
             position: fixed; top: 80px; right: 20px; width: 35px; height: 25px; padding: 0; 
         }
         .hamburger span { display: block; width: 100%; height: 3px; background: var(--acid); position: absolute; left: 0; transition: all 0.3s ease-in-out; box-shadow: 0 0 8px rgba(0, 255, 157, 0.6); }
-        .hamburger span:nth-child(1) { top: 0; } .hamburger span:nth-child(2) { top: 11px; } .hamburger span:nth-child(3) { top: 22px; }
+        .hamburger span:nth-child(1) { top: 0; }
+        .hamburger span:nth-child(2) { top: 11px; }
+        .hamburger span:nth-child(3) { top: 22px; }
         
         .hamburger.active span:nth-child(1) { top: 11px; transform: rotate(45deg); }
         .hamburger.active span:nth-child(2) { opacity: 0; }
@@ -416,6 +617,7 @@
             .grid-content-left { grid-row: 4; grid-column: 1; }
             .grid-content-right { grid-row: 5; grid-column: 1; }
             .logo-grid { flex-direction: column; }
+            .live-data-grid { grid-template-columns: 1fr; }
 
             /* Footer Stack */
             .footer-inner { flex-direction: column; gap: 40px; text-align: center; align-items: center; }
@@ -432,6 +634,17 @@
 
     <div class="grid-floor"></div>
     <div class="crt-overlay"></div>
+    
+    <!-- Floating particles background -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
 
     <nav class="mobile-menu" id="mobile-menu">
         <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">
@@ -447,8 +660,8 @@
         <a href="#tokenomics"><span>06 //</span> ALLOCATION</a>
         
         <div class="mobile-menu-socials">
-            <a href="https://x.com/ReDewable" target="_blank"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://x.com/ReDewable" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
         </div>
         
         <a href="litepaper/index.html" class="btn">LITEPAPER</a>
@@ -489,12 +702,13 @@
                 <p style="font-size: 1.1rem; color: var(--text-dim); line-height: 1.7; max-width: 90%; margin-bottom: 30px;">
                     We're building <strong>utility-scale batteries</strong> to stabilize the Texas grid. The big energy companies move slow. We move fast.
                     <br><br>
-                    Validators fund the early development work—land, engineering, permits—and help secure the network in exchange for $RDW tokens.
+                    <!-- UPDATED: Clearer validator role description -->
+                    Validators fund the early development work—land, engineering, permits—and actively participate in the network by verifying real grid data and project milestones.
                     <br><br>
-                    This isn't passive income. <strong>You're part of the network.</strong>
+                    This isn't passive income. <strong>You're building the grid's oracle network.</strong>
                 </p>
                 <div style="padding-left: 15px; border-left: 2px solid var(--acid); color: var(--text-main); font-family: var(--font-mono); font-size: 0.9rem;">
-                    REAL INFRASTRUCTURE // ACTIVE VALIDATORS // DE-PIN
+                    REAL INFRASTRUCTURE // ACTIVE VALIDATORS // DePIN
                 </div>
             </div>
 
@@ -565,30 +779,69 @@
 
                 <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                     <span class="mono" style="font-size: 0.7rem; border: 1px solid var(--border); padding: 5px 10px; color: var(--text-dim);">KYC REQUIRED</span>
-                    <span class="mono" style="font-size: 0.7rem; border: 1px solid var(--border); padding: 5px 10px; color: var(--text-dim);">DATA ROOM OPEN</span>
+                    <span class="mono" style="font-size: 0.7rem; border: 1px solid var(--border); padding: 5px 10px; color: var(--text-dim);">SIGNED VENDOR AGREEMENTS</span>
                 </div>
             </div>
         </section>
 
+        <!-- UPDATED: Added status bar item for live site data -->
         <div class="status-bar">
             <div class="status-point"><span>ASSET CLASS</span><strong>400MW BESS</strong></div>
             <div class="status-point"><span>GRID NODE</span><strong>ERCOT WEST</strong></div>
             <div class="status-point"><span>CONGESTION</span><strong>HIGH VOLATILITY</strong></div>
             <div class="status-point"><span>STATUS</span><strong>PRE-NTP</strong></div>
+            <div class="status-point"><span>POI SENSORS</span><strong>LIVE</strong></div>
         </div>
 
         <!-- ==================== THESIS SECTION ==================== -->
         <section id="thesis" class="section">
             <div class="section-head"><span class="section-sub">01 // THE THESIS</span><h2>WHY BATTERIES MATTER</h2></div>
+            
+            <!-- Energy flow visualization -->
+            <div class="energy-flow" style="margin-bottom: 40px;">
+                <span>SOLAR</span>
+                <span class="arrow">→</span>
+                <span class="arrow">→</span>
+                <span class="arrow">→</span>
+                <span style="padding: 8px 16px; border: 2px solid var(--acid); background: var(--acid-dim);">BATTERY</span>
+                <span class="arrow">→</span>
+                <span class="arrow">→</span>
+                <span class="arrow">→</span>
+                <span>GRID</span>
+            </div>
+            
             <div class="grid-2">
                 <div class="feature-box">
                     <h3>The Grid Is Maxed Out</h3>
+                    
+                    <!-- Animated battery graphic -->
+                    <div class="battery-graphic">
+                        <div class="battery-fill"></div>
+                    </div>
+                    
                     <p><strong>Fact 1:</strong> Texas power demand is projected to grow <strong>70% by 2031</strong>—mostly from AI data centers.<br><br><strong>Fact 2:</strong> Extreme weather is getting worse. Deep freezes. Heat waves. The grid wasn't built for this.<br><br>When demand spikes and supply can't keep up, the whole system risks collapse. Batteries absorb the shock.</p>
                     <div class="mono accent" style="font-size: 0.9rem;">THE PROBLEM: NOT ENOUGH STORAGE</div>
                 </div>
                 <div class="feature-box">
                     <h3>Data Centers Need Stable Power</h3>
                     <p>Texas Senate Bill 6 now <strong>requires data centers to disconnect</strong> during grid emergencies. AI training can't just pause mid-run—that destroys expensive compute jobs.<br><br>Battery storage provides the <strong>frequency response</strong> that keeps voltage stable and data centers online.</p>
+                    
+                    <!-- Stats with glow effect -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 25px 0;">
+                        <div class="glow-box">
+                            <div class="glow-box-inner" style="text-align: center;">
+                                <div class="stat-counter">70%</div>
+                                <div class="mono" style="font-size: 0.7rem; color: var(--text-dim);">DEMAND GROWTH BY 2031</div>
+                            </div>
+                        </div>
+                        <div class="glow-box">
+                            <div class="glow-box-inner" style="text-align: center;">
+                                <div class="stat-counter">400<span style="font-size: 1.2rem;">MW</span></div>
+                                <div class="mono" style="font-size: 0.7rem; color: var(--text-dim);">TARGET CAPACITY</div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="check-item"><i class="fas fa-bolt"></i> <span><strong>The Solution:</strong> Batteries deploy faster than new power lines.</span></div>
                     <div class="check-item"><i class="fas fa-file-contract"></i> <span><strong>Our Role:</strong> We do the hard pre-development work others skip.</span></div>
                 </div>
@@ -614,23 +867,24 @@
                     </div>
                 </div>
                 <div class="grid-content-right">
+                    <!-- UPDATED: Changed to reflect on-chain attestation system -->
                     <div class="feature-box centered" style="border-color: var(--acid);">
                         <h3 style="margin-top:0; text-align: center;">THE VALIDATION CYCLE</h3>
-                        <p style="text-align: center; margin-bottom:30px;">How active validators participate:</p>
+                        <p style="text-align: center; margin-bottom:30px;">How active validators build the oracle network:</p>
                         <div style="display: flex; flex-direction: column; gap: 20px;">
                             <div class="check-item"><i class="fas fa-fingerprint"></i><span><strong>1. Get Your License:</strong> Mint a Validator License (NFT).</span></div>
-                            <div class="check-item"><i class="fas fa-calendar-check"></i><span><strong>2. Stay Active:</strong> Monthly check-ins. Quarterly votes.</span></div>
-                            <div class="check-item"><i class="fas fa-coins"></i><span><strong>3. Claim Rewards:</strong> Active validators receive $RDW tokens.</span></div>
-                            <div class="check-item"><i class="fas fa-arrow-right-arrow-left"></i><span><strong>4. Use or Trade:</strong> Governance, data access, or open markets.</span></div>
+                            <div class="check-item"><i class="fas fa-database"></i><span><strong>2. Verify Data:</strong> Review ERCOT grid data & project milestones.</span></div>
+                            <div class="check-item"><i class="fas fa-signature"></i><span><strong>3. Sign Attestation:</strong> On-chain signature confirms data accuracy.</span></div>
+                            <div class="check-item"><i class="fas fa-coins"></i><span><strong>4. Claim Rewards:</strong> Active validators receive $RDW tokens.</span></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="partner-full">
-                <span class="logo-label">VENDORS & SERVICE PROVIDERS</span>
+                <span class="logo-label">VENDORS & SERVICE PROVIDERS (SIGNED AGREEMENTS)</span>
                 <div class="logo-grid">
                     <a href="https://enerzinx.com/" target="_blank" class="logo-link"><i class="fas fa-bolt"></i> ENERZINX</a>
-                    <a href="https://ans-team.com/" target="_blank" class="logo-link"><i class="fas fa-drafting-compass"></i> ANS</a>
+                    <a href="https://ans-team.com/" target="_blank" class="logo-link"><i class="fas fa-drafting-compass"></i> ANS ENGINEERING</a>
                     <a href="https://www.pacehouston.com/" target="_blank" class="logo-link"><i class="fas fa-university"></i> PACE HOUSTON</a>
                     <a href="https://www.tesla.com/megapack" target="_blank" class="logo-link"><i class="fas fa-car-battery"></i> TESLA (OEM)</a>
                 </div>
@@ -643,8 +897,46 @@
             <div class="grid-2">
                 <div class="feature-box">
                     <h3>Strategic Location</h3>
+                    
+                    <!-- Texas map with site marker -->
+                    <div class="texas-graphic">
+                        <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+                            <path d="M 85 5 L 95 20 L 95 45 L 85 60 L 80 75 L 60 95 L 40 90 L 25 95 L 15 85 L 5 70 L 10 50 L 5 35 L 15 20 L 25 15 L 40 5 L 60 10 Z" />
+                        </svg>
+                        <div class="site-dot anson" title="Anson, TX"></div>
+                    </div>
+                    
                     <p>Located in West Texas near <strong>massive solar farms</strong> in the "Stargate Corridor." This area has a specific problem: too much power at midday, not enough in the evening.<br><br>When solar over-generates, prices crash (sometimes negative). Batteries charge cheap. When the sun sets and demand spikes, batteries discharge at premium rates. That's the business model.</p>
                     <div class="mono accent" style="font-size: 0.9rem;">>> STATUS: LAND UNDER OPTION</div>
+                    
+                    <!-- UPDATED: Added live POI sensor data box -->
+                    <div class="live-data-box">
+                        <div class="live-data-header">
+                            <span class="mono" style="font-size: 0.75rem; color: var(--acid);">PHANTOM HILL POI — LIVE DATA</span>
+                            <div style="position: relative; width: 16px; height: 16px;">
+                                <div class="status-dot"></div>
+                                <div class="pulse-ring"></div>
+                            </div>
+                        </div>
+                        <div class="live-data-grid">
+                            <div class="live-data-item">
+                                <span class="label">Temperature</span>
+                                <span class="value" id="poi-temp">-- °F</span>
+                            </div>
+                            <div class="live-data-item">
+                                <span class="label">Solar Irradiance</span>
+                                <span class="value" id="poi-solar">-- kWh/m²</span>
+                            </div>
+                            <div class="live-data-item">
+                                <span class="label">Wind Speed</span>
+                                <span class="value" id="poi-wind">-- mph</span>
+                            </div>
+                            <div class="live-data-item">
+                                <span class="label">Last Updated</span>
+                                <span class="value" id="poi-updated">--</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="feature-box">
                     <h3>Development Pipeline</h3>
@@ -653,34 +945,103 @@
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 10px 0;"><span style="color: var(--text-dim);">SITE 03 (COAST)</span><span class="mono">NEGOTIATION</span></div>
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 10px 0;"><span style="color: var(--text-dim);">SITE 04 (NORTH)</span><span class="mono">PROSPECTING</span></div>
                     <div style="display: flex; justify-content: space-between; padding: 10px 0;"><span style="color: var(--text-dim);">SITE 05 (SOUTH)</span><span class="mono">PROSPECTING</span></div>
+                    
+                    <!-- Progress visualization -->
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border);">
+                        <div class="mono" style="font-size: 0.75rem; color: var(--text-dim); margin-bottom: 15px;">ANSON DEVELOPMENT PROGRESS</div>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                    <span style="font-size: 0.8rem;">Land Secured</span>
+                                    <span class="mono accent" style="font-size: 0.75rem;">100%</span>
+                                </div>
+                                <div style="height: 6px; background: var(--border); border-radius: 3px;">
+                                    <div style="width: 100%; height: 100%; background: var(--acid); border-radius: 3px;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                    <span style="font-size: 0.8rem;">Vendor Contracts</span>
+                                    <span class="mono accent" style="font-size: 0.75rem;">100%</span>
+                                </div>
+                                <div style="height: 6px; background: var(--border); border-radius: 3px;">
+                                    <div style="width: 100%; height: 100%; background: var(--acid); border-radius: 3px;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                    <span style="font-size: 0.8rem;">Engineering Studies</span>
+                                    <span class="mono" style="font-size: 0.75rem; color: var(--text-dim);">PENDING FUNDING</span>
+                                </div>
+                                <div style="height: 6px; background: var(--border); border-radius: 3px;">
+                                    <div style="width: 0%; height: 100%; background: var(--acid); border-radius: 3px;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                    <span style="font-size: 0.8rem;">ERCOT Interconnection</span>
+                                    <span class="mono" style="font-size: 0.75rem; color: var(--text-dim);">PENDING FUNDING</span>
+                                </div>
+                                <div style="height: 6px; background: var(--border); border-radius: 3px;">
+                                    <div style="width: 0%; height: 100%; background: var(--acid); border-radius: 3px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
         
-        <!-- ==================== VALIDATOR SECTION (RENAMED FROM DASHBOARD) ==================== -->
+        <!-- ==================== VALIDATOR SECTION ==================== -->
+        <!-- UPDATED: Complete rewrite to reflect on-chain attestation system -->
         <section id="validator" class="section">
             <div class="feature-box centered" style="display: flex; flex-direction: column; align-items: center;">
                 <span class="mono accent">04 // WHAT VALIDATORS DO</span>
-                <h2 style="margin: 10px 0 20px;">ACTIVE PARTICIPATION REQUIRED</h2>
+                <h2 style="margin: 10px 0 20px;">BUILD THE GRID ORACLE NETWORK</h2>
                 <p style="max-width: 700px; margin: 0 auto 20px; text-align: center;">
-                    This isn't "set it and forget it." Validators are active participants in the network. You review project updates, vote on proposals, and stay engaged. <strong>If you stop participating, your rewards pause.</strong>
+                    Validators don't just click buttons—they verify real data and sign on-chain attestations. You're building a decentralized oracle network for energy infrastructure.
                 </p>
                 <p style="max-width: 700px; margin: 0 auto 30px; text-align: center; color: var(--text-dim);">
-                    Total time commitment: about <strong>5 minutes per month</strong>. Not hard—but not passive.
+                    Total time commitment: about <strong>5 minutes per month</strong>. Real work, not busy work.
                 </p>
                 <div class="dashboard-grid">
-                    <div class="dash-mockup">MONTHLY<br>CHECK-IN</div>
-                    <div class="dash-mockup">QUARTERLY<br>VOTES</div>
-                    <div class="dash-mockup">CLAIM<br>REWARDS</div>
+                    <div class="dash-mockup" style="flex-direction: column; gap: 10px;">
+                        <i class="fas fa-database" style="font-size: 2rem; color: var(--acid);"></i>
+                        <span>VERIFY<br>GRID DATA</span>
+                    </div>
+                    <div class="dash-mockup" style="flex-direction: column; gap: 10px;">
+                        <i class="fas fa-signature" style="font-size: 2rem; color: var(--acid);"></i>
+                        <span>SIGN<br>ATTESTATION</span>
+                    </div>
+                    <div class="dash-mockup" style="flex-direction: column; gap: 10px;">
+                        <i class="fas fa-coins" style="font-size: 2rem; color: var(--acid);"></i>
+                        <span>CLAIM<br>REWARDS</span>
+                    </div>
                 </div>
                 
-                <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 30px; margin-top: 30px; max-width: 600px; width: 100%;">
+                <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 30px; margin-top: 30px; max-width: 700px; width: 100%;">
                     <h3 style="text-align: center; margin-bottom: 20px;">VALIDATOR REQUIREMENTS</h3>
-                    <div class="check-item"><i class="fas fa-check"></i><span><strong>Monthly:</strong> Review project update, click "Looks Good" (~30 seconds)</span></div>
-                    <div class="check-item"><i class="fas fa-check"></i><span><strong>Quarterly:</strong> Vote on one network proposal (~15 seconds)</span></div>
-                    <div class="check-item"><i class="fas fa-check"></i><span><strong>Quarterly:</strong> Attend or watch the Validator Webcast</span></div>
-                    <div class="check-item"><i class="fas fa-check"></i><span><strong>Annual:</strong> Renew your license (free, takes 30 seconds)</span></div>
-                    <p style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: var(--text-dim);">Miss a requirement? Your rewards pause until you catch up. Simple as that.</p>
+                    
+                    <!-- UPDATED: New attestation-based requirements -->
+                    <div class="check-item"><i class="fas fa-database"></i><span><strong>Monthly:</strong> Verify ERCOT grid data + vendor milestones, sign on-chain attestation</span></div>
+                    <div class="check-item"><i class="fas fa-random"></i><span><strong>Random (20%):</strong> Provide verification evidence (screenshot/hash of source check)</span></div>
+                    <div class="check-item"><i class="fas fa-vote-yea"></i><span><strong>Quarterly:</strong> Vote on network governance proposal</span></div>
+                    <div class="check-item"><i class="fas fa-sync"></i><span><strong>Annual:</strong> Renew your license (free)</span></div>
+                    
+                    <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--border);">
+                        <h4 style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--acid); margin-bottom: 15px;">DATA YOU'LL VERIFY:</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                            <div class="check-item" style="margin-bottom: 8px;"><i class="fas fa-chart-line"></i><span>ERCOT LMP Pricing</span></div>
+                            <div class="check-item" style="margin-bottom: 8px;"><i class="fas fa-list-ol"></i><span>Queue Position</span></div>
+                            <div class="check-item" style="margin-bottom: 8px;"><i class="fas fa-hard-hat"></i><span>Engineering Progress</span></div>
+                            <div class="check-item" style="margin-bottom: 8px;"><i class="fas fa-thermometer-half"></i><span>POI Sensor Data</span></div>
+                        </div>
+                    </div>
+                    
+                    <p style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: var(--text-dim);">
+                        <strong>Miss a requirement?</strong> Your rewards pause until you catch up.<br>
+                        <strong>Find an error?</strong> Flag a dispute and earn bonus points if you're right.
+                    </p>
                 </div>
                 
                 <button class="btn" style="opacity: 0.5; cursor: not-allowed; margin-top: 30px;">VALIDATOR DASHBOARD LAUNCHING Q1</button>
@@ -688,9 +1049,20 @@
         </section>
 
         <!-- ==================== ROADMAP SECTION ==================== -->
+        <!-- UPDATED: Added Phase 00, changed Phase 04 to remove buyback language -->
         <section id="roadmap" class="section">
             <div class="section-head"><span class="section-sub">05 // THE PATH</span><h2>FROM FUNDING TO NTP</h2></div>
             <div class="roadmap-log">
+                <div class="log-entry completed">
+                    <span class="log-phase">PHASE 00 // COMPLETE ✓</span>
+                    <h3 class="log-title">FOUNDATION SECURED</h3>
+                    <div class="log-details" style="color: var(--text-dim);">
+                        > Land option agreement executed<br>
+                        > Vendor contracts signed (Enerzinx, ANS Engineering)<br>
+                        > POI sensors deployed at Phantom Hill<br>
+                        > Legal structure established
+                    </div>
+                </div>
                 <div class="log-entry current">
                     <span class="log-phase">PHASE 01 // NOW</span>
                     <h3 class="log-title">VALIDATOR RAISE</h3>
@@ -722,15 +1094,17 @@
                     <span class="log-phase">PHASE 04 // EXIT</span>
                     <h3 class="log-title">NTP SALE</h3>
                     <div class="log-details" style="color: var(--text-dim);">
+                        <!-- UPDATED: Removed buyback language, replaced with DAO governance -->
                         > Project reaches "Shovel Ready" status<br>
                         > Sale to institutional infrastructure buyer<br>
-                        > Treasury conducts discretionary market operations
+                        > DAO votes on treasury allocation
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- ==================== TOKENOMICS SECTION ==================== -->
+        <!-- UPDATED: Treasury description now mentions DAO governance -->
         <section id="tokenomics" class="section">
             <div class="section-head"><span class="section-sub">06 // TOKEN ALLOCATION</span><h2>$RDW DISTRIBUTION</h2></div>
             <div class="composite-bar">
@@ -744,7 +1118,8 @@
             <div class="legend-grid">
                 <div class="legend-item active" id="leg-nodes" onclick="hl('nodes')"><div class="l-head"><span>VALIDATOR REWARDS</span><span class="accent">30%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">Distributed to active validators over 36 months.</div></div>
                 <div class="legend-item" id="leg-rwa" onclick="hl('rwa')"><div class="l-head"><span>RWA RESERVE</span><span class="accent">25%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">Backed by physical asset development.</div></div>
-                <div class="legend-item" id="leg-treasury" onclick="hl('treasury')"><div class="l-head"><span>TREASURY</span><span class="accent">15%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">Operations & ecosystem (multi-sig).</div></div>
+                <!-- UPDATED: Treasury description now mentions DAO -->
+                <div class="legend-item" id="leg-treasury" onclick="hl('treasury')"><div class="l-head"><span>TREASURY</span><span class="accent">15%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">DAO-governed. All allocations by vote.</div></div>
                 <div class="legend-item" id="leg-team" onclick="hl('team')"><div class="l-head"><span>TEAM</span><span class="accent">15%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">1-year cliff, 3-year vesting.</div></div>
                 <div class="legend-item" id="leg-eco" onclick="hl('eco')"><div class="l-head"><span>ECOSYSTEM</span><span class="accent">10%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">Grants & integrations.</div></div>
                 <div class="legend-item" id="leg-liq" onclick="hl('liq')"><div class="l-head"><span>LIQUIDITY</span><span class="accent">5%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">Initial DEX liquidity.</div></div>
@@ -783,12 +1158,12 @@
 
                 <div class="footer-right">
                     <a href="litepaper/index.html" class="footer-tech-btn">
-                        <i class="fas fa-file-code"></i> LITEPAPER_V1.0
+                        <i class="fas fa-file-code"></i> LITEPAPER_V2.0
                     </a>
                     
                     <div style="display:flex; gap: 20px;">
-                        <a href="https://x.com/ReDewable" target="_blank" class="footer-social-link"><i class="fab fa-x-twitter"></i></a>
-                        <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank" class="footer-social-link"><i class="fab fa-telegram-plane"></i></a>
+                        <a href="https://x.com/ReDewable" target="_blank" class="footer-social-link" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                        <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank" class="footer-social-link" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
                     </div>
                 </div>
             </div>
@@ -825,12 +1200,12 @@
             try {
                 const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
                 const data = await res.json();
-                if(data.solana && data.solana.usd) {
+                if (data.solana && data.solana.usd) {
                     solPrice = data.solana.usd;
                     document.getElementById('footer-price-ticker').innerHTML = `SOL: $${solPrice.toFixed(2)} <span class="blink" style="color:var(--acid)">●</span>`;
-                    if(currentCurrency === 'SOL') updateAllVisuals();
+                    if (currentCurrency === 'SOL') updateAllVisuals();
                 }
-            } catch(e) {
+            } catch (e) {
                 document.getElementById('footer-price-ticker').innerHTML = `SOL: $${solPrice.toFixed(2)} (SIM) <span class="blink" style="color:orange">●</span>`;
             }
         }
@@ -850,12 +1225,12 @@
         function updateAllVisuals() {
             document.querySelectorAll('.toggle-trigger').forEach(wrapper => {
                 const label = wrapper.querySelector('.curr-label');
-                if(currentCurrency === 'SOL') {
+                if (currentCurrency === 'SOL') {
                     wrapper.setAttribute('data-state', 'active');
-                    if(label) label.innerText = 'SOL';
+                    if (label) label.innerText = 'SOL';
                 } else {
                     wrapper.removeAttribute('data-state');
-                    if(label) label.innerText = 'USD';
+                    if (label) label.innerText = 'USD';
                 }
             });
 
@@ -865,25 +1240,25 @@
             const dynamicPrices = document.querySelectorAll('.dynamic-price');
 
             if (currentCurrency === 'USD') {
-                if(targetDisplay) targetDisplay.innerHTML = "$1,000,000";
-                if(targetStatic) targetStatic.innerHTML = "$1,000,000";
-                if(raisedDisplay) raisedDisplay.innerHTML = "$" + raisedUSD.toLocaleString();
+                if (targetDisplay) targetDisplay.innerHTML = "$1,000,000";
+                if (targetStatic) targetStatic.innerHTML = "$1,000,000";
+                if (raisedDisplay) raisedDisplay.innerHTML = "$" + raisedUSD.toLocaleString();
                 
                 dynamicPrices.forEach(el => {
-                    let usdVal = parseInt(el.getAttribute('data-usd'));
+                    const usdVal = parseInt(el.getAttribute('data-usd'));
                     el.innerText = "$" + usdVal.toLocaleString();
                 });
             } else {
-                let targetSOL = Math.round(1000000 / solPrice).toLocaleString();
-                let raisedSOL = Math.round(raisedUSD / solPrice).toLocaleString();
+                const targetSOL = Math.round(1000000 / solPrice).toLocaleString();
+                const raisedSOL = Math.round(raisedUSD / solPrice).toLocaleString();
                 
-                if(targetDisplay) targetDisplay.innerHTML = targetSOL + " SOL";
-                if(targetStatic) targetStatic.innerHTML = targetSOL + " SOL";
-                if(raisedDisplay) raisedDisplay.innerHTML = raisedSOL + " SOL";
+                if (targetDisplay) targetDisplay.innerHTML = targetSOL + " SOL";
+                if (targetStatic) targetStatic.innerHTML = targetSOL + " SOL";
+                if (raisedDisplay) raisedDisplay.innerHTML = raisedSOL + " SOL";
 
                 dynamicPrices.forEach(el => {
-                    let usdVal = parseInt(el.getAttribute('data-usd'));
-                    let solVal = Math.round(usdVal / solPrice).toLocaleString(); 
+                    const usdVal = parseInt(el.getAttribute('data-usd'));
+                    const solVal = Math.round(usdVal / solPrice).toLocaleString(); 
                     el.innerText = solVal + " SOL";
                 });
             }
@@ -948,10 +1323,10 @@
 
         if (hamburger && mobileMenu) {
             hamburger.addEventListener('click', toggleMenu);
-            if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
+            if (closeBtn) closeBtn.addEventListener('click', toggleMenu);
 
             document.querySelectorAll('.mobile-menu a').forEach(link => {
-                link.addEventListener('click', function(e) {
+                link.addEventListener('click', function() {
                     const href = this.getAttribute('href');
                     if (href.startsWith('#')) {
                         toggleMenu();
@@ -959,6 +1334,31 @@
                 });
             });
         }
+
+        // --- 7. POI SENSOR DATA (NEW) ---
+        // TODO: Replace with actual Ambient Weather API or your sensor feed
+        function updatePOIData() {
+            // Simulated data - replace with real API call
+            const now = new Date();
+            document.getElementById('poi-temp').textContent = '52 °F';
+            document.getElementById('poi-solar').textContent = '4.2 kWh/m²';
+            document.getElementById('poi-wind').textContent = '8 mph';
+            document.getElementById('poi-updated').textContent = now.toLocaleTimeString();
+        }
+        
+        // Initial load and refresh every 5 minutes
+        updatePOIData();
+        setInterval(updatePOIData, 300000);
+        
+        // TODO: Real implementation would be:
+        // async function fetchPOIData() {
+        //     const res = await fetch('YOUR_AMBIENT_WEATHER_API_ENDPOINT');
+        //     const data = await res.json();
+        //     document.getElementById('poi-temp').textContent = data.tempf + ' °F';
+        //     document.getElementById('poi-solar').textContent = data.solarradiation + ' kWh/m²';
+        //     document.getElementById('poi-wind').textContent = data.windspeedmph + ' mph';
+        //     document.getElementById('poi-updated').textContent = new Date(data.dateutc).toLocaleTimeString();
+        // }
     </script>
 </body>
 </html>
