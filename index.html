@@ -70,82 +70,145 @@
         [data-theme="light"] .grid-floor { opacity: 0.05; }
         [data-theme="light"] .crt-overlay { display: none; }
 
-        /* CHANGED: Battery image graphics - neon sign behavior */
-        .battery-img-wrapper {
-            width: 100px; height: 60px; margin: 15px auto; position: relative;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
-        }
-        .battery-img {
-            width: 80px; height: auto; position: relative; z-index: 1;
-        }
-        
-        /* CHANGED: Red drained battery - dying neon sign flicker */
-        .battery-drained .battery-img {
-            filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.8) drop-shadow(0 0 8px rgba(255,50,50,0.6));
-            animation: neon-flicker-red 3s ease-in-out infinite;
-        }
-        @keyframes neon-flicker-red {
-            0% { opacity: 0.9; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.8) drop-shadow(0 0 8px rgba(255,50,50,0.5)); }
-            3% { opacity: 0.4; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.4) drop-shadow(0 0 2px rgba(255,50,50,0.2)); }
-            6% { opacity: 0.85; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.75) drop-shadow(0 0 6px rgba(255,50,50,0.4)); }
-            12% { opacity: 0.3; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.3) drop-shadow(0 0 1px rgba(255,50,50,0.1)); }
-            15% { opacity: 0.8; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.7) drop-shadow(0 0 5px rgba(255,50,50,0.4)); }
-            25% { opacity: 0.9; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.85) drop-shadow(0 0 8px rgba(255,50,50,0.5)); }
-            30% { opacity: 0.5; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.5) drop-shadow(0 0 3px rgba(255,50,50,0.3)); }
-            35% { opacity: 0.75; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.65) drop-shadow(0 0 4px rgba(255,50,50,0.35)); }
-            50% { opacity: 0.85; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.8) drop-shadow(0 0 6px rgba(255,50,50,0.45)); }
-            55% { opacity: 0.2; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.2) drop-shadow(0 0 0px rgba(255,50,50,0)); }
-            58% { opacity: 0.7; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.6) drop-shadow(0 0 4px rgba(255,50,50,0.3)); }
-            70% { opacity: 0.9; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.8) drop-shadow(0 0 7px rgba(255,50,50,0.5)); }
-            78% { opacity: 0.4; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.35) drop-shadow(0 0 2px rgba(255,50,50,0.15)); }
-            82% { opacity: 0.8; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.7) drop-shadow(0 0 5px rgba(255,50,50,0.4)); }
-            100% { opacity: 0.9; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.8) drop-shadow(0 0 8px rgba(255,50,50,0.5)); }
-        }
-        
-        /* CHANGED: Green charging battery - bright neon on full blast */
-        .battery-charged .battery-img {
-            filter: sepia(1) saturate(3) hue-rotate(80deg) brightness(1.2) drop-shadow(0 0 15px rgba(0,255,157,0.8));
-            animation: neon-glow-green 2s ease-in-out infinite;
-        }
-        @keyframes neon-glow-green {
-            0% { filter: sepia(1) saturate(3) hue-rotate(80deg) brightness(1.15) drop-shadow(0 0 12px rgba(0,255,157,0.7)); }
-            50% { filter: sepia(1) saturate(3) hue-rotate(80deg) brightness(1.35) drop-shadow(0 0 20px rgba(0,255,157,1)); }
-            100% { filter: sepia(1) saturate(3) hue-rotate(80deg) brightness(1.15) drop-shadow(0 0 12px rgba(0,255,157,0.7)); }
-        }
-        /* ADDED: Optional shimmer sweep for charged battery */
-        .battery-charged::after {
-            content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0,255,157,0.2), transparent);
-            animation: shimmer-sweep 3s ease-in-out infinite; z-index: 2;
-        }
-        @keyframes shimmer-sweep {
-            0% { left: -100%; }
-            50% { left: 150%; }
-            100% { left: 150%; }
-        }
+        /* CHANGED: Battery image graphics — professional neon */
+.battery-img-wrapper{
+  width: 140px;
+  height: 92px;
+  margin: 18px auto 26px;         /* adds breathing room before paragraph */
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: visible;               /* IMPORTANT: don't clip glow */
+}
 
-        /* Energy flow */
-        .energy-flow {
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            margin: 30px 0 40px; font-family: var(--font-mono); font-size: 0.85rem;
-        }
-        .energy-flow .label { color: var(--text-dim); }
-        .energy-flow .arrow { color: var(--acid); animation: flow-right 2s ease-in-out infinite; }
-        .energy-flow .arrow:nth-child(3) { animation-delay: 0.15s; }
-        .energy-flow .arrow:nth-child(4) { animation-delay: 0.3s; }
-        .energy-flow .arrow:nth-child(7) { animation-delay: 0.15s; }
-        .energy-flow .arrow:nth-child(8) { animation-delay: 0.3s; }
-        .energy-flow .battery-box {
-            padding: 10px 20px; border: 2px solid var(--acid); background: linear-gradient(135deg, var(--acid-dim), rgba(0,255,157,0.25));
-            color: var(--acid); font-weight: 700; position: relative; box-shadow: 0 0 20px var(--acid-dim);
-            display: flex; align-items: center; gap: 8px;
-        }
-        .energy-flow .battery-box i { font-size: 1.1rem; }
-        @keyframes flow-right {
-            0%, 100% { opacity: 0.3; transform: translateX(-3px); }
-            50% { opacity: 1; transform: translateX(3px); }
-        }
+.battery-img{
+  width: 96px;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 2;
+  transform: translateZ(0);        /* smoother rendering */
+}
+
+/* A soft halo behind the icon (not clipped) */
+.battery-img-wrapper::before{
+  content:"";
+  position:absolute;
+  inset: -18px;                    /* room for glow */
+  border-radius: 18px;
+  z-index: 1;
+  opacity: 0.0;
+  transition: opacity .25s ease;
+}
+
+/* -------------------- RED: dying neon sign -------------------- */
+/* Use a stable tint + occasional micro flicker (not constant strobing). */
+.battery-drained .battery-img{
+  /* tint */
+  filter: sepia(1) saturate(6) hue-rotate(-35deg) brightness(.92);
+  /* crisp neon edge + glow */
+  filter: sepia(1) saturate(6) hue-rotate(-35deg) brightness(.92)
+          drop-shadow(0 0 6px rgba(255, 70, 70, .45))
+          drop-shadow(0 0 16px rgba(255, 70, 70, .18));
+  animation: neonRedFlicker 6.5s linear infinite;
+}
+
+.battery-drained.battery-img-wrapper::before{
+  opacity: .55;
+  background: radial-gradient(circle at 50% 55%,
+    rgba(255, 70, 70, .26) 0%,
+    rgba(255, 70, 70, .10) 35%,
+    rgba(255, 70, 70, 0) 70%);
+  filter: blur(2px);
+  animation: neonRedHalo 6.5s linear infinite;
+}
+
+/* A few tiny dips inside a long cycle = “dying sign” */
+@keyframes neonRedFlicker{
+  0%, 7%, 11%, 100% { opacity: 1; }
+  8%  { opacity: .25; }
+  9%  { opacity: .95; }
+  40% { opacity: 1; }
+  41% { opacity: .55; }
+  42% { opacity: 1; }
+  73% { opacity: 1; }
+  74% { opacity: .15; }
+  75% { opacity: .85; }
+  76% { opacity: 1; }
+}
+
+@keyframes neonRedHalo{
+  0%, 7%, 11%, 100% { opacity: .55; }
+  8%  { opacity: .10; }
+  9%  { opacity: .45; }
+  41% { opacity: .28; }
+  42% { opacity: .55; }
+  74% { opacity: .08; }
+  75% { opacity: .40; }
+  76% { opacity: .55; }
+}
+
+/* -------------------- GREEN: full-blast neon -------------------- */
+.battery-charged .battery-img{
+  filter: sepia(1) saturate(4) hue-rotate(85deg) brightness(1.12)
+          drop-shadow(0 0 10px rgba(0, 255, 157, .55))
+          drop-shadow(0 0 26px rgba(0, 255, 157, .22));
+  animation: neonGreenBreath 2.4s ease-in-out infinite;
+}
+
+.battery-charged.battery-img-wrapper::before{
+  opacity: .65;
+  background: radial-gradient(circle at 50% 55%,
+    rgba(0,255,157,.28) 0%,
+    rgba(0,255,157,.12) 38%,
+    rgba(0,255,157,0) 72%);
+  animation: neonGreenHalo 2.4s ease-in-out infinite;
+}
+
+/* subtle “powered” breathing */
+@keyframes neonGreenBreath{
+  0%,100% {
+    filter: sepia(1) saturate(4) hue-rotate(85deg) brightness(1.08)
+            drop-shadow(0 0 9px rgba(0,255,157,.50))
+            drop-shadow(0 0 22px rgba(0,255,157,.18));
+  }
+  50% {
+    filter: sepia(1) saturate(4) hue-rotate(85deg) brightness(1.20)
+            drop-shadow(0 0 14px rgba(0,255,157,.75))
+            drop-shadow(0 0 34px rgba(0,255,157,.28));
+  }
+}
+
+@keyframes neonGreenHalo{
+  0%,100% { opacity: .60; }
+  50%     { opacity: .85; }
+}
+
+/* OPTIONAL: shimmer sweep that won’t clip */
+.battery-charged.battery-img-wrapper::after{
+  content:"";
+  position:absolute;
+  inset: -8px;
+  border-radius: 16px;
+  z-index: 3;
+  background: linear-gradient(120deg,
+    transparent 0%,
+    rgba(255,255,255,.08) 45%,
+    transparent 60%);
+  transform: translateX(-120%);
+  animation: neonSweep 4.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes neonSweep{
+  0%, 55% { transform: translateX(-120%); opacity: 0; }
+  60%     { opacity: 1; }
+  85%     { transform: translateX(120%); opacity: 1; }
+  100%    { opacity: 0; }
+}
+
+        /* ADDED: keep copy from crowding the battery */
+.battery-img-wrapper + p { margin-top: 6px; }
 
         /* ADDED: Camera feed placeholder */
         .camera-feed-placeholder {
