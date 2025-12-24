@@ -800,7 +800,7 @@
             </div>
         </section>
 
-        <!-- 03: ASSET - CHANGED: Camera feed placeholder -->
+        <!-- 03: ASSET - CHANGED: Balanced layout + live weather API -->
         <section id="asset" class="section">
             <div class="section-head"><span class="section-sub">03 // THE ASSET</span><h2>REDEW ANSON — FLAGSHIP SITE</h2></div>
             <div class="grid-2">
@@ -815,24 +815,6 @@
                     <p>Located in West Texas near massive solar farms in the "Stargate Corridor." When solar over-generates, prices crash (sometimes negative). Batteries charge cheap. When the sun sets and demand spikes, batteries discharge at premium rates.</p>
                     <div class="mono" style="font-size: 0.75rem; color: var(--text-dim); margin-top: 10px;">>> Anson is the flagship — future sites will be sourced via validator scouting (US + global).</div>
                     <div class="mono accent" style="font-size: 0.85rem; margin-top: 15px;">>> LAND UNDER OPTION</div>
-                    <div class="live-data-box">
-                        <div class="live-data-header">
-                            <!-- CHANGED: Updated header -->
-                            <span class="mono" style="font-size: 0.7rem; color: var(--acid);">ANSON, TEXAS — LIVE CAMERA + WEATHER FEED</span>
-                            <div class="live-indicator"><div class="dot"></div><div class="ring"></div></div>
-                        </div>
-                        <!-- ADDED: Camera feed placeholder -->
-                        <div class="camera-feed-placeholder">
-                            <span class="offline-text"><i class="fas fa-video-slash"></i> STREAM: OFFLINE</span>
-                            <span class="camera-feed-label">PTZ CAMERA + WEATHER STATION — COMING SOON</span>
-                        </div>
-                        <div class="live-data-grid">
-                            <div class="live-data-item"><span class="label">Temperature</span><span class="value" id="poi-temp">65 °F</span></div>
-                            <div class="live-data-item"><span class="label">Solar Irradiance</span><span class="value" id="poi-solar">4.2 kWh/m²</span></div>
-                            <div class="live-data-item"><span class="label">Wind Speed</span><span class="value" id="poi-wind">22 mph</span></div>
-                            <div class="live-data-item"><span class="label">Last Updated</span><span class="value" id="poi-updated">8:06:01 PM</span></div>
-                        </div>
-                    </div>
                 </div>
                 <div class="feature-box">
                     <h3>Development Pipeline</h3>
@@ -850,6 +832,54 @@
                             <div><div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span style="font-size: 0.8rem;">ERCOT Filing</span><span class="mono" style="font-size: 0.7rem; color: var(--text-dim);">PENDING</span></div><div style="height: 5px; background: var(--border); border-radius: 3px;"><div style="width: 0%; height: 100%; background: var(--acid); border-radius: 3px;"></div></div></div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <!-- CHANGED: Live feed box moved to full-width below for balance -->
+            <div class="live-data-box" style="margin-top: 40px;">
+                <div class="live-data-header">
+                    <span class="mono" style="font-size: 0.7rem; color: var(--acid);">ANSON, TEXAS — LIVE CAMERA + WEATHER FEED</span>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span class="mono" style="font-size: 0.6rem; color: var(--text-dim);" id="weather-status">CONNECTING...</span>
+                        <div class="live-indicator"><div class="dot"></div><div class="ring"></div></div>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <!-- Camera feed placeholder -->
+                    <div class="camera-feed-placeholder" style="height: 180px; margin: 0;">
+                        <span class="offline-text"><i class="fas fa-video-slash"></i> STREAM: OFFLINE</span>
+                        <span class="camera-feed-label">PTZ CAMERA — COMING SOON</span>
+                    </div>
+                    <!-- Weather data grid -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; align-content: center;">
+                        <div class="live-data-item">
+                            <span class="label"><i class="fas fa-thermometer-half" style="margin-right: 5px;"></i>Temperature</span>
+                            <span class="value" id="poi-temp"><span class="loading-pulse">--</span> °F</span>
+                        </div>
+                        <div class="live-data-item">
+                            <span class="label"><i class="fas fa-sun" style="margin-right: 5px;"></i>Solar Irradiance</span>
+                            <span class="value" id="poi-solar"><span class="loading-pulse">--</span> W/m²</span>
+                        </div>
+                        <div class="live-data-item">
+                            <span class="label"><i class="fas fa-wind" style="margin-right: 5px;"></i>Wind Speed</span>
+                            <span class="value" id="poi-wind"><span class="loading-pulse">--</span> mph</span>
+                        </div>
+                        <div class="live-data-item">
+                            <span class="label"><i class="fas fa-tint" style="margin-right: 5px;"></i>Humidity</span>
+                            <span class="value" id="poi-humidity"><span class="loading-pulse">--</span>%</span>
+                        </div>
+                        <div class="live-data-item">
+                            <span class="label"><i class="fas fa-compass" style="margin-right: 5px;"></i>Wind Direction</span>
+                            <span class="value" id="poi-wind-dir"><span class="loading-pulse">--</span></span>
+                        </div>
+                        <div class="live-data-item">
+                            <span class="label"><i class="fas fa-clock" style="margin-right: 5px;"></i>Last Updated</span>
+                            <span class="value" id="poi-updated">--:--:-- --</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                    <span class="mono" style="font-size: 0.6rem; color: var(--text-dim);">DATA SOURCE: OPEN-METEO API • COORDS: 32.7526°N, 99.8926°W</span>
+                    <span class="mono" style="font-size: 0.6rem; color: var(--text-dim);">DAVIS VANTAGE PRO2 — COMING SOON</span>
                 </div>
             </div>
         </section>
@@ -1043,9 +1073,42 @@
         function toggleMenu() { hamburger.classList.toggle('active'); mobileMenu.classList.toggle('open'); document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : ''; }
         if (hamburger && mobileMenu) { hamburger.addEventListener('click', toggleMenu); if (closeBtn) closeBtn.addEventListener('click', toggleMenu); document.querySelectorAll('.mobile-menu a').forEach(a => a.addEventListener('click', function() { if (this.getAttribute('href').startsWith('#')) toggleMenu(); })); }
 
-        // POI
-        function updatePOIData() { document.getElementById('poi-updated').textContent = new Date().toLocaleTimeString(); }
-        setInterval(updatePOIData, 60000);
+        // CHANGED: Live weather data from Open-Meteo API (Anson, TX coordinates)
+        const ANSON_LAT = 32.7526;
+        const ANSON_LON = -99.8926;
+        
+        async function fetchLiveWeather() {
+            const statusEl = document.getElementById('weather-status');
+            try {
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${ANSON_LAT}&longitude=${ANSON_LON}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,shortwave_radiation&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America/Chicago`;
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                if (data.current) {
+                    const c = data.current;
+                    document.getElementById('poi-temp').innerHTML = Math.round(c.temperature_2m) + ' °F';
+                    document.getElementById('poi-humidity').innerHTML = c.relative_humidity_2m + '%';
+                    document.getElementById('poi-wind').innerHTML = Math.round(c.wind_speed_10m) + ' mph';
+                    document.getElementById('poi-solar').innerHTML = Math.round(c.shortwave_radiation) + ' W/m²';
+                    document.getElementById('poi-wind-dir').innerHTML = getWindDirection(c.wind_direction_10m);
+                    document.getElementById('poi-updated').innerHTML = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+                    if (statusEl) statusEl.innerHTML = '<span style="color: var(--acid);">● LIVE</span>';
+                }
+            } catch (err) {
+                console.error('Weather fetch error:', err);
+                if (statusEl) statusEl.innerHTML = '<span style="color: #ff6b6b;">● OFFLINE</span>';
+            }
+        }
+        
+        function getWindDirection(degrees) {
+            const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+            const index = Math.round(degrees / 22.5) % 16;
+            return directions[index] + ' (' + Math.round(degrees) + '°)';
+        }
+        
+        // Fetch immediately and then every 5 minutes
+        fetchLiveWeather();
+        setInterval(fetchLiveWeather, 300000);
     </script>
 </body>
 </html>
