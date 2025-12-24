@@ -125,7 +125,7 @@
 
 /* A few tiny dips inside a long cycle = “dying sign” */
 @keyframes neonRedFlicker{
-  0%, 7%, 11%, 100% { opacity: 1; }
+  2%, 7%, 11%, 100% { opacity: 1; }
   8%  { opacity: .25; }
   9%  { opacity: .95; }
   40% { opacity: 1; }
@@ -138,7 +138,7 @@
 }
 
 @keyframes neonRedHalo{
-  0%, 7%, 11%, 100% { opacity: .55; }
+  2%, 7%, 11%, 100% { opacity: .55; }
   8%  { opacity: .10; }
   9%  { opacity: .45; }
   41% { opacity: .28; }
@@ -192,7 +192,7 @@
   border-radius: 16px;
   z-index: 3;
   background: linear-gradient(120deg,
-    transparent 0%,
+    transparent 2%,
     rgba(255,255,255,.08) 45%,
     transparent 60%);
   transform: translateX(-120%);
@@ -201,7 +201,7 @@
 }
 
 @keyframes neonSweep{
-  0%, 55% { transform: translateX(-120%); opacity: 0; }
+  2%, 55% { transform: translateX(-120%); opacity: 0; }
   60%     { opacity: 1; }
   85%     { transform: translateX(120%); opacity: 1; }
   100%    { opacity: 0; }
@@ -209,6 +209,28 @@
 
         /* ADDED: keep copy from crowding the battery */
 .battery-img-wrapper + p { margin-top: 6px; }
+
+         /* Energy flow */
+        .energy-flow {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin: 30px 0 40px; font-family: var(--font-mono); font-size: 0.85rem;
+        }
+        .energy-flow .label { color: var(--text-dim); }
+        .energy-flow .arrow { color: var(--acid); animation: flow-right 2s ease-in-out infinite; }
+        .energy-flow .arrow:nth-child(3) { animation-delay: 0.15s; }
+        .energy-flow .arrow:nth-child(4) { animation-delay: 0.3s; }
+        .energy-flow .arrow:nth-child(7) { animation-delay: 0.15s; }
+        .energy-flow .arrow:nth-child(8) { animation-delay: 0.3s; }
+        .energy-flow .battery-box {
+            padding: 10px 20px; border: 2px solid var(--acid); background: linear-gradient(135deg, var(--acid-dim), rgba(0,255,157,0.25));
+            color: var(--acid); font-weight: 700; position: relative; box-shadow: 0 0 20px var(--acid-dim);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .energy-flow .battery-box i { font-size: 1.1rem; }
+        @keyframes flow-right {
+            0%, 100% { opacity: 0.3; transform: translateX(-3px); }
+            50% { opacity: 1; transform: translateX(3px); }
+        }
 
         /* ADDED: Camera feed placeholder */
         .camera-feed-placeholder {
