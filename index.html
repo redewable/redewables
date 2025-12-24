@@ -4,21 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReDewable Energy // VALIDATOR LICENSE SALE</title>
-   
+    
     <meta property="og:title" content="ReDewable // THE SHOCK ABSORBER FOR THE GRID">
     <meta property="og:description" content="Validate the Texas Grid. Join the Network. The first DePIN Validator Sale funding a 400MW BESS.">
     <meta property="og:image" content="assets/social-share.png">
     <meta property="og:url" content="https://www.redewable.energy">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@ReDewable">
-   
+    
     <link rel="icon" href="assets/favicon.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
- 
+
     <style>
         :root {
             --bg-main: #020403;
@@ -44,7 +43,7 @@
             --text-main: #111111;
             --text-dim: #555555;
             --border: #d1d5db;
-            --acid: #008f5d;
+            --acid: #008f5d; 
             --acid-dim: rgba(0, 143, 93, 0.1);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -71,43 +70,59 @@
         [data-theme="light"] .grid-floor { opacity: 0.05; }
         [data-theme="light"] .crt-overlay { display: none; }
 
-        /* Battery image graphics - using assets/battery.png */
+        /* CHANGED: Battery image graphics - neon sign behavior */
         .battery-img-wrapper {
-            width: 120px; height: 70px; margin: 20px auto; position: relative;
+            width: 100px; height: 60px; margin: 15px auto; position: relative;
             display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
         }
         .battery-img {
-            width: 100%; height: auto; position: relative; z-index: 1;
+            width: 80px; height: auto; position: relative; z-index: 1;
         }
-        /* Left: Red drained battery - dying neon sign effect */
+        
+        /* CHANGED: Red drained battery - dying neon sign flicker */
         .battery-drained .battery-img {
-            filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.9);
-            animation: dying-neon 3s ease-in-out infinite;
+            filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.8) drop-shadow(0 0 8px rgba(255,50,50,0.6));
+            animation: neon-flicker-red 3s ease-in-out infinite;
         }
-        @keyframes dying-neon {
-            0%, 100% { opacity: 0.6; box-shadow: 0 0 10px rgba(255,0,0,0.3); filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.7); }
-            20% { opacity: 1; box-shadow: 0 0 20px rgba(255,0,0,0.6); filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(1); }
-            40% { opacity: 0.4; box-shadow: 0 0 5px rgba(255,0,0,0.1); filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.5); }
-            60% { opacity: 0.8; box-shadow: 0 0 15px rgba(255,0,0,0.4); }
-            80% { opacity: 0.5; }
+        @keyframes neon-flicker-red {
+            0% { opacity: 0.9; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.8) drop-shadow(0 0 8px rgba(255,50,50,0.5)); }
+            3% { opacity: 0.4; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.4) drop-shadow(0 0 2px rgba(255,50,50,0.2)); }
+            6% { opacity: 0.85; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.75) drop-shadow(0 0 6px rgba(255,50,50,0.4)); }
+            12% { opacity: 0.3; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.3) drop-shadow(0 0 1px rgba(255,50,50,0.1)); }
+            15% { opacity: 0.8; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.7) drop-shadow(0 0 5px rgba(255,50,50,0.4)); }
+            25% { opacity: 0.9; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.85) drop-shadow(0 0 8px rgba(255,50,50,0.5)); }
+            30% { opacity: 0.5; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.5) drop-shadow(0 0 3px rgba(255,50,50,0.3)); }
+            35% { opacity: 0.75; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.65) drop-shadow(0 0 4px rgba(255,50,50,0.35)); }
+            50% { opacity: 0.85; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.8) drop-shadow(0 0 6px rgba(255,50,50,0.45)); }
+            55% { opacity: 0.2; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.2) drop-shadow(0 0 0px rgba(255,50,50,0)); }
+            58% { opacity: 0.7; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.6) drop-shadow(0 0 4px rgba(255,50,50,0.3)); }
+            70% { opacity: 0.9; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.8) drop-shadow(0 0 7px rgba(255,50,50,0.5)); }
+            78% { opacity: 0.4; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.35) drop-shadow(0 0 2px rgba(255,50,50,0.15)); }
+            82% { opacity: 0.8; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.7) drop-shadow(0 0 5px rgba(255,50,50,0.4)); }
+            100% { opacity: 0.9; filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.8) drop-shadow(0 0 8px rgba(255,50,50,0.5)); }
         }
-        /* Right: Green charging battery - full blast neon sign effect */
+        
+        /* CHANGED: Green charging battery - bright neon on full blast */
         .battery-charged .battery-img {
-            filter: sepia(1) saturate(3) hue-rotate(80deg) brightness(1.2);
-            animation: full-neon 2.5s ease-in-out infinite;
+            filter: sepia(1) saturate(3) hue-rotate(80deg) brightness(1.2) drop-shadow(0 0 15px rgba(0,255,157,0.8));
+            animation: neon-glow-green 2s ease-in-out infinite;
         }
+        @keyframes neon-glow-green {
+            0% { filter: sepia(1) saturate(3) hue-rotate(80deg) brightness(1.15) drop-shadow(0 0 12px rgba(0,255,157,0.7)); }
+            50% { filter: sepia(1) saturate(3) hue-rotate(80deg) brightness(1.35) drop-shadow(0 0 20px rgba(0,255,157,1)); }
+            100% { filter: sepia(1) saturate(3) hue-rotate(80deg) brightness(1.15) drop-shadow(0 0 12px rgba(0,255,157,0.7)); }
+        }
+        /* ADDED: Optional shimmer sweep for charged battery */
         .battery-charged::after {
-            content: ""; position: absolute; inset: -10px; border-radius: 8px;
-            background: linear-gradient(90deg, transparent, rgba(0,255,157,0.5), transparent);
-            animation: charge-sweep 2s linear infinite; z-index: 0;
+            content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,255,157,0.2), transparent);
+            animation: shimmer-sweep 3s ease-in-out infinite; z-index: 2;
         }
-        @keyframes full-neon {
-            0%, 100% { box-shadow: 0 0 20px rgba(0,255,157,0.8); filter: sepia(1) saturate(3) hue-rotate(80deg) brightness(1.1); }
-            50% { box-shadow: 0 0 40px rgba(0,255,157,1); filter: sepia(1) saturate(3) hue-rotate(80deg) brightness(1.4); }
-        }
-        @keyframes charge-sweep {
-            0% { transform: translateX(-120%); }
-            100% { transform: translateX(120%); }
+        @keyframes shimmer-sweep {
+            0% { left: -100%; }
+            50% { left: 150%; }
+            100% { left: 150%; }
         }
 
         /* Energy flow */
@@ -132,18 +147,32 @@
             50% { opacity: 1; transform: translateX(3px); }
         }
 
-        /* Site intel panel (replaces Texas map) */
-        .site-intel {
-            background: var(--bg-card); border: 1px solid var(--border); padding: 15px;
-            margin: 15px 0; font-family: var(--font-mono); font-size: 0.75rem;
+        /* ADDED: Camera feed placeholder */
+        .camera-feed-placeholder {
+            background: var(--bg-card); border: 1px solid var(--border);
+            height: 120px; margin-bottom: 15px; position: relative;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            overflow: hidden;
         }
-        .site-intel-row {
-            display: flex; justify-content: space-between; padding: 8px 0;
-            border-bottom: 1px dashed var(--border);
+        .camera-feed-placeholder::before {
+            content: ""; position: absolute; inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 4px);
+            animation: static-noise 0.5s steps(5) infinite; opacity: 0.5;
         }
-        .site-intel-row:last-child { border-bottom: none; }
-        .site-intel-row .label { color: var(--text-dim); }
-        .site-intel-row .value { color: var(--acid); font-weight: 600; }
+        @keyframes static-noise {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+        .camera-feed-placeholder .offline-text {
+            font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim);
+            text-transform: uppercase; letter-spacing: 0.1em; z-index: 1;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .camera-feed-placeholder .offline-text i { color: #ff6b6b; }
+        .camera-feed-label {
+            font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-dim);
+            text-align: center; margin-top: 8px; z-index: 1;
+        }
 
         /* Live data box */
         .live-data-box {
@@ -179,9 +208,22 @@
             font-family: var(--font-head); font-size: 0.95rem; color: var(--text-main); font-weight: 700;
         }
 
-        /* Roadmap timeline - check mark to the right of title for completed */
+        /* Site intel panel */
+        .site-intel {
+            background: var(--bg-card); border: 1px solid var(--border); padding: 15px;
+            margin: 15px 0; font-family: var(--font-mono); font-size: 0.75rem;
+        }
+        .site-intel-row {
+            display: flex; justify-content: space-between; padding: 8px 0;
+            border-bottom: 1px dashed var(--border);
+        }
+        .site-intel-row:last-child { border-bottom: none; }
+        .site-intel-row .label { color: var(--text-dim); }
+        .site-intel-row .value { color: var(--acid); font-weight: 600; }
+
+        /* Roadmap timeline */
         .roadmap-log { border-left: 2px solid var(--border); margin-left: 20px; padding-left: 40px; }
-        .log-entry { margin-bottom: 50px; position: relative; opacity: 0.5; transition: 0.3s; display: flex; align-items: flex-start; }
+        .log-entry { margin-bottom: 50px; position: relative; opacity: 0.5; transition: 0.3s; }
         .log-entry.current { opacity: 1; }
         .log-entry.current .log-title { color: var(--text-main); }
         .log-entry.completed { opacity: 0.7; }
@@ -193,12 +235,26 @@
         .log-entry.current::before {
             background: var(--acid); border-color: var(--acid); box-shadow: 0 0 12px var(--acid);
         }
-        .log-entry.completed .log-title::after {
-            content: " ✓"; color: var(--acid); font-weight: bold;
+        /* CHANGED: Completed entries - solid dot, no checkmark inside */
+        .log-entry.completed::before {
+            background: var(--acid); border-color: var(--acid);
         }
         .log-phase { color: var(--acid); font-family: var(--font-mono); font-size: 0.75rem; margin-bottom: 5px; display: block; }
-        .log-title { font-family: var(--font-head); font-size: 1.3rem; color: var(--text-dim); margin-bottom: 8px; text-transform: uppercase; }
-        .log-details { font-size: 0.9rem; color: var(--text-dim); line-height: 1.7; flex: 1; }
+        /* CHANGED: log-title now flex for checkmark placement */
+        .log-title { 
+            font-family: var(--font-head); font-size: 1.3rem; color: var(--text-dim); 
+            margin-bottom: 8px; text-transform: uppercase;
+            display: flex; align-items: center; gap: 10px;
+        }
+        /* ADDED: Checkmark icon for completed entries - right of title */
+        .log-entry.completed .log-title::after {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 0.9rem;
+            color: var(--acid);
+        }
+        .log-details { font-size: 0.9rem; color: var(--text-dim); line-height: 1.7; }
 
         /* Utils */
         .page { max-width: var(--content-max-width); margin: 0 auto; padding: 0 var(--content-padding); position: relative; z-index: 1; }
@@ -282,7 +338,7 @@
         .check-item i { color: var(--acid); font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; margin-top: 2px; }
         .check-item strong { color: var(--text-main); }
 
-        /* Status bar - updated to LIVE SITE FEED */
+        /* Status bar */
         .status-bar {
             background: var(--bg-panel); border: 1px solid var(--border); padding: 25px;
             margin: -40px 0 80px; display: flex; justify-content: space-between; flex-wrap: wrap;
@@ -292,7 +348,7 @@
         .status-point span { display: block; font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-dim); margin-bottom: 6px; }
         .status-point strong { color: var(--acid); font-size: 0.95rem; letter-spacing: 0.05em; text-transform: uppercase; }
 
-        /* Capital allocation - improved mobile */
+        /* Capital allocation */
         .allocation-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 50px; row-gap: 20px; }
         .grid-head-left { grid-column: 1; grid-row: 1; }
         .grid-head-right { grid-column: 2; grid-row: 1; display: flex; align-items: center; }
@@ -340,7 +396,7 @@
         .dash-mockup:hover { border-color: var(--acid); color: var(--acid); box-shadow: 0 0 15px var(--acid-dim); }
         .dash-mockup i { font-size: 1.8rem; color: var(--acid); }
 
-        /* Validator requirements list */
+        /* Validator requirements */
         .requirements-list { display: flex; flex-direction: column; gap: 14px; }
         .requirements-list .check-item { margin-bottom: 0; align-items: center; }
         .requirements-list .check-item i { width: 24px; }
@@ -364,7 +420,7 @@
         }
         [data-state="active"] .toggle-switch::after { transform: translateX(18px); }
 
-        /* Disclaimer Modal */
+        /* Modal */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10001;
             display: none; align-items: center; justify-content: center; padding: 20px;
@@ -398,8 +454,7 @@
         .mobile-menu {
             position: fixed; top: 0; right: -100%; width: 100%; height: 100%;
             background: var(--bg-main); z-index: 10000; padding: 120px 40px 40px;
-            display: flex; flex-direction: column; gap: 25px; transition: right 0.4s;
-            overflow-y: auto;
+            display: flex; flex-direction: column; gap: 25px; transition: right 0.4s; overflow-y: auto;
         }
         .mobile-menu.open { right: 0; }
         .mobile-menu-close { position: absolute; top: 30px; right: 20px; width: 35px; height: 35px; background: none; border: none; cursor: pointer; padding: 0; }
@@ -427,7 +482,7 @@
         .footer-social-link { color: var(--text-dim); font-size: 1.4rem; transition: color 0.3s; }
         .footer-social-link:hover { color: var(--acid); }
 
-        /* Mobile responsive - improved Section 02 */
+        /* Mobile */
         @media (max-width: 900px) {
             .nav, .header-right { display: none; }
             .hamburger { display: block; }
@@ -437,19 +492,13 @@
             .legend-grid { grid-template-columns: 1fr; }
             h1 { font-size: 3rem; }
             .status-bar { flex-direction: column; text-align: center; }
-           
-            /* Section 02 mobile fix */
-            .allocation-grid {
-                display: flex; flex-direction: column; gap: 20px;
-            }
+            .allocation-grid { display: flex; flex-direction: column; gap: 20px; }
             .grid-head-left { order: 1; }
             .grid-head-right { order: 2; }
-            .grid-head-right p { margin: 0; }
             .grid-toggle-left { order: 3; justify-content: flex-start; }
             .grid-content-left { order: 4; }
             .grid-content-right { order: 5; }
             .grid-content-right .feature-box { height: auto; }
-           
             .logo-grid { flex-direction: column; }
             .live-data-grid { grid-template-columns: 1fr; }
             .data-verify-grid { grid-template-columns: 1fr; }
@@ -457,7 +506,6 @@
             .footer-left { align-items: center; }
             .footer-right { flex-direction: column; gap: 25px; }
             .energy-flow { flex-wrap: wrap; }
-           
             .modal-buttons { flex-direction: column; }
             .modal-buttons .btn { width: 100%; }
         }
@@ -468,7 +516,7 @@
     <div class="grid-floor"></div>
     <div class="crt-overlay"></div>
 
-    <!-- Disclaimer Modal -->
+    <!-- Modal -->
     <div class="modal-overlay" id="mint-modal">
         <div class="modal-box">
             <div class="modal-title"><i class="fas fa-exclamation-triangle"></i> BEFORE YOU MINT</div>
@@ -488,7 +536,7 @@
     </div>
 
     <nav class="mobile-menu" id="mobile-menu">
-        <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu"><span></span><span></span></button>
+        <button class="mobile-menu-close" id="mobile-menu-close"><span></span><span></span></button>
         <a href="#thesis"><span>01 //</span> THESIS</a>
         <a href="#model"><span>02 //</span> CAPITAL</a>
         <a href="#asset"><span>03 //</span> ASSET</a>
@@ -496,8 +544,8 @@
         <a href="#roadmap"><span>05 //</span> ROADMAP</a>
         <a href="#tokenomics"><span>06 //</span> ALLOCATION</a>
         <div class="mobile-menu-socials">
-            <a href="https://x.com/ReDewable" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://x.com/ReDewable" target="_blank"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank"><i class="fab fa-telegram-plane"></i></a>
         </div>
         <a href="litepaper/index.html" class="btn">LITEPAPER</a>
     </nav>
@@ -515,7 +563,7 @@
                 <div class="pill-toggle theme-switch" id="theme-btn"><span>LIGHT</span><div class="toggle-switch"></div></div>
             </nav>
             <div class="header-right"><a href="litepaper/index.html" class="btn-outline">LITEPAPER</a></div>
-            <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+            <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
         </header>
 
         <!-- HERO -->
@@ -583,29 +631,24 @@
             </div>
         </section>
 
+        <!-- CHANGED: Status bar - renamed sensor label -->
         <div class="status-bar">
             <div class="status-point"><span>ASSET CLASS</span><strong>400MW BESS</strong></div>
             <div class="status-point"><span>GRID NODE</span><strong>ERCOT WEST</strong></div>
-            <div class="status-point"><span>CONGESTION</span><strong>HIGH VOLATILITY</strong></div>
-            <div class="status-point"><span>LIVE SITE FEED</span><strong>CAMERA + SENSORS (Q1)</strong></div>
+            <div class="status-point"><span>LIVE SITE FEED</span><strong>CAMERA + SENSORS</strong></div>
+            <div class="status-point"><span>STATUS</span><strong>PRE-NTP</strong></div>
         </div>
 
         <!-- 01: THESIS -->
         <section id="thesis" class="section">
             <div class="section-head"><span class="section-sub">01 // THE THESIS</span><h2>WHY BATTERIES MATTER</h2></div>
-           
             <div class="energy-flow">
                 <span class="label">SOLAR</span>
-                <span class="arrow">→</span>
-                <span class="arrow">→</span>
-                <span class="arrow">→</span>
+                <span class="arrow">→</span><span class="arrow">→</span><span class="arrow">→</span>
                 <div class="battery-box"><i class="fas fa-battery-full"></i> BATTERY</div>
-                <span class="arrow">→</span>
-                <span class="arrow">→</span>
-                <span class="arrow">→</span>
+                <span class="arrow">→</span><span class="arrow">→</span><span class="arrow">→</span>
                 <span class="label">GRID</span>
             </div>
-
             <div class="grid-2">
                 <div class="feature-box">
                     <h3>The Grid Is Maxed Out</h3>
@@ -672,7 +715,7 @@
             </div>
         </section>
 
-        <!-- 03: ASSET -->
+        <!-- 03: ASSET - CHANGED: Camera feed placeholder -->
         <section id="asset" class="section">
             <div class="section-head"><span class="section-sub">03 // THE ASSET</span><h2>REDEW ANSON — FLAGSHIP SITE</h2></div>
             <div class="grid-2">
@@ -685,14 +728,18 @@
                         <div class="site-intel-row"><span class="label">CAPACITY</span><span class="value">400 MW</span></div>
                     </div>
                     <p>Located in West Texas near massive solar farms in the "Stargate Corridor." When solar over-generates, prices crash (sometimes negative). Batteries charge cheap. When the sun sets and demand spikes, batteries discharge at premium rates.</p>
-                    <div class="mono" style="font-size: 0.75rem; color: var(--text-dim); margin-top: 10px;">
-                        >> Anson is the flagship — future sites will be sourced via validator scouting (US + global).
-                    </div>
+                    <div class="mono" style="font-size: 0.75rem; color: var(--text-dim); margin-top: 10px;">>> Anson is the flagship — future sites will be sourced via validator scouting (US + global).</div>
                     <div class="mono accent" style="font-size: 0.85rem; margin-top: 15px;">>> LAND UNDER OPTION</div>
                     <div class="live-data-box">
                         <div class="live-data-header">
-                            <span class="mono" style="font-size: 0.7rem; color: var(--acid);">ANSON, TEXAS — LIVE CAMERA + WEATHER FEED (COMING Q1)</span>
+                            <!-- CHANGED: Updated header -->
+                            <span class="mono" style="font-size: 0.7rem; color: var(--acid);">ANSON, TEXAS — LIVE CAMERA + WEATHER FEED</span>
                             <div class="live-indicator"><div class="dot"></div><div class="ring"></div></div>
+                        </div>
+                        <!-- ADDED: Camera feed placeholder -->
+                        <div class="camera-feed-placeholder">
+                            <span class="offline-text"><i class="fas fa-video-slash"></i> STREAM: OFFLINE</span>
+                            <span class="camera-feed-label">PTZ CAMERA + WEATHER STATION — COMING SOON</span>
                         </div>
                         <div class="live-data-grid">
                             <div class="live-data-item"><span class="label">Temperature</span><span class="value" id="poi-temp">65 °F</span></div>
@@ -722,20 +769,14 @@
             </div>
         </section>
 
-        <!-- 04: VALIDATORS -->
+        <!-- 04: VALIDATORS - ADDED: Camera feed verification -->
         <section id="validator" class="section">
             <div class="feature-box" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <span class="mono accent">04 // WHAT VALIDATORS DO</span>
                 <h2 style="margin: 10px 0 15px;">BUILD THE GRID ORACLE NETWORK</h2>
-                <p style="max-width: 650px; margin-bottom: 15px; color: var(--text-dim);">
-                    Validators verify real data and sign on-chain attestations. You're helping build a decentralized network for energy infrastructure—not just clicking buttons.
-                </p>
-                <p style="max-width: 650px; margin-bottom: 25px; color: var(--text-dim); font-size: 0.85rem; font-style: italic;">
-                    Coming Soon: Global site scouting + PPA off-taker identification — validators help expand beyond ERCOT.
-                </p>
-                <p style="max-width: 650px; margin-bottom: 30px; color: var(--text-dim); font-size: 0.9rem;">
-                    <strong>Time commitment:</strong> ~5 minutes per month. Real work, not busy work.
-                </p>
+                <p style="max-width: 650px; margin-bottom: 15px; color: var(--text-dim);">Validators verify real data and sign on-chain attestations. You're helping build a decentralized network for energy infrastructure—not just clicking buttons.</p>
+                <p style="max-width: 650px; margin-bottom: 25px; color: var(--text-dim); font-size: 0.85rem; font-style: italic;">Coming Soon: Global site scouting + PPA off-taker identification — validators help expand beyond ERCOT.</p>
+                <p style="max-width: 650px; margin-bottom: 30px; color: var(--text-dim); font-size: 0.9rem;"><strong>Time commitment:</strong> ~5 minutes per month. Real work, not busy work.</p>
                 <div class="dashboard-grid">
                     <div class="dash-mockup"><i class="fas fa-database"></i><span>VERIFY<br>GRID DATA</span></div>
                     <div class="dash-mockup"><i class="fas fa-signature"></i><span>SIGN<br>ATTESTATION</span></div>
@@ -745,6 +786,8 @@
                     <h3 style="text-align: center; margin-bottom: 18px;">WHAT'S REQUIRED</h3>
                     <div class="requirements-list">
                         <div class="check-item"><i class="fas fa-calendar-check"></i><span><strong>Monthly:</strong> Check grid data and sign your attestation</span></div>
+                        <!-- ADDED: Camera monitoring requirement -->
+                        <div class="check-item"><i class="fas fa-video"></i><span><strong>Monthly:</strong> Verify live site security & conditions (camera + sensors)</span></div>
                         <div class="check-item"><i class="fas fa-dice"></i><span><strong>Random (20%):</strong> Provide proof you verified the source</span></div>
                         <div class="check-item"><i class="fas fa-vote-yea"></i><span><strong>Quarterly:</strong> Vote on a network governance proposal</span></div>
                         <div class="check-item"><i class="fas fa-sync-alt"></i><span><strong>Yearly:</strong> Renew your license (free, takes seconds)</span></div>
@@ -755,32 +798,30 @@
                             <div class="check-item"><i class="fas fa-chart-line"></i><span>ERCOT Pricing</span></div>
                             <div class="check-item"><i class="fas fa-list-ol"></i><span>Queue Position</span></div>
                             <div class="check-item"><i class="fas fa-hard-hat"></i><span>Engineering Progress</span></div>
-                            <div class="check-item"><i class="fas fa-video"></i><span>Site Camera Feed (coming Q1)</span></div>
                             <div class="check-item"><i class="fas fa-thermometer-half"></i><span>Site Sensor Data</span></div>
+                            <!-- ADDED: Site Camera Feed -->
+                            <div class="check-item"><i class="fas fa-video"></i><span>Site Camera Feed</span></div>
                         </div>
                     </div>
-                    <p style="text-align: center; margin-top: 18px; font-size: 0.85rem; color: var(--text-dim);">
-                        Miss something? Rewards pause until you catch up. Spot an error? Flag it and earn bonus points.<br>
-                        <em>Monitor live site security & conditions with camera feed (coming Q1).</em>
-                    </p>
+                    <p style="text-align: center; margin-top: 18px; font-size: 0.85rem; color: var(--text-dim);">Miss something? Rewards pause until you catch up. Spot an error? Flag it and earn bonus points.</p>
                 </div>
                 <button class="btn" style="opacity: 0.5; cursor: not-allowed; margin-top: 25px;">DASHBOARD LAUNCHING Q1</button>
             </div>
         </section>
 
-        <!-- 05: ROADMAP -->
+        <!-- 05: ROADMAP - CHANGED: Checkmark placement + camera milestone -->
         <section id="roadmap" class="section">
             <div class="section-head"><span class="section-sub">05 // THE PATH</span><h2>FROM FUNDING TO NTP</h2></div>
             <div class="roadmap-log">
                 <div class="log-entry completed">
                     <span class="log-phase">PHASE 00 // COMPLETE</span>
-                    <h3 class="log-title">FOUNDATION SECURED ✓</h3>
+                    <h3 class="log-title">FOUNDATION SECURED</h3>
                     <div class="log-details">> Land option executed<br>> Vendor contracts signed<br>> Sensors deployed at site<br>> Legal structure established</div>
                 </div>
                 <div class="log-entry current">
                     <span class="log-phase">PHASE 01 // NOW</span>
                     <h3 class="log-title">VALIDATOR RAISE</h3>
-                    <div class="log-details">> Launch Validator License Sale<br>> Fund land acquisition + legal<br>> Begin engineering + ERCOT filing<br>> Deploy live camera + weather station at Anson site</div>
+                    <div class="log-details">> Launch Validator License Sale<br>> Fund land acquisition + legal<br>> Begin engineering + ERCOT filing<br>> Deploy live PTZ camera + weather station at Anson site</div>
                 </div>
                 <div class="log-entry future">
                     <span class="log-phase">PHASE 02 // PRE-DEVELOPMENT</span>
@@ -847,8 +888,8 @@
                 <div class="footer-right">
                     <a href="litepaper/index.html" class="footer-tech-btn"><i class="fas fa-file-code"></i> LITEPAPER_V2.1</a>
                     <div style="display:flex; gap: 20px;">
-                        <a href="https://x.com/ReDewable" target="_blank" class="footer-social-link" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
-                        <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank" class="footer-social-link" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                        <a href="https://x.com/ReDewable" target="_blank" class="footer-social-link"><i class="fab fa-x-twitter"></i></a>
+                        <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank" class="footer-social-link"><i class="fab fa-telegram-plane"></i></a>
                     </div>
                 </div>
             </div>
@@ -856,7 +897,7 @@
     </div>
 
     <script>
-        // Theme toggle
+        // Theme
         const themeBtn = document.getElementById('theme-btn');
         const body = document.body;
         const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -870,14 +911,14 @@
         });
         function updateLabel(theme) { themeBtn.querySelector('span').innerText = theme === 'dark' ? 'LIGHT' : 'DARK'; }
 
-        // Currency & SOL price
+        // Currency
         let currentCurrency = 'USD', solPrice = 125, raisedUSD = 0;
         async function fetchSolPrice() {
             try {
                 const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
                 const data = await res.json();
-                if (data.solana?.usd) { solPrice = data.solana.usd; document.getElementById('footer-price-ticker').innerHTML = `SOL: $${solPrice.toFixed(2)} <span style="color:var(--acid)">●</span>`; if (currentCurrency === 'SOL') updateAllVisuals(); }
-            } catch { document.getElementById('footer-price-ticker').innerHTML = `SOL: $${solPrice.toFixed(2)} <span style="color:orange">●</span>`; }
+                if (data.solana?.usd) { solPrice = data.solana.usd; document.getElementById('footer-price-ticker').innerHTML = 'SOL: $' + solPrice.toFixed(2) + ' <span style="color:var(--acid)">●</span>'; if (currentCurrency === 'SOL') updateAllVisuals(); }
+            } catch { document.getElementById('footer-price-ticker').innerHTML = 'SOL: $' + solPrice.toFixed(2) + ' <span style="color:orange">●</span>'; }
         }
         fetchSolPrice(); setInterval(fetchSolPrice, 60000);
 
@@ -889,47 +930,27 @@
             else { const tSOL = Math.round(1000000 / solPrice).toLocaleString(); if (ts) ts.innerHTML = tSOL + " SOL"; if (rd) rd.innerHTML = Math.round(raisedUSD / solPrice).toLocaleString() + " SOL"; document.querySelectorAll('.dynamic-price').forEach(el => el.innerText = Math.round(parseInt(el.dataset.usd) / solPrice).toLocaleString() + " SOL"); }
         }
 
-        // Mint disclaimer modal
-        function openMintDisclaimer() {
-            document.getElementById('mint-modal').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeMintModal() {
-            document.getElementById('mint-modal').classList.remove('open');
-            document.body.style.overflow = '';
-        }
-        function proceedToMint() {
-            closeMintModal();
-            connectWallet();
-        }
-        document.getElementById('mint-modal').addEventListener('click', function(e) {
-            if (e.target === this) closeMintModal();
-        });
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeMintModal();
-        });
+        // Modal
+        function openMintDisclaimer() { document.getElementById('mint-modal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+        function closeMintModal() { document.getElementById('mint-modal').classList.remove('open'); document.body.style.overflow = ''; }
+        function proceedToMint() { closeMintModal(); connectWallet(); }
+        document.getElementById('mint-modal').addEventListener('click', function(e) { if (e.target === this) closeMintModal(); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeMintModal(); });
 
-        // Wallet connect
-        async function connectWallet() {
-            if ("solana" in window) {
-                try {
-                    const r = await window.solana.connect();
-                    alert("Connected: " + r.publicKey.toString().slice(0, 6) + "...");
-                } catch {
-                    alert("Connection rejected!");
-                }
-            } else {
-                window.open("https://phantom.app/", "_blank");
-            }
+        // Wallet
+        async function connectWallet() { 
+            if ("solana" in window) { 
+                try { const r = await window.solana.connect(); alert("Connected: " + r.publicKey.toString().slice(0, 6) + "..."); } 
+                catch { alert("Connection rejected!"); } 
+            } else { window.open("https://phantom.app/", "_blank"); } 
         }
 
-        // Tokenomics highlight
-        window.hl = function(id) {
-            document.querySelectorAll('.segment').forEach(e => e.classList.remove('active'));
-            document.querySelectorAll('.legend-item').forEach(e => e.classList.remove('active'));
-            const s = document.querySelector(`.segment[data-id="${id}"]`), l = document.getElementById(`leg-${id}`);
-            if (s) s.classList.add('active');
-            if (l) l.classList.add('active');
+        // Tokenomics
+        window.hl = function(id) { 
+            document.querySelectorAll('.segment').forEach(e => e.classList.remove('active')); 
+            document.querySelectorAll('.legend-item').forEach(e => e.classList.remove('active')); 
+            const s = document.querySelector('.segment[data-id="' + id + '"]'), l = document.getElementById('leg-' + id); 
+            if (s) s.classList.add('active'); if (l) l.classList.add('active'); 
         };
 
         // Mobile menu
@@ -937,8 +958,8 @@
         function toggleMenu() { hamburger.classList.toggle('active'); mobileMenu.classList.toggle('open'); document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : ''; }
         if (hamburger && mobileMenu) { hamburger.addEventListener('click', toggleMenu); if (closeBtn) closeBtn.addEventListener('click', toggleMenu); document.querySelectorAll('.mobile-menu a').forEach(a => a.addEventListener('click', function() { if (this.getAttribute('href').startsWith('#')) toggleMenu(); })); }
 
-        // POI data update
-        function updatePOIData() { const now = new Date(); document.getElementById('poi-updated').textContent = now.toLocaleTimeString(); }
+        // POI
+        function updatePOIData() { document.getElementById('poi-updated').textContent = new Date().toLocaleTimeString(); }
         setInterval(updatePOIData, 60000);
     </script>
 </body>
