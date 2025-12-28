@@ -446,3 +446,117 @@ body {
   color: #8f9fa3;
   padding: 16px;
 }
+.attestation-widget {
+  background: #0a0f0c;
+  border: 1px solid #1a2f1f;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.attestation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1a2f1f;
+}
+
+.attestation-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #00FF9D;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.attestation-progress {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #8f9fa3;
+}
+
+.attestation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.attestation-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: #080c0a;
+  border: 1px solid #1a2f1f;
+}
+
+.attestation-item.complete {
+  opacity: 0.6;
+}
+
+.attestation-item.locked {
+  opacity: 0.4;
+}
+
+.attestation-check {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+}
+
+.attestation-item.complete .attestation-check {
+  color: #00FF9D;
+}
+
+.attestation-item.pending .attestation-check {
+  color: #ffd93d;
+}
+
+.attestation-item.locked .attestation-check {
+  font-size: 0.75rem;
+}
+
+.attestation-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.attestation-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  color: #ffffff;
+}
+
+.attestation-item.complete .attestation-name {
+  text-decoration: line-through;
+}
+
+.attestation-reward {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: #00FF9D;
+}
+
+.attestation-btn {
+  padding: 6px 12px;
+  background: #00FF9D;
+  color: #000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.attestation-btn:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
+}

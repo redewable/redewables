@@ -1,4 +1,5 @@
 import Weather from '../components/Weather';
+import Attestations from '../components/Attestations';
 
 export default function Dashboard() {
   return (
@@ -61,6 +62,7 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
+            <Attestations />
           </div>
 
           <div className="panel">
