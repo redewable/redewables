@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REDEW // LAUNCH SEQUENCE</title>
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #020403;
+            --bg-panel: #080c0a;
+            --bg-card: #0a0f0c;
+            --text-main: #ffffff;
+            --text-dim: #8f9fa3;
+            --border: #1a2f1f;
+            --acid: #00FF9D;
+            --acid-dim: rgba(0, 255, 157, 0.1);
+            --acid-glow: rgba(0, 255, 157, 0.3);
+            --red: #ff6b6b;
+            --yellow: #ffd93d;
+            --blue: #4dabf7;
+            --font-head: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg-main);
+            font-family: var(--font-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .grid-floor {
+            position: fixed; bottom: -30%; left: -50%; width: 200%; height: 100%;
+            background-image: linear-gradient(#00361A 2px, transparent 2px), linear-gradient(90deg, #0a1f12 1px, transparent 1px);
+            background-size: 50px 50px; transform: perspective(500px) rotateX(60deg);
+            opacity: 0.15; z-index: -1; pointer-events: none;
+            mask-image: linear-gradient(to top, #000 10%, transparent 90%);
+        }
+
+        .password-screen {
+            position: fixed; inset: 0; background: var(--bg-main);
+            display: flex; align-items: center; justify-content: center; z-index: 9999;
+        }
+        .password-screen.hidden { display: none; }
+
+        .password-box {
+            background: var(--bg-panel); border: 1px solid var(--acid); padding: 40px;
+            max-width: 400px; width: 90%; text-align: center; position: relative;
+            box-shadow: 0 0 60px var(--acid-dim);
+        }
+        .password-box::before { content: ""; position: absolute; top: -1px; left: -1px; width: 20px; height: 20px; border-top: 2px solid var(--acid); border-left: 2px solid var(--acid); }
+        .password-box::after { content: ""; position: absolute; bottom: -1px; right: -1px; width: 20px; height: 20px; border-bottom: 2px solid var(--acid); border-right: 2px solid var(--acid); }
+        .password-box h2 { font-family: var(--font-head); font-size: 1.5rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em; }
+        .password-box .subtitle { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); margin-bottom: 30px; }
+
+        .password-input {
+            width: 100%; padding: 14px 18px; background: var(--bg-card); border: 1px solid var(--border);
+            color: var(--text-main); font-family: var(--font-mono); font-size: 1rem; margin-bottom: 20px;
+            text-align: center; letter-spacing: 0.2em;
+        }
+        .password-input:focus { outline: none; border-color: var(--acid); box-shadow: 0 0 20px var(--acid-dim); }
+        .password-input::placeholder { color: var(--text-dim); letter-spacing: 0.1em; }
+        .password-error { color: var(--red); font-family: var(--font-mono); font-size: 0.8rem; margin-bottom: 15px; display: none; }
+        .password-error.show { display: block; }
+
+        .btn {
+            padding: 14px 30px; background: var(--acid); color: #000; font-family: var(--font-head);
+            font-weight: 700; text-transform: uppercase; border: none; cursor: pointer;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            transition: all 0.2s ease; width: 100%; font-size: 1rem;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 0 25px var(--acid-dim); filter: brightness(1.1); }
+
+        .main-content { display: none; padding: 30px; max-width: 1400px; margin: 0 auto; }
+        .main-content.visible { display: block; }
+
+        .header {
+            display: flex; justify-content: space-between; align-items: center; padding: 20px 0 30px;
+            border-bottom: 1px solid var(--border); margin-bottom: 40px; flex-wrap: wrap; gap: 20px;
+        }
+        .logo { font-family: var(--font-head); font-weight: 800; font-size: 1.4rem; font-style: italic; }
+        .logo span { color: var(--acid); }
+        .header-stats { display: flex; gap: 30px; align-items: center; }
+        .stat-box { text-align: center; }
+        .stat-box .label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+        .stat-box .value { font-family: var(--font-head); font-size: 1.4rem; font-weight: 700; color: var(--acid); }
+        .logout-btn { background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 8px 16px; font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; transition: all 0.2s; }
+        .logout-btn:hover { border-color: var(--red); color: var(--red); }
+
+        .demo-banner {
+            background: linear-gradient(135deg, var(--acid-dim), rgba(0, 255, 157, 0.05));
+            border: 1px solid var(--acid); padding: 20px 25px; margin-bottom: 30px;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;
+        }
+        .demo-banner-left { display: flex; align-items: center; gap: 15px; }
+        .demo-banner-icon { font-size: 2rem; color: var(--acid); }
+        .demo-banner-text h3 { font-family: var(--font-head); font-size: 1rem; text-transform: uppercase; margin-bottom: 4px; }
+        .demo-banner-text p { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); }
+        .demo-banner-milestone { font-family: var(--font-mono); font-size: 0.8rem; color: var(--acid); background: var(--bg-card); padding: 8px 15px; border: 1px solid var(--acid); }
+
+        .overall-progress { background: var(--bg-panel); border: 1px solid var(--border); padding: 25px; margin-bottom: 40px; }
+        .overall-progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .overall-progress-header h3 { font-family: var(--font-head); font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .overall-progress-header .percentage { font-family: var(--font-mono); font-size: 1.2rem; color: var(--acid); font-weight: 700; }
+        .progress-bar { height: 8px; background: var(--bg-card); border: 1px solid var(--border); position: relative; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--acid); transition: width 0.5s ease; box-shadow: 0 0 20px var(--acid-glow); }
+
+        .milestone-track { display: flex; justify-content: space-between; margin-top: 15px; padding: 0 5px; }
+        .milestone-marker { text-align: center; position: relative; }
+        .milestone-marker::before { content: ""; width: 12px; height: 12px; background: var(--bg-card); border: 2px solid var(--border); border-radius: 50%; display: block; margin: 0 auto 8px; }
+        .milestone-marker.reached::before { background: var(--acid); border-color: var(--acid); box-shadow: 0 0 10px var(--acid-glow); }
+        .milestone-marker .label { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; }
+        .milestone-marker.reached .label { color: var(--acid); }
+
+        .phase { background: var(--bg-panel); border: 1px solid var(--border); margin-bottom: 20px; transition: all 0.3s ease; }
+        .phase:hover { border-color: var(--acid); }
+        .phase.demo-phase { border-left: 3px solid var(--yellow); }
+        .phase-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; cursor: pointer; user-select: none; }
+        .phase-header:hover { background: var(--acid-dim); }
+        .phase-title { display: flex; align-items: center; gap: 15px; }
+        .phase-number { font-family: var(--font-mono); font-size: 0.75rem; color: var(--acid); background: var(--acid-dim); padding: 4px 10px; border: 1px solid var(--acid); }
+        .phase-name { font-family: var(--font-head); font-size: 1.1rem; text-transform: uppercase; font-weight: 700; }
+        .phase-demo-badge { font-family: var(--font-mono); font-size: 0.65rem; color: var(--yellow); background: rgba(255, 217, 61, 0.1); padding: 3px 8px; border: 1px solid var(--yellow); margin-left: 10px; }
+        .phase-status { display: flex; align-items: center; gap: 15px; }
+        .phase-progress-mini { width: 100px; height: 4px; background: var(--bg-card); border-radius: 2px; overflow: hidden; }
+        .phase-progress-mini .fill { height: 100%; background: var(--acid); transition: width 0.3s ease; }
+        .phase-count { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim); min-width: 60px; text-align: right; }
+        .phase-toggle { color: var(--acid); font-size: 1.2rem; transition: transform 0.3s ease; }
+        .phase.expanded .phase-toggle { transform: rotate(180deg); }
+        .phase-content { display: none; padding: 0 25px 25px; border-top: 1px solid var(--border); }
+        .phase.expanded .phase-content { display: block; }
+        .phase-description { background: var(--bg-card); border-left: 3px solid var(--acid); padding: 15px; margin: 20px 0; font-size: 0.9rem; color: var(--text-dim); }
+        .phase-description strong { color: var(--acid); }
+
+        .subsection { margin-top: 20px; }
+        .subsection-title { font-family: var(--font-mono); font-size: 0.75rem; color: var(--acid); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--border); }
+
+        .task-list { display: flex; flex-direction: column; gap: 8px; }
+        .task-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 15px; background: var(--bg-card); border: 1px solid var(--border); cursor: pointer; transition: all 0.2s ease; }
+        .task-item:hover { border-color: var(--acid); background: var(--acid-dim); }
+        .task-item.completed { opacity: 0.6; }
+        .task-item.completed .task-text { text-decoration: line-through; color: var(--text-dim); }
+        .task-checkbox { width: 20px; height: 20px; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; transition: all 0.2s ease; }
+        .task-item:hover .task-checkbox { border-color: var(--acid); }
+        .task-item.completed .task-checkbox { background: var(--acid); border-color: var(--acid); }
+        .task-checkbox i { color: #000; font-size: 0.7rem; opacity: 0; }
+        .task-item.completed .task-checkbox i { opacity: 1; }
+        .task-content { flex: 1; }
+        .task-text { font-size: 0.9rem; color: var(--text-main); margin-bottom: 4px; }
+        .task-meta { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); display: flex; gap: 10px; flex-wrap: wrap; }
+        .task-meta .tag { background: var(--acid-dim); color: var(--acid); padding: 2px 8px; border: 1px solid var(--acid); }
+        .task-meta .tag.demo { background: rgba(255, 217, 61, 0.1); color: var(--yellow); border-color: var(--yellow); }
+        .task-meta .tag.reuse { background: rgba(77, 171, 247, 0.1); color: var(--blue); border-color: var(--blue); }
+        .task-meta .tool { color: var(--text-dim); }
+        .task-meta .tool i { margin-right: 4px; color: var(--yellow); }
+
+        .notes-section { margin-top: 40px; background: var(--bg-panel); border: 1px solid var(--border); padding: 25px; }
+        .notes-section h3 { font-family: var(--font-head); font-size: 1rem; text-transform: uppercase; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .notes-section h3 i { color: var(--acid); }
+        .notes-textarea { width: 100%; min-height: 150px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main); font-family: var(--font-mono); font-size: 0.85rem; padding: 15px; resize: vertical; }
+        .notes-textarea:focus { outline: none; border-color: var(--acid); }
+        .notes-textarea::placeholder { color: var(--text-dim); }
+
+        .quick-links { margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
+        .quick-link { background: var(--bg-panel); border: 1px solid var(--border); padding: 20px; text-decoration: none; color: var(--text-main); transition: all 0.2s ease; display: flex; align-items: center; gap: 12px; }
+        .quick-link:hover { border-color: var(--acid); background: var(--acid-dim); }
+        .quick-link i { font-size: 1.5rem; color: var(--acid); }
+        .quick-link-text { font-family: var(--font-head); font-size: 0.85rem; text-transform: uppercase; font-weight: 600; }
+
+        .legend { margin-top: 40px; background: var(--bg-panel); border: 1px solid var(--border); padding: 20px 25px; }
+        .legend h4 { font-family: var(--font-head); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 15px; color: var(--text-dim); }
+        .legend-items { display: flex; gap: 20px; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.75rem; }
+        .legend-item .swatch { width: 12px; height: 12px; border: 1px solid; }
+        .legend-item .swatch.demo { background: rgba(255, 217, 61, 0.1); border-color: var(--yellow); }
+        .legend-item .swatch.reuse { background: rgba(77, 171, 247, 0.1); border-color: var(--blue); }
+        .legend-item .swatch.complete { background: var(--acid-dim); border-color: var(--acid); }
+
+        .footer { margin-top: 60px; padding: 30px 0; border-top: 1px solid var(--border); text-align: center; }
+        .footer-text { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); }
+        .last-saved { margin-top: 10px; font-family: var(--font-mono); font-size: 0.7rem; color: var(--acid); }
+        .reset-btn { background: transparent; border: 1px solid var(--red); color: var(--red); padding: 10px 20px; font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; margin-top: 20px; transition: all 0.2s; }
+        .reset-btn:hover { background: var(--red); color: #000; }
+
+        @media (max-width: 768px) {
+            .header { flex-direction: column; text-align: center; }
+            .header-stats { flex-wrap: wrap; justify-content: center; }
+            .phase-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .phase-status { width: 100%; justify-content: space-between; }
+            .task-meta { flex-direction: column; gap: 5px; }
+            .demo-banner { flex-direction: column; text-align: center; }
+            .milestone-track { flex-wrap: wrap; gap: 10px; }
+        }
+
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px var(--acid-dim); } 50% { box-shadow: 0 0 40px var(--acid-glow); } }
+        .phase.all-complete { border-color: var(--acid); animation: pulse-glow 2s ease-in-out infinite; }
+    </style>
+</head>
+<body>
+    <div class="grid-floor"></div>
+
+    <div class="password-screen" id="passwordScreen">
+        <div class="password-box">
+            <h2>LAUNCH SEQUENCE</h2>
+            <p class="subtitle">// AUTHORIZED ACCESS ONLY</p>
+            <input type="password" class="password-input" id="passwordInput" placeholder="ENTER ACCESS CODE" autofocus>
+            <p class="password-error" id="passwordError">ACCESS DENIED — INVALID CODE</p>
+            <button class="btn" onclick="checkPassword()">AUTHENTICATE</button>
+        </div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <header class="header">
+            <div class="logo">REDEW<span>.LAUNCH</span></div>
+            <div class="header-stats">
+                <div class="stat-box"><div class="label">Tasks Complete</div><div class="value" id="tasksComplete">0</div></div>
+                <div class="stat-box"><div class="label">Total Tasks</div><div class="value" id="totalTasks">0</div></div>
+                <div class="stat-box"><div class="label">Phases Done</div><div class="value" id="phasesDone">0/8</div></div>
+                <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> LOGOUT</button>
+            </div>
+        </header>
+
+        <div class="demo-banner">
+            <div class="demo-banner-left">
+                <i class="fas fa-bullseye demo-banner-icon"></i>
+                <div class="demo-banner-text">
+                    <h3>Next Demo Milestone</h3>
+                    <p id="nextMilestone">Complete Phase 01 to unlock first demo</p>
+                </div>
+            </div>
+            <div class="demo-banner-milestone" id="milestoneETA">TARGET: WEEK 1</div>
+        </div>
+
+        <div class="overall-progress">
+            <div class="overall-progress-header">
+                <h3><i class="fas fa-rocket" style="color: var(--acid); margin-right: 10px;"></i>MISSION PROGRESS</h3>
+                <span class="percentage" id="overallPercentage">0%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="overallProgressFill" style="width: 0%"></div></div>
+            <div class="milestone-track">
+                <div class="milestone-marker" data-phase="2"><span class="label">Demo UI</span></div>
+                <div class="milestone-marker" data-phase="3"><span class="label">Mint Page</span></div>
+                <div class="milestone-marker" data-phase="4"><span class="label">Devnet NFT</span></div>
+                <div class="milestone-marker" data-phase="5"><span class="label">Live Data</span></div>
+                <div class="milestone-marker" data-phase="6"><span class="label">Token</span></div>
+                <div class="milestone-marker" data-phase="8"><span class="label">🚀 Launch</span></div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <h4>Legend</h4>
+            <div class="legend-items">
+                <div class="legend-item"><span class="swatch demo"></span> DEMO = Creates demoable output</div>
+                <div class="legend-item"><span class="swatch reuse"></span> PROD = Becomes production code</div>
+                <div class="legend-item"><span class="swatch complete"></span> Done = Completed task</div>
+            </div>
+        </div>
+
+        <div id="phasesContainer" style="margin-top: 30px;"></div>
+
+        <div class="notes-section">
+            <h3><i class="fas fa-sticky-note"></i> MISSION NOTES</h3>
+            <textarea class="notes-textarea" id="missionNotes" placeholder="Log your progress, decisions, blockers, ideas..."></textarea>
+        </div>
+
+        <div class="quick-links">
+            <a href="https://github.com" target="_blank" class="quick-link"><i class="fab fa-github"></i><span class="quick-link-text">GitHub</span></a>
+            <a href="https://vercel.com" target="_blank" class="quick-link"><i class="fas fa-triangle"></i><span class="quick-link-text">Vercel</span></a>
+            <a href="https://supabase.com" target="_blank" class="quick-link"><i class="fas fa-database"></i><span class="quick-link-text">Supabase</span></a>
+            <a href="https://phantom.app" target="_blank" class="quick-link"><i class="fas fa-ghost"></i><span class="quick-link-text">Phantom</span></a>
+            <a href="https://metaplex.com" target="_blank" class="quick-link"><i class="fas fa-gem"></i><span class="quick-link-text">Metaplex</span></a>
+            <a href="https://solana.com" target="_blank" class="quick-link"><i class="fas fa-sun"></i><span class="quick-link-text">Solana</span></a>
+            <a href="https://privy.io" target="_blank" class="quick-link"><i class="fas fa-key"></i><span class="quick-link-text">Privy</span></a>
+            <a href="https://docs.metaplex.com" target="_blank" class="quick-link"><i class="fas fa-book"></i><span class="quick-link-text">Docs</span></a>
+        </div>
+
+        <footer class="footer">
+            <p class="footer-text">REDEWABLE PROTOCOL // LAUNCH SEQUENCE v2.0 — DEMO-FIRST BUILD</p>
+            <p class="last-saved" id="lastSaved">Last saved: Never</p>
+            <button class="reset-btn" onclick="resetProgress()"><i class="fas fa-exclamation-triangle"></i> RESET ALL PROGRESS</button>
+        </footer>
+    </div>
+
+    <script>
+        const ACCESS_CODE = 'valor2024';
+        const STORAGE_KEY = 'redew_launch_sequence_v2';
+
+        const phases = [
+            {
+                id: 'phase-0', number: '00', name: 'Foundation Complete', isDemo: false,
+                description: '<strong>Already done.</strong> These are the building blocks that got us here. Check them off to start with credit.',
+                subsections: [{
+                    title: 'Completed Work',
+                    tasks: [
+                        { id: 'p0-1', text: 'redewables.com domain acquired & homepage live', tags: ['COMPLETE'] },
+                        { id: 'p0-2', text: 'redewable.com corporate site live', tags: ['COMPLETE'] },
+                        { id: 'p0-3', text: 'Brand system defined (colors, fonts, effects)', tags: ['COMPLETE'] },
+                        { id: 'p0-4', text: 'Litepaper drafted', tags: ['COMPLETE'] },
+                        { id: 'p0-5', text: 'Entity structure planned (Cayman, BVI, Texas)', tags: ['COMPLETE'] },
+                        { id: 'p0-6', text: 'Vendor agreements signed (ANS, Enerzinx)', tags: ['COMPLETE'] },
+                        { id: 'p0-7', text: 'Land option secured (Clearleaf Hills)', tags: ['COMPLETE'] },
+                        { id: 'p0-8', text: 'Solana wallet created (Phantom)', tags: ['COMPLETE'] },
+                    ]
+                }]
+            },
+            {
+                id: 'phase-1', number: '01', name: 'Quick Setup', isDemo: false,
+                description: '<strong>Just enough to start building.</strong> Skip the deep infrastructure — get coding. We\'ll harden security before mainnet.',
+                subsections: [
+                    { title: 'Essential Accounts (15 min)', tasks: [
+                        { id: 'p1-1', text: 'Create GitHub account + enable 2FA', tags: ['ACCOUNT'], tools: ['GitHub'] },
+                        { id: 'p1-2', text: 'Create Vercel account + connect to GitHub', tags: ['ACCOUNT'], tools: ['Vercel'] },
+                        { id: 'p1-3', text: 'Create Supabase account', tags: ['ACCOUNT'], tools: ['Supabase'] },
+                    ]},
+                    { title: 'Dev Environment (30 min)', tasks: [
+                        { id: 'p1-4', text: 'Install Node.js LTS', tags: ['SOFTWARE'], tools: ['nodejs.org'] },
+                        { id: 'p1-5', text: 'Install Git', tags: ['SOFTWARE'], tools: ['git-scm.com'] },
+                        { id: 'p1-6', text: 'Install VS Code', tags: ['SOFTWARE'] },
+                        { id: 'p1-7', text: 'Install Solana CLI', tags: ['SOFTWARE'], tools: ['docs.solana.com'] },
+                        { id: 'p1-8', text: 'Configure Solana CLI for devnet', tags: ['CONFIG'] },
+                        { id: 'p1-9', text: 'Fund Phantom with devnet SOL', tags: ['CONFIG'], tools: ['solfaucet.com'] },
+                    ]}
+                ]
+            },
+            {
+                id: 'phase-2', number: '02', name: 'Validator Dashboard UI', isDemo: true, demoOutput: 'Live dashboard you can show investors',
+                description: '<strong>BUILD THE DASHBOARD FIRST.</strong> Mock data, real design. This becomes your production app — we just swap in real data later.',
+                subsections: [
+                    { title: 'Project Scaffold', tasks: [
+                        { id: 'p2-1', text: 'Initialize Next.js 14 project', tags: ['PROD'], tools: ['create-next-app'] },
+                        { id: 'p2-2', text: 'Install Tailwind CSS', tags: ['PROD'], tools: ['Tailwind'] },
+                        { id: 'p2-3', text: 'Import redewables.com brand system', tags: ['PROD'] },
+                        { id: 'p2-4', text: 'Add CRT overlay + grid floor effects', tags: ['PROD'] },
+                        { id: 'p2-5', text: 'Create GitHub repo + push', tags: ['PROD'], tools: ['GitHub'] },
+                        { id: 'p2-6', text: 'Deploy to Vercel', tags: ['PROD', 'DEMO'], tools: ['Vercel'] },
+                    ]},
+                    { title: 'Dashboard Layout (Mock Data)', tasks: [
+                        { id: 'p2-7', text: 'Build main dashboard layout', tags: ['PROD', 'DEMO'] },
+                        { id: 'p2-8', text: 'Create "My Licenses" section (mock NFT cards)', tags: ['PROD', 'DEMO'] },
+                        { id: 'p2-9', text: 'Build project status card (ReDew Anson)', tags: ['PROD', 'DEMO'] },
+                        { id: 'p2-10', text: 'Add live weather feed (Open-Meteo API)', tags: ['PROD', 'DEMO'] },
+                        { id: 'p2-11', text: 'Create attestation tasks panel', tags: ['PROD', 'DEMO'] },
+                        { id: 'p2-12', text: 'Build reward projections display', tags: ['PROD', 'DEMO'] },
+                        { id: 'p2-13', text: 'Add responsive mobile layout', tags: ['PROD'] },
+                    ]},
+                    { title: 'Polish for Demo', tasks: [
+                        { id: 'p2-14', text: 'Add loading states and animations', tags: ['DEMO'] },
+                        { id: 'p2-15', text: 'Create "Connect Wallet" placeholder', tags: ['DEMO'] },
+                        { id: 'p2-16', text: 'Add "Testnet Mode" banner', tags: ['DEMO'] },
+                        { id: 'p2-17', text: 'Screenshot / record demo video', tags: ['DEMO'] },
+                    ]}
+                ]
+            },
+            {
+                id: 'phase-3', number: '03', name: 'Mint Page UI', isDemo: true, demoOutput: 'Mint page ready for wallet connect',
+                description: '<strong>THE STOREFRONT.</strong> Build the mint UI with tier selection, pricing, progress bars. Wallet connect comes next.',
+                subsections: [
+                    { title: 'Mint Page Layout', tasks: [
+                        { id: 'p3-1', text: 'Create /mint route', tags: ['PROD'] },
+                        { id: 'p3-2', text: 'Build tier selection cards', tags: ['PROD', 'DEMO'] },
+                        { id: 'p3-3', text: 'Add pricing display (SOL + USD)', tags: ['PROD', 'DEMO'] },
+                        { id: 'p3-4', text: 'Build supply progress bars', tags: ['PROD', 'DEMO'] },
+                        { id: 'p3-5', text: 'Create total raise progress bar', tags: ['PROD', 'DEMO'] },
+                        { id: 'p3-6', text: 'Add risk disclaimer modal', tags: ['PROD'] },
+                    ]},
+                    { title: 'Wallet Connect', tasks: [
+                        { id: 'p3-7', text: 'Install @solana/wallet-adapter', tags: ['PROD'], tools: ['npm'] },
+                        { id: 'p3-8', text: 'Add wallet connect button', tags: ['PROD', 'DEMO'] },
+                        { id: 'p3-9', text: 'Display connected wallet address', tags: ['PROD', 'DEMO'] },
+                        { id: 'p3-10', text: 'Add disconnect option', tags: ['PROD'] },
+                    ]},
+                    { title: 'Email Signup (Normie Path)', tasks: [
+                        { id: 'p3-11', text: 'Add "New to Crypto?" button', tags: ['PROD', 'DEMO'] },
+                        { id: 'p3-12', text: 'Create email signup form', tags: ['PROD', 'DEMO'] },
+                        { id: 'p3-13', text: 'Store emails in Supabase', tags: ['PROD'], tools: ['Supabase'] },
+                    ]}
+                ]
+            },
+            {
+                id: 'phase-4', number: '04', name: 'NFT Collection (Devnet)', isDemo: true, demoOutput: 'Working NFT mint on devnet',
+                description: '<strong>THE VALIDATOR LICENSE NFT.</strong> Create collection on devnet, test minting, verify everything works.',
+                subsections: [
+                    { title: 'NFT Artwork & Metadata', tasks: [
+                        { id: 'p4-1', text: 'Design NFT artwork — Genesis tier', tags: ['DESIGN'] },
+                        { id: 'p4-2', text: 'Design NFT artwork — Core tier', tags: ['DESIGN'] },
+                        { id: 'p4-3', text: 'Design NFT artwork — Surge tier', tags: ['DESIGN'] },
+                        { id: 'p4-4', text: 'Create metadata JSON schema', tags: ['PROD'] },
+                        { id: 'p4-5', text: 'Upload artwork to Arweave', tags: ['PROD'], tools: ['Bundlr'] },
+                    ]},
+                    { title: 'Smart Contract (Metaplex)', tasks: [
+                        { id: 'p4-6', text: 'Install Metaplex Umi SDK', tags: ['PROD'], tools: ['npm'] },
+                        { id: 'p4-7', text: 'Create collection on devnet', tags: ['PROD'], tools: ['Metaplex'] },
+                        { id: 'p4-8', text: 'Configure tier pricing', tags: ['PROD'] },
+                        { id: 'p4-9', text: 'Set max supply per tier', tags: ['PROD'] },
+                        { id: 'p4-10', text: 'Configure mint authority', tags: ['PROD'] },
+                    ]},
+                    { title: 'Connect Mint Page', tasks: [
+                        { id: 'p4-11', text: 'Add mint transaction logic', tags: ['PROD'] },
+                        { id: 'p4-12', text: 'Handle transaction confirmation', tags: ['PROD'] },
+                        { id: 'p4-13', text: 'Show success state + NFT preview', tags: ['PROD', 'DEMO'] },
+                        { id: 'p4-14', text: 'Update supply counters real-time', tags: ['PROD'] },
+                    ]},
+                    { title: 'Testing', tasks: [
+                        { id: 'p4-15', text: 'Test mint flow end-to-end', tags: ['TEST'] },
+                        { id: 'p4-16', text: 'Verify NFT in Phantom wallet', tags: ['TEST'] },
+                        { id: 'p4-17', text: 'Verify metadata on Solscan', tags: ['TEST'] },
+                        { id: 'p4-18', text: 'Test tier progression', tags: ['TEST'] },
+                    ]}
+                ]
+            },
+            {
+                id: 'phase-5', number: '05', name: 'Database & Auth', isDemo: false,
+                description: '<strong>REAL DATA LAYER.</strong> Connect Supabase for users, licenses, attestations. Add Privy for email users.',
+                subsections: [
+                    { title: 'Supabase Setup', tasks: [
+                        { id: 'p5-1', text: 'Create Supabase project', tags: ['PROD'], tools: ['Supabase'] },
+                        { id: 'p5-2', text: 'Design users table', tags: ['PROD'] },
+                        { id: 'p5-3', text: 'Design licenses table', tags: ['PROD'] },
+                        { id: 'p5-4', text: 'Design projects table', tags: ['PROD'] },
+                        { id: 'p5-5', text: 'Design attestations table', tags: ['PROD'] },
+                        { id: 'p5-6', text: 'Design rewards table', tags: ['PROD'] },
+                        { id: 'p5-7', text: 'Configure Row Level Security', tags: ['PROD'] },
+                        { id: 'p5-8', text: 'Set up daily backups', tags: ['PROD'] },
+                    ]},
+                    { title: 'Auth Integration', tasks: [
+                        { id: 'p5-9', text: 'Integrate Privy for email auth', tags: ['PROD'], tools: ['Privy'] },
+                        { id: 'p5-10', text: 'Set up embedded wallets', tags: ['PROD'] },
+                        { id: 'p5-11', text: 'Add wallet signature verification', tags: ['PROD'] },
+                        { id: 'p5-12', text: 'Create session management', tags: ['PROD'] },
+                        { id: 'p5-13', text: 'Test dual auth flow', tags: ['TEST'] },
+                    ]},
+                    { title: 'Dashboard → Real Data', tasks: [
+                        { id: 'p5-14', text: 'Connect dashboard to Supabase', tags: ['PROD'] },
+                        { id: 'p5-15', text: 'Fetch user NFTs from chain', tags: ['PROD'] },
+                        { id: 'p5-16', text: 'Display real license data', tags: ['PROD'] },
+                        { id: 'p5-17', text: 'Track attestation history', tags: ['PROD'] },
+                    ]}
+                ]
+            },
+            {
+                id: 'phase-6', number: '06', name: '$RDW Token', isDemo: false,
+                description: '<strong>THE REWARD TOKEN.</strong> Create SPL token, build distribution, integrate with dashboard claims.',
+                subsections: [
+                    { title: 'Token Setup', tasks: [
+                        { id: 'p6-1', text: 'Finalize tokenomics', tags: ['DECISION'] },
+                        { id: 'p6-2', text: 'Create SPL token on devnet', tags: ['PROD'], tools: ['spl-token'] },
+                        { id: 'p6-3', text: 'Set token metadata', tags: ['PROD'] },
+                        { id: 'p6-4', text: 'Configure mint authority', tags: ['PROD'] },
+                        { id: 'p6-5', text: 'Test token transfer', tags: ['TEST'] },
+                    ]},
+                    { title: 'Reward Distribution', tasks: [
+                        { id: 'p6-6', text: 'Build reward calculation engine', tags: ['PROD'] },
+                        { id: 'p6-7', text: 'Create claim mechanism', tags: ['PROD'] },
+                        { id: 'p6-8', text: 'Add $RDW balance to dashboard', tags: ['PROD'] },
+                        { id: 'p6-9', text: 'Build claim rewards UI', tags: ['PROD'] },
+                        { id: 'p6-10', text: 'Test full claim flow', tags: ['TEST'] },
+                    ]},
+                    { title: 'Vesting & Treasury', tasks: [
+                        { id: 'p6-11', text: 'Set up team vesting', tags: ['PROD'] },
+                        { id: 'p6-12', text: 'Configure treasury wallet', tags: ['PROD'] },
+                        { id: 'p6-13', text: 'Document distribution plan', tags: ['DOCS'] },
+                    ]}
+                ]
+            },
+            {
+                id: 'phase-7', number: '07', name: 'Mainnet & Security', isDemo: false,
+                description: '<strong>GO LIVE.</strong> Deploy to mainnet. Harden security. Set up monitoring.',
+                subsections: [
+                    { title: 'Security Hardening', tasks: [
+                        { id: 'p7-1', text: 'Configure Ledger for admin wallet', tags: ['HARDWARE'], tools: ['Ledger'] },
+                        { id: 'p7-2', text: 'Move mint authority to Ledger', tags: ['HARDWARE'] },
+                        { id: 'p7-3', text: 'Enable Yubikey 2FA everywhere', tags: ['HARDWARE'], tools: ['Yubikey'] },
+                        { id: 'p7-4', text: 'Create encrypted seed backup', tags: ['HARDWARE'] },
+                        { id: 'p7-5', text: 'Security review of contracts', tags: ['REVIEW'] },
+                        { id: 'p7-6', text: 'Review admin access controls', tags: ['REVIEW'] },
+                    ]},
+                    { title: 'Mainnet Deployment', tasks: [
+                        { id: 'p7-7', text: 'Deploy NFT collection to mainnet', tags: ['DEPLOY'] },
+                        { id: 'p7-8', text: 'Deploy $RDW token to mainnet', tags: ['DEPLOY'] },
+                        { id: 'p7-9', text: 'Update app to mainnet RPC', tags: ['DEPLOY'] },
+                        { id: 'p7-10', text: 'Fund treasury with SOL', tags: ['DEPLOY'] },
+                        { id: 'p7-11', text: 'Test first mainnet mint', tags: ['TEST'] },
+                        { id: 'p7-12', text: 'Verify on Solscan', tags: ['TEST'] },
+                    ]},
+                    { title: 'Monitoring', tasks: [
+                        { id: 'p7-13', text: 'Set up error monitoring', tags: ['PROD'], tools: ['Sentry'] },
+                        { id: 'p7-14', text: 'Configure uptime monitoring', tags: ['PROD'] },
+                        { id: 'p7-15', text: 'Build admin analytics', tags: ['PROD'] },
+                        { id: 'p7-16', text: 'Create incident response plan', tags: ['DOCS'] },
+                    ]}
+                ]
+            },
+            {
+                id: 'phase-8', number: '08', name: 'Launch Sequence', isDemo: false,
+                description: '<strong>🚀 IGNITION.</strong> Pre-launch checks, soft launch, public launch, first rewards.',
+                subsections: [
+                    { title: 'Pre-Launch', tasks: [
+                        { id: 'p8-1', text: 'Final QA pass', tags: ['TEST'] },
+                        { id: 'p8-2', text: 'Write validator onboarding guide', tags: ['DOCS'] },
+                        { id: 'p8-3', text: 'Create FAQ document', tags: ['DOCS'] },
+                        { id: 'p8-4', text: 'Prepare launch announcement', tags: ['MARKETING'] },
+                        { id: 'p8-5', text: 'Brief community', tags: ['MARKETING'] },
+                    ]},
+                    { title: 'Soft Launch', tasks: [
+                        { id: 'p8-6', text: 'Open mint to early supporters', tags: ['LAUNCH'] },
+                        { id: 'p8-7', text: 'Monitor for issues', tags: ['MONITOR'] },
+                        { id: 'p8-8', text: 'Gather feedback', tags: ['REVIEW'] },
+                        { id: 'p8-9', text: 'Fix critical issues', tags: ['CODE'] },
+                    ]},
+                    { title: 'Public Launch', tasks: [
+                        { id: 'p8-10', text: 'Open public NFT sale', tags: ['LAUNCH'] },
+                        { id: 'p8-11', text: 'Activate validator dashboard', tags: ['LAUNCH'] },
+                        { id: 'p8-12', text: 'Begin first attestation period', tags: ['LAUNCH'] },
+                        { id: 'p8-13', text: 'Monitor and support users', tags: ['MONITOR'] },
+                    ]},
+                    { title: 'Post-Launch', tasks: [
+                        { id: 'p8-14', text: 'First $RDW reward distribution', tags: ['LAUNCH'] },
+                        { id: 'p8-15', text: 'Publish launch retrospective', tags: ['DOCS'] },
+                        { id: 'p8-16', text: 'Plan Site 02 expansion', tags: ['PLANNING'] },
+                        { id: 'p8-17', text: 'Celebrate 🎉', tags: ['MILESTONE'] },
+                    ]}
+                ]
+            }
+        ];
+
+        let state = { authenticated: false, completedTasks: [], notes: '', lastSaved: null };
+
+        function loadState() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) { try { state = JSON.parse(saved); } catch (e) {} }
+        }
+
+        function saveState() {
+            state.lastSaved = new Date().toISOString();
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            updateLastSaved();
+        }
+
+        function checkPassword() {
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('passwordError');
+            if (input.value === ACCESS_CODE) {
+                state.authenticated = true;
+                saveState();
+                showMainContent();
+            } else {
+                error.classList.add('show');
+                input.value = '';
+                input.focus();
+                setTimeout(() => error.classList.remove('show'), 2000);
+            }
+        }
+
+        function showMainContent() {
+            document.getElementById('passwordScreen').classList.add('hidden');
+            document.getElementById('mainContent').classList.add('visible');
+            renderPhases();
+            updateStats();
+            loadNotes();
+            updateMilestones();
+        }
+
+        function logout() {
+            state.authenticated = false;
+            saveState();
+            document.getElementById('passwordScreen').classList.remove('hidden');
+            document.getElementById('mainContent').classList.remove('visible');
+            document.getElementById('passwordInput').value = '';
+        }
+
+        document.getElementById('passwordInput').addEventListener('keypress', e => { if (e.key === 'Enter') checkPassword(); });
+
+        function renderPhases() {
+            const container = document.getElementById('phasesContainer');
+            container.innerHTML = '';
+            phases.forEach(phase => {
+                const phaseEl = document.createElement('div');
+                phaseEl.className = 'phase';
+                if (phase.isDemo) phaseEl.classList.add('demo-phase');
+                phaseEl.id = phase.id;
+                const totalTasks = phase.subsections.reduce((acc, sub) => acc + sub.tasks.length, 0);
+                const completedTasks = phase.subsections.reduce((acc, sub) => acc + sub.tasks.filter(t => state.completedTasks.includes(t.id)).length, 0);
+                const percentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+                if (completedTasks === totalTasks && totalTasks > 0) phaseEl.classList.add('all-complete');
+
+                phaseEl.innerHTML = `
+                    <div class="phase-header" onclick="togglePhase('${phase.id}')">
+                        <div class="phase-title">
+                            <span class="phase-number">PHASE ${phase.number}</span>
+                            <span class="phase-name">${phase.name}</span>
+                            ${phase.isDemo ? '<span class="phase-demo-badge">DEMO OUTPUT</span>' : ''}
+                        </div>
+                        <div class="phase-status">
+                            <div class="phase-progress-mini"><div class="fill" style="width: ${percentage}%"></div></div>
+                            <span class="phase-count">${completedTasks}/${totalTasks}</span>
+                            <i class="fas fa-chevron-down phase-toggle"></i>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <div class="phase-description">${phase.description}</div>
+                        ${phase.demoOutput ? `<div style="background: rgba(255,217,61,0.1); border: 1px solid var(--yellow); padding: 12px 15px; margin-bottom: 20px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--yellow);"><i class="fas fa-bullseye" style="margin-right: 8px;"></i>DEMO OUTPUT: ${phase.demoOutput}</div>` : ''}
+                        ${phase.subsections.map(sub => `
+                            <div class="subsection">
+                                <div class="subsection-title">${sub.title}</div>
+                                <div class="task-list">
+                                    ${sub.tasks.map(task => `
+                                        <div class="task-item ${state.completedTasks.includes(task.id) ? 'completed' : ''}" onclick="toggleTask('${task.id}')">
+                                            <div class="task-checkbox"><i class="fas fa-check"></i></div>
+                                            <div class="task-content">
+                                                <div class="task-text">${task.text}</div>
+                                                <div class="task-meta">
+                                                    ${task.tags ? task.tags.map(tag => `<span class="tag ${tag === 'DEMO' ? 'demo' : tag === 'PROD' ? 'reuse' : ''}">${tag}</span>`).join('') : ''}
+                                                    ${task.tools ? task.tools.map(tool => `<span class="tool"><i class="fas fa-wrench"></i>${tool}</span>`).join('') : ''}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(phaseEl);
+            });
+        }
+
+        function togglePhase(phaseId) { document.getElementById(phaseId).classList.toggle('expanded'); }
+
+        function toggleTask(taskId) {
+            event.stopPropagation();
+            if (state.completedTasks.includes(taskId)) state.completedTasks = state.completedTasks.filter(id => id !== taskId);
+            else state.completedTasks.push(taskId);
+            saveState();
+            renderPhases();
+            updateStats();
+            updateMilestones();
+        }
+
+        function updateStats() {
+            const totalTasks = phases.reduce((acc, phase) => acc + phase.subsections.reduce((a, sub) => a + sub.tasks.length, 0), 0);
+            const completedCount = state.completedTasks.length;
+            const percentage = totalTasks > 0 ? Math.round((completedCount / totalTasks) * 100) : 0;
+            let completedPhases = 0;
+            phases.forEach(phase => {
+                const phaseTasks = phase.subsections.reduce((acc, sub) => acc + sub.tasks.length, 0);
+                const phaseCompleted = phase.subsections.reduce((acc, sub) => acc + sub.tasks.filter(t => state.completedTasks.includes(t.id)).length, 0);
+                if (phaseCompleted === phaseTasks && phaseTasks > 0) completedPhases++;
+            });
+            document.getElementById('tasksComplete').textContent = completedCount;
+            document.getElementById('totalTasks').textContent = totalTasks;
+            document.getElementById('phasesDone').textContent = `${completedPhases}/${phases.length}`;
+            document.getElementById('overallPercentage').textContent = `${percentage}%`;
+            document.getElementById('overallProgressFill').style.width = `${percentage}%`;
+        }
+
+        function updateMilestones() {
+            const milestoneData = [
+                { phase: 2, label: 'Dashboard UI' },
+                { phase: 3, label: 'Mint Page' },
+                { phase: 4, label: 'Devnet NFT' },
+                { phase: 5, label: 'Live Data' },
+                { phase: 6, label: 'Token' },
+                { phase: 8, label: 'Launch' }
+            ];
+            let nextMilestone = null;
+            milestoneData.forEach(m => {
+                const phase = phases[m.phase];
+                const phaseTasks = phase.subsections.reduce((acc, sub) => acc + sub.tasks.length, 0);
+                const phaseCompleted = phase.subsections.reduce((acc, sub) => acc + sub.tasks.filter(t => state.completedTasks.includes(t.id)).length, 0);
+                const isComplete = phaseCompleted === phaseTasks && phaseTasks > 0;
+                const marker = document.querySelector(`.milestone-marker[data-phase="${m.phase}"]`);
+                if (marker) {
+                    if (isComplete) marker.classList.add('reached');
+                    else { marker.classList.remove('reached'); if (!nextMilestone) nextMilestone = m; }
+                }
+            });
+            const milestoneText = document.getElementById('nextMilestone');
+            const milestoneETA = document.getElementById('milestoneETA');
+            if (nextMilestone) {
+                milestoneText.textContent = `Complete Phase ${String(nextMilestone.phase).padStart(2, '0')} → ${nextMilestone.label}`;
+                milestoneETA.textContent = `TARGET: WEEK ${Math.ceil(nextMilestone.phase / 2)}`;
+            } else {
+                milestoneText.textContent = '🚀 ALL MILESTONES COMPLETE';
+                milestoneETA.textContent = 'READY FOR LAUNCH';
+            }
+        }
+
+        function updateLastSaved() {
+            const el = document.getElementById('lastSaved');
+            if (state.lastSaved) el.textContent = `Last saved: ${new Date(state.lastSaved).toLocaleString()}`;
+        }
+
+        function loadNotes() { document.getElementById('missionNotes').value = state.notes || ''; }
+
+        document.getElementById('missionNotes').addEventListener('input', function() { state.notes = this.value; saveState(); });
+
+        function resetProgress() {
+            if (confirm('⚠️ Reset ALL progress?')) {
+                if (confirm('⚠️ This cannot be undone. Really reset?')) {
+                    state.completedTasks = [];
+                    state.notes = '';
+                    saveState();
+                    renderPhases();
+                    updateStats();
+                    updateMilestones();
+                    loadNotes();
+                }
+            }
+        }
+
+        loadState();
+        if (state.authenticated) showMainContent();
+        updateLastSaved();
+    </script>
+</body>
+</html>
