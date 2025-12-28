@@ -15,7 +15,6 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <div className="grid-floor"></div>
-        <div className="crt-overlay"></div>
         {children}
       </body>
     </html>

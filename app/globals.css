@@ -375,8 +375,8 @@ body {
     linear-gradient(90deg, #0a1f12 1px, transparent 1px);
   background-size: 50px 50px;
   transform: perspective(500px) rotateX(60deg);
-  opacity: 0.15;
-  z-index: 0;
+  opacity: 0.35;
+  z-index: -1;
   pointer-events: none;
 }
 .sidebar {
