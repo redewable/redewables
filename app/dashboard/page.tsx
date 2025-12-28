@@ -1,11 +1,45 @@
+'use client';
+
+import { useState } from 'react';
 import Weather from '../components/Weather';
 import Attestations from '../components/Attestations';
+import RewardChart from '../components/RewardChart';
+import ProjectTimeline from '../components/ProjectTimeline';
+import ClaimRewards from '../components/ClaimRewards';
+
+
 
 export default function Dashboard() {
+  const [pendingRewards, setPendingRewards] = useState(1247);
+  const [totalEarned, setTotalEarned] = useState(2525);
+  const [rewardHistory, setRewardHistory] = useState([
+    { month: 'Jul', amount: 320 },
+    { month: 'Aug', amount: 480 },
+    { month: 'Sep', amount: 290 },
+    { month: 'Oct', amount: 610 },
+    { month: 'Nov', amount: 825 },
+    { month: 'Dec', amount: 0 },
+  ]);
+
+  const handleClaim = () => {
+    const claimed = pendingRewards;
+    setPendingRewards(0);
+    setTotalEarned(prev => prev + claimed);
+    setRewardHistory(prev => {
+      const updated = [...prev];
+      updated[updated.length - 1] = {
+        ...updated[updated.length - 1],
+        amount: updated[updated.length - 1].amount + claimed
+      };
+      return updated;
+    });
+  };
+
   return (
     <div className="dashboard-container">
-        <div className="testnet-banner">⚠️ TESTNET MODE — Mock Data</div>
-        <div className="grid-floor"></div>
+      <div className="testnet-banner">⚠️ TESTNET MODE — Mock Data</div>
+      <div className="grid-floor"></div>
+      
       <aside className="sidebar">
         <div className="logo">RE<span>DEW</span></div>
         
@@ -35,11 +69,11 @@ export default function Dashboard() {
           </div>
           <div className="stat-card">
             <div className="stat-label">Pending Rewards</div>
-            <div className="stat-value">1,247 <span>$RDW</span></div>
+            <div className="stat-value">{pendingRewards.toLocaleString()} <span>$RDW</span></div>
           </div>
           <div className="stat-card">
-            <div className="stat-label">Attestations</div>
-            <div className="stat-value">12/15</div>
+            <div className="stat-label">Total Earned</div>
+            <div className="stat-value">{totalEarned.toLocaleString()} <span>$RDW</span></div>
           </div>
         </div>
 
@@ -63,6 +97,7 @@ export default function Dashboard() {
               </div>
             </div>
             <Attestations />
+            <RewardChart history={rewardHistory} total={totalEarned} />
           </div>
 
           <div className="panel">
@@ -75,22 +110,13 @@ export default function Dashboard() {
                 </div>
                 <span className="project-badge">DEVELOPMENT</span>
               </div>
-              <div className="project-status-list">
-                <div className="status-row">
-                  <span className="status-label">Land Control</span>
-                  <span className="status-value green">✓ Secured</span>
-                </div>
-                <div className="status-row">
-                  <span className="status-label">Interconnection</span>
-                  <span className="status-value yellow">Pre-Filing</span>
-                </div>
-                <div className="status-row">
-                  <span className="status-label">Engineering</span>
-                  <span className="status-value yellow">In Progress</span>
-                </div>
-              </div>
+              <ProjectTimeline />
             </div>
             <Weather />
+            <ClaimRewards 
+              pending={pendingRewards} 
+              onClaim={handleClaim} 
+            />
           </div>
         </div>
       </main>

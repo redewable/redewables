@@ -5,26 +5,34 @@ import { useEffect, useState } from 'react';
 export default function Weather() {
   const [weather, setWeather] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string>('');
 
   useEffect(() => {
     const fetchWeather = () => {
-      // Jones County, TX coordinates (near Anson)
       const lat = 32.75;
       const lon = -99.90;
       
       fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,shortwave_radiation,weather_code&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America/Chicago`)
-        .then(res => res.json())
+        .then(res => {
+          if (!res.ok) throw new Error('API error');
+          return res.json();
+        })
         .then(data => {
+          console.log('Weather data:', data);
           setWeather(data.current);
           setLastUpdated(new Date().toLocaleTimeString());
           setLoading(false);
         })
-        .catch(() => setLoading(false));
+        .catch(err => {
+          console.error('Weather fetch error:', err);
+          setError(err.message);
+          setLoading(false);
+        });
     };
 
     fetchWeather();
-    const interval = setInterval(fetchWeather, 60000); // Update every minute
+    const interval = setInterval(fetchWeather, 60000);
     return () => clearInterval(interval);
   }, []);
 
@@ -35,6 +43,7 @@ export default function Weather() {
   };
 
   if (loading) return <div className="weather-loading">Loading site conditions...</div>;
+  if (error) return <div className="weather-loading">Weather unavailable</div>;
   if (!weather) return null;
 
   return (
