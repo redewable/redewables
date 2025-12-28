@@ -2,6 +2,7 @@ export default function Dashboard() {
   return (
     <div className="dashboard-container">
         <div className="testnet-banner">⚠️ TESTNET MODE — Mock Data</div>
+        <div className="grid-floor"></div>
       <aside className="sidebar">
         <div className="logo">RE<span>DEW</span></div>
         
