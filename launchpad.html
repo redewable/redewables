@@ -291,7 +291,7 @@
     </div>
 
     <script>
-        const ACCESS_CODE = 'valor2024';
+        const ACCESS_CODE = 'valor2025';
         const STORAGE_KEY = 'redew_launch_sequence_v2';
 
         const phases = [
@@ -532,11 +532,11 @@
             }
         ];
 
-        let state = { authenticated: false, completedTasks: [], notes: '', lastSaved: null };
+        let state = { authenticated: false, completedTasks: [], notes: '', lastSaved: null, expandedPhases: [] };
 
         function loadState() {
             const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved) { try { state = JSON.parse(saved); } catch (e) {} }
+            if (saved) { try { state = JSON.parse(saved); if (!state.expandedPhases) state.expandedPhases = []; } catch (e) {} }
         }
 
         function saveState() {
@@ -586,6 +586,7 @@
                 const phaseEl = document.createElement('div');
                 phaseEl.className = 'phase';
                 if (phase.isDemo) phaseEl.classList.add('demo-phase');
+                if (state.expandedPhases.includes(phase.id)) phaseEl.classList.add('expanded');
                 phaseEl.id = phase.id;
                 const totalTasks = phase.subsections.reduce((acc, sub) => acc + sub.tasks.length, 0);
                 const completedTasks = phase.subsections.reduce((acc, sub) => acc + sub.tasks.filter(t => state.completedTasks.includes(t.id)).length, 0);
@@ -633,7 +634,16 @@
             });
         }
 
-        function togglePhase(phaseId) { document.getElementById(phaseId).classList.toggle('expanded'); }
+        function togglePhase(phaseId) {
+            const phase = document.getElementById(phaseId);
+            phase.classList.toggle('expanded');
+            if (phase.classList.contains('expanded')) {
+                if (!state.expandedPhases.includes(phaseId)) state.expandedPhases.push(phaseId);
+            } else {
+                state.expandedPhases = state.expandedPhases.filter(id => id !== phaseId);
+            }
+            saveState();
+        }
 
         function toggleTask(taskId) {
             event.stopPropagation();
