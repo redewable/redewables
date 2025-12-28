@@ -396,3 +396,53 @@ body {
   position: relative;
   z-index: 1;
 }
+.weather-widget {
+  background: #0a0f0c;
+  border: 1px solid #1a2f1f;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.weather-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #00FF9D;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1a2f1f;
+}
+
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.weather-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.weather-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: #8f9fa3;
+  text-transform: uppercase;
+}
+
+.weather-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.weather-loading {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #8f9fa3;
+  padding: 16px;
+}

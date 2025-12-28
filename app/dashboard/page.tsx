@@ -1,3 +1,5 @@
+import Weather from '../components/Weather';
+
 export default function Dashboard() {
   return (
     <div className="dashboard-container">
@@ -86,6 +88,7 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
+            <Weather />
           </div>
         </div>
       </main>
