@@ -326,3 +326,21 @@ body {
     grid-template-columns: 1fr;
   }
 }
+.testnet-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #ffd93d;
+  color: #000;
+  text-align: center;
+  padding: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  z-index: 1000;
+}
+
+.dashboard-container {
+  padding-top: 36px;
+}

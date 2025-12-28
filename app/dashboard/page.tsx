@@ -1,8 +1,9 @@
 export default function Dashboard() {
   return (
     <div className="dashboard-container">
+        <div className="testnet-banner">⚠️ TESTNET MODE — Mock Data</div>
       <aside className="sidebar">
-        <div className="logo">REDE<span>W</span></div>
+        <div className="logo">RE<span>DEW</span></div>
         
         <nav className="nav">
           <a href="/dashboard" className="nav-link active">Dashboard</a>
