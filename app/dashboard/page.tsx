@@ -1,17 +1,23 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Weather from '../components/Weather';
 import Attestations from '../components/Attestations';
 import RewardChart from '../components/RewardChart';
 import ProjectTimeline from '../components/ProjectTimeline';
 import ClaimRewards from '../components/ClaimRewards';
-
-
+import DocumentModal from '../components/DocumentModal';
 
 export default function Dashboard() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const [pendingRewards, setPendingRewards] = useState(1247);
+  const [displayedPending, setDisplayedPending] = useState(1247);
   const [totalEarned, setTotalEarned] = useState(2525);
+  const [displayedTotal, setDisplayedTotal] = useState(2525);
+  const [documentOpen, setDocumentOpen] = useState(false);
+  const [landControlVerified, setLandControlVerified] = useState(false);
+  const [pendingAnimating, setPendingAnimating] = useState(false);
+  const [totalAnimating, setTotalAnimating] = useState(false);
   const [rewardHistory, setRewardHistory] = useState([
     { month: 'Jul', amount: 320 },
     { month: 'Aug', amount: 480 },
@@ -20,6 +26,111 @@ export default function Dashboard() {
     { month: 'Nov', amount: 825 },
     { month: 'Dec', amount: 0 },
   ]);
+  const [displayedHistory, setDisplayedHistory] = useState([
+    { month: 'Jul', amount: 320 },
+    { month: 'Aug', amount: 480 },
+    { month: 'Sep', amount: 290 },
+    { month: 'Oct', amount: 610 },
+    { month: 'Nov', amount: 825 },
+    { month: 'Dec', amount: 0 },
+  ]);
+
+  // Animate pending rewards counter
+  useEffect(() => {
+    if (displayedPending !== pendingRewards) {
+      setPendingAnimating(true);
+      const startValue = displayedPending;
+      const endValue = pendingRewards;
+      const duration = endValue < startValue ? 2500 : 1000;
+      const startTime = Date.now();
+
+      const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        let eased;
+        if (endValue < startValue) {
+          eased = 1 - Math.pow(1 - progress, 5);
+        } else {
+          eased = 1 - Math.pow(1 - progress, 3);
+        }
+        
+        const current = Math.round(startValue + (endValue - startValue) * eased);
+        
+        setDisplayedPending(current);
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          setPendingAnimating(false);
+        }
+      };
+      
+      requestAnimationFrame(animate);
+    }
+  }, [pendingRewards]);
+
+  // Animate total earned counter
+  useEffect(() => {
+    if (displayedTotal !== totalEarned) {
+      setTotalAnimating(true);
+      const startValue = displayedTotal;
+      const endValue = totalEarned;
+      const duration = 1000;
+      const startTime = Date.now();
+
+      const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.round(startValue + (endValue - startValue) * eased);
+        
+        setDisplayedTotal(current);
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          setTotalAnimating(false);
+        }
+      };
+      
+      requestAnimationFrame(animate);
+    }
+  }, [totalEarned]);
+
+  // Animate history bar
+  useEffect(() => {
+    const targetDec = rewardHistory[5].amount;
+    const currentDec = displayedHistory[5].amount;
+    
+    if (currentDec !== targetDec) {
+      const startValue = currentDec;
+      const endValue = targetDec;
+      const duration = 1200;
+      const startTime = Date.now();
+
+      const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.round(startValue + (endValue - startValue) * eased);
+        
+        setDisplayedHistory(prev => {
+          const updated = [...prev];
+          updated[5] = { ...updated[5], amount: current };
+          return updated;
+        });
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        }
+      };
+      
+      requestAnimationFrame(animate);
+    }
+  }, [rewardHistory]);
 
   const handleClaim = () => {
     const claimed = pendingRewards;
@@ -35,19 +146,34 @@ export default function Dashboard() {
     });
   };
 
+  const handleDocumentVerify = () => {
+    setLandControlVerified(true);
+    setPendingRewards(prev => prev + 100);
+  };
+
   return (
     <div className="dashboard-container">
       <div className="testnet-banner">⚠️ TESTNET MODE — Mock Data</div>
       <div className="grid-floor"></div>
-      
-      <aside className="sidebar">
+
+      {!menuOpen && (
+        <button className="menu-burger" onClick={() => setMenuOpen(true)}>
+          ☰
+        </button>
+      )}
+
+      <aside className={`sidebar ${menuOpen ? 'open' : ''}`}>
+        <button className="menu-close" onClick={() => setMenuOpen(false)}>
+          ✕
+        </button>
+        
         <div className="logo">RE<span>DEW</span></div>
         
         <nav className="nav">
-          <a href="/dashboard" className="nav-link active">Dashboard</a>
-          <a href="/mint" className="nav-link">Mint License</a>
-          <a href="#" className="nav-link">Attestations</a>
-          <a href="#" className="nav-link">Rewards</a>
+          <a href="/dashboard" className="nav-link active" onClick={() => setMenuOpen(false)}>Dashboard</a>
+          <a href="/mint" className="nav-link" onClick={() => setMenuOpen(false)}>Mint License</a>
+          <a href="#" className="nav-link" onClick={() => setMenuOpen(false)}>Attestations</a>
+          <a href="#" className="nav-link" onClick={() => setMenuOpen(false)}>Rewards</a>
         </nav>
 
         <div className="wallet-info">
@@ -55,6 +181,14 @@ export default function Dashboard() {
           <div className="wallet-address">7xK9...3mPq</div>
         </div>
       </aside>
+
+      {menuOpen && <div className="menu-overlay" onClick={() => setMenuOpen(false)}></div>}
+
+      <DocumentModal 
+        isOpen={documentOpen}
+        onClose={() => setDocumentOpen(false)}
+        onVerify={handleDocumentVerify}
+      />
 
       <main className="main-content">
         <div className="page-header">
@@ -69,11 +203,14 @@ export default function Dashboard() {
           </div>
           <div className="stat-card">
             <div className="stat-label">Pending Rewards</div>
-            <div className="stat-value">{pendingRewards.toLocaleString()} <span>$RDW</span></div>
+            <div className={`stat-value ${pendingAnimating ? 'animating' : ''}`}>
+              {displayedPending.toLocaleString()} <span>$RDW</span>
+            </div>
           </div>
           <div className="stat-card">
             <div className="stat-label">Total Earned</div>
-            <div className="stat-value">{totalEarned.toLocaleString()} <span>$RDW</span></div>
+            <div className={`stat-value ${totalAnimating ? 'animating' : ''}`}>
+              {displayedTotal.toLocaleString()} <span>$RDW</span></div>
           </div>
         </div>
 
@@ -96,8 +233,11 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-            <Attestations />
-            <RewardChart history={rewardHistory} total={totalEarned} />
+            <Attestations 
+              onOpenDocument={() => setDocumentOpen(true)}
+              landControlVerified={landControlVerified}
+            />
+            <RewardChart history={displayedHistory} total={displayedTotal} />
           </div>
 
           <div className="panel">
@@ -114,7 +254,7 @@ export default function Dashboard() {
             </div>
             <Weather />
             <ClaimRewards 
-              pending={pendingRewards} 
+              pending={displayedPending} 
               onClaim={handleClaim} 
             />
           </div>

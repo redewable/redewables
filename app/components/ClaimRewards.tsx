@@ -22,9 +22,6 @@ export default function ClaimRewards({ pending, onClaim }: ClaimRewardsProps) {
     }, 2000);
   };
 
-  const attestationRewards = Math.round(pending * 0.28);
-  const validatorRewards = pending - attestationRewards;
-
   return (
     <div className="claim-widget">
       <div className="claim-header">
@@ -38,11 +35,7 @@ export default function ClaimRewards({ pending, onClaim }: ClaimRewardsProps) {
         <div className="claim-info">
           <div className="claim-row">
             <span>From attestations</span>
-            <span>+{attestationRewards} $RDW</span>
-          </div>
-          <div className="claim-row">
-            <span>Validator rewards</span>
-            <span>+{validatorRewards} $RDW</span>
+            <span>+{pending.toLocaleString()} $RDW</span>
           </div>
         </div>
       )}
