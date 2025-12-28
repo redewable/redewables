@@ -379,3 +379,20 @@ body {
   z-index: 0;
   pointer-events: none;
 }
+.sidebar {
+  width: 250px;
+  background: #080c0a;
+  border-right: 1px solid #1a2f1f;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.main-content {
+  flex: 1;
+  padding: 32px;
+  position: relative;
+  z-index: 1;
+}
