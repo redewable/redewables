@@ -7,6 +7,35 @@ import RewardChart from '../components/RewardChart';
 import ProjectTimeline from '../components/ProjectTimeline';
 import ClaimRewards from '../components/ClaimRewards';
 import DocumentModal from '../components/DocumentModal';
+import CountdownTimer from '../components/CountdownTimer';
+import LicenseModal from '../components/LicenseModal';
+
+const licenses = [
+  {
+    tier: 'G',
+    name: 'Genesis License',
+    mintDate: 'Dec 15, 2025',
+    tokenId: '7xK9...3mPq',
+    attributes: [
+      { trait: 'Tier', value: 'Genesis' },
+      { trait: 'Mint Price', value: '2.5 SOL' },
+      { trait: 'Reward Multiplier', value: '1.5x' },
+      { trait: 'Project Access', value: 'All Projects' },
+    ],
+  },
+  {
+    tier: 'C',
+    name: 'Core License',
+    mintDate: 'Dec 18, 2025',
+    tokenId: '9aB2...7kLm',
+    attributes: [
+      { trait: 'Tier', value: 'Core' },
+      { trait: 'Mint Price', value: '3.5 SOL' },
+      { trait: 'Reward Multiplier', value: '1.0x' },
+      { trait: 'Project Access', value: 'All Projects' },
+    ],
+  },
+];
 
 export default function Dashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -18,6 +47,7 @@ export default function Dashboard() {
   const [landControlVerified, setLandControlVerified] = useState(false);
   const [pendingAnimating, setPendingAnimating] = useState(false);
   const [totalAnimating, setTotalAnimating] = useState(false);
+  const [selectedLicense, setSelectedLicense] = useState<typeof licenses[0] | null>(null);
   const [rewardHistory, setRewardHistory] = useState([
     { month: 'Jul', amount: 320 },
     { month: 'Aug', amount: 480 },
@@ -172,7 +202,10 @@ export default function Dashboard() {
         <nav className="nav">
           <a href="/dashboard" className="nav-link active" onClick={() => setMenuOpen(false)}>Dashboard</a>
           <a href="/mint" className="nav-link" onClick={() => setMenuOpen(false)}>Mint License</a>
-          <a href="#" className="nav-link" onClick={() => setMenuOpen(false)}>Attestations</a>
+          <a href="#" className="nav-link" onClick={() => setMenuOpen(false)}>
+            Attestations
+            {!landControlVerified && <span className="nav-badge">1</span>}
+          </a>
           <a href="#" className="nav-link" onClick={() => setMenuOpen(false)}>Rewards</a>
         </nav>
 
@@ -188,6 +221,12 @@ export default function Dashboard() {
         isOpen={documentOpen}
         onClose={() => setDocumentOpen(false)}
         onVerify={handleDocumentVerify}
+      />
+
+      <LicenseModal
+        isOpen={selectedLicense !== null}
+        onClose={() => setSelectedLicense(null)}
+        license={selectedLicense}
       />
 
       <main className="main-content">
@@ -210,7 +249,8 @@ export default function Dashboard() {
           <div className="stat-card">
             <div className="stat-label">Total Earned</div>
             <div className={`stat-value ${totalAnimating ? 'animating' : ''}`}>
-              {displayedTotal.toLocaleString()} <span>$RDW</span></div>
+              {displayedTotal.toLocaleString()} <span>$RDW</span>
+            </div>
           </div>
         </div>
 
@@ -218,20 +258,19 @@ export default function Dashboard() {
           <div className="panel">
             <h2 className="panel-title">My Licenses</h2>
             <div className="license-list">
-              <div className="license-card">
-                <div className="license-icon">G</div>
-                <div>
-                  <div className="license-name">Genesis License</div>
-                  <div className="license-meta">Tier 1 • Minted Dec 2025</div>
+              {licenses.map((license, index) => (
+                <div 
+                  key={index} 
+                  className="license-card clickable"
+                  onClick={() => setSelectedLicense(license)}
+                >
+                  <div className="license-icon">{license.tier}</div>
+                  <div>
+                    <div className="license-name">{license.name}</div>
+                    <div className="license-meta">Tier {index + 1} • Minted Dec 2025</div>
+                  </div>
                 </div>
-              </div>
-              <div className="license-card">
-                <div className="license-icon">C</div>
-                <div>
-                  <div className="license-name">Core License</div>
-                  <div className="license-meta">Tier 2 • Minted Dec 2025</div>
-                </div>
-              </div>
+              ))}
             </div>
             <Attestations 
               onOpenDocument={() => setDocumentOpen(true)}
@@ -253,6 +292,7 @@ export default function Dashboard() {
               <ProjectTimeline />
             </div>
             <Weather />
+            <CountdownTimer />
             <ClaimRewards 
               pending={displayedPending} 
               onClaim={handleClaim} 
