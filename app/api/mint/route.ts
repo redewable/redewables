@@ -16,6 +16,7 @@ const TIERS = {
     description: 'Genesis tier validator license. 1.5x reward multiplier.',
     tier: 'Genesis',
     multiplier: '1.5x',
+    image: 'https://gateway.irys.xyz/6NDA34ypC29jq8ckcVzQWECuPQ7FxxbmQrcu5n4uRoU',
   },
   core: {
     name: 'ReDew Core License',
@@ -23,6 +24,7 @@ const TIERS = {
     description: 'Core tier validator license. 1.0x reward multiplier.',
     tier: 'Core',
     multiplier: '1.0x',
+    image: 'https://gateway.irys.xyz/FZo8XbdCgfBGTTQtkmvssD4Tdvy5ozr62yD5NyKoXhFM',
   },
   surge: {
     name: 'ReDew Surge License',
@@ -30,6 +32,7 @@ const TIERS = {
     description: 'Surge tier validator license. 2.0x reward multiplier.',
     tier: 'Surge',
     multiplier: '2.0x',
+    image: 'https://gateway.irys.xyz/6r8Cq11bF4xjySnnQSxqTQWeZB4chK3FSottP9w6mF1r',
   },
 };
 
@@ -64,7 +67,7 @@ export async function POST(request: NextRequest) {
       name: tierData.name,
       symbol: tierData.symbol,
       description: tierData.description,
-      image: 'https://arweave.net/placeholder',
+      image: tierData.image,
       external_url: 'https://redewables.com/dashboard',
       attributes: [
         { trait_type: 'Tier', value: tierData.tier },
