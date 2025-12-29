@@ -67,7 +67,7 @@ export default function Mint() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [mintedNFT, setMintedNFT] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { login, authenticated, user } = usePrivy();
+  const { login, logout, authenticated, user } = usePrivy();
 
   useEffect(() => {
     if (publicKey && connection) {
@@ -235,7 +235,7 @@ export default function Mint() {
 
       <div className="mint-nav">
         <a href="/dashboard" className="back-link">← Dashboard</a>
-        <div className="wallet-connect">
+       <div className="wallet-connect">
   {connected && publicKey ? (
     <div className="wallet-connected">
       <span className="wallet-balance">{walletBalance.toFixed(2)} SOL</span>
@@ -243,12 +243,19 @@ export default function Mint() {
         {shortenAddress(publicKey.toString())}
       </button>
     </div>
+  ) : authenticated ? (
+    <div className="wallet-connected">
+      <span className="user-email">{user?.email?.address || 'Logged In'}</span>
+      <button className="wallet-btn connected" onClick={() => logout()}>
+        Logout
+      </button>
+    </div>
   ) : (
     <div className="auth-buttons">
       <button className="wallet-btn" onClick={() => setVisible(true)}>
         Connect Wallet
       </button>
-      <button className="email-btn" onClick={login}>
+      <button className="email-btn" onClick={() => login()}>
         Email Login
       </button>
     </div>

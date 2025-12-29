@@ -12,7 +12,6 @@ export default function PrivyWrapper({ children }: { children: ReactNode }) {
         appearance: {
           theme: 'dark',
           accentColor: '#00FF9D',
-          logo: 'https://redewables.com/assets/logo.png',
         },
       }}
     >
