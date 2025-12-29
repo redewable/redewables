@@ -1,6 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
+import { useConnection } from '@solana/wallet-adapter-react';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 const tiers = [
   {
@@ -47,16 +51,31 @@ const recentMints = [
 ];
 
 export default function Mint() {
+  const { publicKey, connected, disconnect, signTransaction } = useWallet();
+  const { setVisible } = useWalletModal();
+  const { connection } = useConnection();
+  
   const [selectedTier, setSelectedTier] = useState<number | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const [walletConnected, setWalletConnected] = useState(false);
-  const [walletBalance, setWalletBalance] = useState(12.5);
+  const [walletBalance, setWalletBalance] = useState(0);
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [minting, setMinting] = useState(false);
   const [currentFeedIndex, setCurrentFeedIndex] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [mintedNFT, setMintedNFT] = useState<string | null>(null);
+
+  // Fetch wallet balance
+  useEffect(() => {
+    if (publicKey && connection) {
+      connection.getBalance(publicKey).then(balance => {
+        setWalletBalance(balance / LAMPORTS_PER_SOL);
+      });
+    } else {
+      setWalletBalance(0);
+    }
+  }, [publicKey, connection]);
 
   // Rotate live feed
   useEffect(() => {
@@ -68,9 +87,9 @@ export default function Mint() {
 
   // Determine which tier is currently available
   const getActiveTierIndex = () => {
-    if (tiers[0].minted < tiers[0].supply) return 0; // Genesis
-    if (tiers[1].minted < tiers[1].supply) return 1; // Core
-    return 2; // Surge
+    if (tiers[0].minted < tiers[0].supply) return 0;
+    if (tiers[1].minted < tiers[1].supply) return 1;
+    return 2;
   };
 
   const activeTierIndex = getActiveTierIndex();
@@ -85,7 +104,7 @@ export default function Mint() {
   const insufficientBalance = totalCost > walletBalance;
 
   const handleSelect = (index: number) => {
-    if (index !== activeTierIndex) return; // Can only select active tier
+    if (index !== activeTierIndex) return;
     if (selectedTier === index) {
       setSelectedTier(null);
       setQuantity(1);
@@ -96,9 +115,8 @@ export default function Mint() {
   };
 
   const handleMintClick = () => {
-    if (!walletConnected) {
-      setWalletConnected(true);
-      setWalletBalance(12.5);
+    if (!connected) {
+      setVisible(true);
       return;
     }
     setShowDisclaimer(true);
@@ -109,27 +127,90 @@ export default function Mint() {
     setShowConfirm(true);
   };
 
-  const handleConfirmMint = () => {
-    setMinting(true);
+const handleConfirmMint = async () => {
+  if (!publicKey || !selectedTierData || !signTransaction) return;
+  
+  setMinting(true);
+  
+  try {
+    const tierKey = ['genesis', 'core', 'surge'][selectedTier!];
+    const totalSOL = selectedTierData.price * quantity;
+    
+    // Create payment transaction
+    const { Transaction, SystemProgram, PublicKey: SolanaPublicKey, LAMPORTS_PER_SOL: LAMPORTS } = await import('@solana/web3.js');
+    
+    const treasuryWallet = new SolanaPublicKey('3Gzf9jz7jCehX2SvXgEHUpjXoSoraT84JUZLY97Jits5');
+    
+    const transaction = new Transaction().add(
+      SystemProgram.transfer({
+        fromPubkey: publicKey,
+        toPubkey: treasuryWallet,
+        lamports: Math.floor(totalSOL * LAMPORTS),
+      })
+    );
+
+    // Get recent blockhash
+    const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+    transaction.recentBlockhash = blockhash;
+    transaction.feePayer = publicKey;
+
+    // Sign and send
+    const signed = await signTransaction(transaction);
+    const signature = await connection.sendRawTransaction(signed.serialize());
+    
+    // Wait for confirmation
+    await connection.confirmTransaction({
+      blockhash,
+      lastValidBlockHeight,
+      signature,
+    });
+    
+    console.log('Payment confirmed:', signature);
+
+    // Now mint the NFT
+    const response = await fetch('/api/mint', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tier: tierKey,
+        recipient: publicKey.toString(),
+        paymentSignature: signature,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error(data.error || 'Mint failed');
+    }
+
+    setMinting(false);
+    setShowConfirm(false);
+    setShowConfetti(true);
+    setShowSuccess(true);
+    setMintedNFT(data.nftAddress);
+    
+    // Refresh balance
+    const balance = await connection.getBalance(publicKey);
+    setWalletBalance(balance / LAMPORTS_PER_SOL);
+    
     setTimeout(() => {
-      setMinting(false);
-      setShowConfirm(false);
-      setShowConfetti(true);
-      setShowSuccess(true);
-      setWalletBalance(prev => prev - totalCost);
-      
-      // Stop confetti after animation completes
-      setTimeout(() => {
-        setShowConfetti(false);
-      }, 4000);
-    }, 2500);
-  };
+      setShowConfetti(false);
+    }, 4000);
+
+  } catch (error) {
+    console.error('Mint error:', error);
+    setMinting(false);
+    alert('Mint failed: ' + (error as Error).message);
+  }
+};
 
   const handleCloseSuccess = () => {
     setShowSuccess(false);
     setShowConfetti(false);
     setSelectedTier(null);
     setQuantity(1);
+    setMintedNFT(null);
   };
 
   const handleShareTwitter = () => {
@@ -143,9 +224,13 @@ export default function Mint() {
     return 'locked';
   };
 
+  const shortenAddress = (address: string) => {
+    return `${address.slice(0, 4)}...${address.slice(-4)}`;
+  };
+
   return (
     <div className="mint-container">
-      <div className="testnet-banner">⚠️ TESTNET MODE — Mock Data</div>
+      <div className="testnet-banner">⚠️ DEVNET MODE — Real Wallet, Test Network</div>
       <div className="grid-floor"></div>
 
       {/* Live Mint Feed */}
@@ -163,15 +248,15 @@ export default function Mint() {
       <div className="mint-nav">
         <a href="/dashboard" className="back-link">← Dashboard</a>
         <div className="wallet-connect">
-          {walletConnected ? (
+          {connected && publicKey ? (
             <div className="wallet-connected">
               <span className="wallet-balance">{walletBalance.toFixed(2)} SOL</span>
-              <button className="wallet-btn connected" onClick={() => setWalletConnected(false)}>
-                7xK9...3mPq
+              <button className="wallet-btn connected" onClick={() => disconnect()}>
+                {shortenAddress(publicKey.toString())}
               </button>
             </div>
           ) : (
-            <button className="wallet-btn" onClick={() => { setWalletConnected(true); setWalletBalance(12.5); }}>
+            <button className="wallet-btn" onClick={() => setVisible(true)}>
               Connect Wallet
             </button>
           )}
@@ -264,7 +349,7 @@ export default function Mint() {
           })}
         </div>
 
-        {/* Mint Panel - Shows when tier selected */}
+        {/* Mint Panel */}
         {selectedTier !== null && selectedTierData && (
           <div className="mint-panel">
             <div className="mint-panel-preview">
@@ -309,7 +394,7 @@ export default function Mint() {
                   <span>Total</span>
                   <span>{totalCost.toFixed(1)} SOL</span>
                 </div>
-                {walletConnected && insufficientBalance && (
+                {connected && insufficientBalance && (
                   <div className="balance-warning">
                     ⚠️ Insufficient balance ({walletBalance.toFixed(2)} SOL)
                   </div>
@@ -319,9 +404,9 @@ export default function Mint() {
               <button 
                 className={`mint-btn ${minting ? 'minting' : ''}`}
                 onClick={handleMintClick}
-                disabled={minting || (walletConnected && insufficientBalance)}
+                disabled={minting || (connected && insufficientBalance)}
               >
-                {!walletConnected ? 'Connect Wallet' : minting ? 'Minting...' : `Mint for ${totalCost.toFixed(1)} SOL`}
+                {!connected ? 'Connect Wallet' : minting ? 'Minting...' : `Mint for ${totalCost.toFixed(1)} SOL`}
               </button>
             </div>
           </div>
@@ -424,17 +509,17 @@ export default function Mint() {
       {showSuccess && selectedTierData && (
         <div className="modal-overlay success-overlay">
           {showConfetti && (
-  <div className="confetti">
-    {[...Array(50)].map((_, i) => (
-      <div key={i} className="confetti-piece" style={{
-        left: `${Math.random() * 100}%`,
-        animationDelay: `${i * 0.05}s`,
-        animationDuration: '4s',
-        backgroundColor: ['#00FF9D', '#00cc7d', '#ffd93d', '#ffffff'][i % 4]
-      }}></div>
-    ))}
-  </div>
-)}
+            <div className="confetti">
+              {[...Array(50)].map((_, i) => (
+                <div key={i} className="confetti-piece" style={{
+                  left: `${Math.random() * 100}%`,
+                  animationDelay: `${i * 0.05}s`,
+                  animationDuration: '4s',
+                  backgroundColor: ['#00FF9D', '#00cc7d', '#ffd93d', '#ffffff'][i % 4]
+                }}></div>
+              ))}
+            </div>
+          )}
           <div className="success-modal">
             <div className="success-glow"></div>
             <div className="success-icon">✓</div>
@@ -447,7 +532,7 @@ export default function Mint() {
               <div className="success-nft-icon">{selectedTierData.letter}</div>
               <div className="success-nft-details">
                 <div className="success-nft-name">{selectedTierData.name} License</div>
-                <div className="success-nft-id">Token ID: {Math.random().toString(36).substring(2, 8)}...{Math.random().toString(36).substring(2, 6)}</div>
+                <div className="success-nft-id">Token ID: {mintedNFT}</div>
               </div>
             </div>
 
