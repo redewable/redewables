@@ -5,6 +5,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { useConnection } from '@solana/wallet-adapter-react';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { usePrivy } from '@privy-io/react-auth';
 
 const tiers = [
   {
@@ -66,6 +67,7 @@ export default function Mint() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [mintedNFT, setMintedNFT] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { login, authenticated, user } = usePrivy();
 
   useEffect(() => {
     if (publicKey && connection) {
@@ -234,19 +236,24 @@ export default function Mint() {
       <div className="mint-nav">
         <a href="/dashboard" className="back-link">← Dashboard</a>
         <div className="wallet-connect">
-          {connected && publicKey ? (
-            <div className="wallet-connected">
-              <span className="wallet-balance">{walletBalance.toFixed(2)} SOL</span>
-              <button className="wallet-btn connected" onClick={() => disconnect()}>
-                {shortenAddress(publicKey.toString())}
-              </button>
-            </div>
-          ) : (
-            <button className="wallet-btn" onClick={() => setVisible(true)}>
-              Connect Wallet
-            </button>
-          )}
-        </div>
+  {connected && publicKey ? (
+    <div className="wallet-connected">
+      <span className="wallet-balance">{walletBalance.toFixed(2)} SOL</span>
+      <button className="wallet-btn connected" onClick={() => disconnect()}>
+        {shortenAddress(publicKey.toString())}
+      </button>
+    </div>
+  ) : (
+    <div className="auth-buttons">
+      <button className="wallet-btn" onClick={() => setVisible(true)}>
+        Connect Wallet
+      </button>
+      <button className="email-btn" onClick={login}>
+        Email Login
+      </button>
+    </div>
+  )}
+</div>
       </div>
 
       <div className="mint-content">

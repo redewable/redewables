@@ -3391,3 +3391,36 @@ body {
 .empty-licenses .mint-link:hover {
   text-decoration: underline;
 }
+/* Auth Buttons */
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.email-btn {
+  padding: 10px 20px;
+  background: transparent;
+  color: #00FF9D;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  border: 1px solid #00FF9D;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.email-btn:hover {
+  background: rgba(0, 255, 157, 0.1);
+}
+
+@media (max-width: 600px) {
+  .auth-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .auth-buttons button {
+    width: 100%;
+  }
+}
