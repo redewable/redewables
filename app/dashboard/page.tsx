@@ -9,6 +9,8 @@ import ClaimRewards from '../components/ClaimRewards';
 import DocumentModal from '../components/DocumentModal';
 import CountdownTimer from '../components/CountdownTimer';
 import LicenseModal from '../components/LicenseModal';
+import MintGate from '../components/MintGate';
+
 
 const licenses = [
   {
@@ -71,6 +73,7 @@ export default function Dashboard() {
     setMenuClosing(true);
     setTimeout(() => setMenuClosing(false), 300);
   };
+
 
   // Animate pending rewards counter
   useEffect(() => {
@@ -189,6 +192,7 @@ export default function Dashboard() {
   };
 
   return (
+  <MintGate>
     <div className="dashboard-container">
       <div className="testnet-banner">⚠️ TESTNET MODE — Mock Data</div>
       <div className="grid-floor"></div>
@@ -318,5 +322,6 @@ export default function Dashboard() {
         <div className="footer-copy">© 2025 ReDewable Energy Company, LLC</div>
       </footer>
     </div>
-  );
+  </MintGate>
+);
 }

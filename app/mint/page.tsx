@@ -20,7 +20,7 @@ const tiers = [
     price: 3.5,
     priceUSD: 525,
     supply: 1000,
-    minted: 182,
+    minted: 0,
     multiplier: '1.0x',
     description: 'Standard validator license',
     perks: ['1.0x reward multiplier', 'Standard attestation access', 'Core badge', 'All project access'],
@@ -31,7 +31,7 @@ const tiers = [
     price: 4.5,
     priceUSD: 675,
     supply: 500,
-    minted: 41,
+    minted: 0,
     multiplier: '2.0x',
     description: 'Premium tier with boosted rewards',
     perks: ['2.0x reward multiplier', 'Priority attestation access', 'Surge badge', 'All project access', 'Governance voting'],
@@ -40,10 +40,10 @@ const tiers = [
 
 const recentMints = [
   { wallet: '7xK9...3mPq', tier: 'Genesis', time: '2m ago' },
-  { wallet: '9aB2...7kLm', tier: 'Surge', time: '5m ago' },
-  { wallet: '3cD4...9nOp', tier: 'Core', time: '8m ago' },
+  { wallet: '9aB2...7kLm', tier: 'Genesis', time: '5m ago' },
+  { wallet: '3cD4...9nOp', tier: 'Genesis', time: '8m ago' },
   { wallet: '5eF6...1qRs', tier: 'Genesis', time: '12m ago' },
-  { wallet: '2gH8...4tUv', tier: 'Core', time: '15m ago' },
+  { wallet: '2gH8...4tUv', tier: 'Genesis', time: '15m ago' },
 ];
 
 export default function Mint() {
@@ -56,6 +56,7 @@ export default function Mint() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [minting, setMinting] = useState(false);
   const [currentFeedIndex, setCurrentFeedIndex] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   // Rotate live feed
   useEffect(() => {
@@ -64,6 +65,15 @@ export default function Mint() {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
+
+  // Determine which tier is currently available
+  const getActiveTierIndex = () => {
+    if (tiers[0].minted < tiers[0].supply) return 0; // Genesis
+    if (tiers[1].minted < tiers[1].supply) return 1; // Core
+    return 2; // Surge
+  };
+
+  const activeTierIndex = getActiveTierIndex();
 
   const totalSupply = tiers.reduce((acc, t) => acc + t.supply, 0);
   const totalMinted = tiers.reduce((acc, t) => acc + t.minted, 0);
@@ -75,6 +85,7 @@ export default function Mint() {
   const insufficientBalance = totalCost > walletBalance;
 
   const handleSelect = (index: number) => {
+    if (index !== activeTierIndex) return; // Can only select active tier
     if (selectedTier === index) {
       setSelectedTier(null);
       setQuantity(1);
@@ -103,14 +114,33 @@ export default function Mint() {
     setTimeout(() => {
       setMinting(false);
       setShowConfirm(false);
+      setShowConfetti(true);
       setShowSuccess(true);
       setWalletBalance(prev => prev - totalCost);
+      
+      // Stop confetti after animation completes
+      setTimeout(() => {
+        setShowConfetti(false);
+      }, 4000);
     }, 2500);
+  };
+
+  const handleCloseSuccess = () => {
+    setShowSuccess(false);
+    setShowConfetti(false);
+    setSelectedTier(null);
+    setQuantity(1);
   };
 
   const handleShareTwitter = () => {
     const text = `Just minted ${quantity} ${selectedTierData?.name} License${quantity > 1 ? 's' : ''} on @ReDewProtocol! 🔋⚡ Join the validator network securing renewable energy infrastructure. #ReDew #DePIN #Solana`;
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+  };
+
+  const getTierStatus = (index: number) => {
+    if (index < activeTierIndex) return 'sold-out';
+    if (index === activeTierIndex) return 'active';
+    return 'locked';
   };
 
   return (
@@ -178,53 +208,60 @@ export default function Mint() {
         </div>
 
         <div className="tier-grid">
-          {tiers.map((tier, index) => (
-            <div 
-              key={index}
-              className={`tier-card ${selectedTier === index ? 'selected' : ''}`}
-            >
-              <div className="tier-header">
-                <div className="tier-icon">{tier.letter}</div>
-                <div className="tier-badge">{tier.multiplier} REWARDS</div>
-              </div>
-              
-              <h3 className="tier-name">{tier.name}</h3>
-              <p className="tier-description">{tier.description}</p>
-              
-              <div className="tier-price">
-                <span className="price-sol">{tier.price} SOL</span>
-                <span className="price-usd">≈ ${tier.priceUSD}</span>
-              </div>
-
-              <div className="tier-supply">
-                <div className="supply-text">
-                  <span>{tier.minted} / {tier.supply} minted</span>
-                  <span>{Math.round((tier.minted / tier.supply) * 100)}%</span>
+          {tiers.map((tier, index) => {
+            const status = getTierStatus(index);
+            return (
+              <div 
+                key={index}
+                className={`tier-card ${status} ${selectedTier === index ? 'selected' : ''}`}
+              >
+                {status === 'sold-out' && <div className="tier-overlay sold-out-overlay">SOLD OUT</div>}
+                {status === 'locked' && <div className="tier-overlay locked-overlay">🔒 LOCKED</div>}
+                
+                <div className="tier-header">
+                  <div className="tier-icon">{tier.letter}</div>
+                  <div className="tier-badge">{tier.multiplier} REWARDS</div>
                 </div>
-                <div className="supply-bar">
-                  <div 
-                    className="supply-bar-fill"
-                    style={{ width: `${(tier.minted / tier.supply) * 100}%` }}
-                  ></div>
+                
+                <h3 className="tier-name">{tier.name}</h3>
+                <p className="tier-description">{tier.description}</p>
+                
+                <div className="tier-price">
+                  <span className="price-sol">{tier.price} SOL</span>
+                  <span className="price-usd">≈ ${tier.priceUSD}</span>
+                </div>
+
+                <div className="tier-supply">
+                  <div className="supply-text">
+                    <span>{tier.minted} / {tier.supply} minted</span>
+                    <span>{Math.round((tier.minted / tier.supply) * 100)}%</span>
+                  </div>
+                  <div className="supply-bar">
+                    <div 
+                      className="supply-bar-fill"
+                      style={{ width: `${(tier.minted / tier.supply) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
+
+                <ul className="tier-perks">
+                  {tier.perks.map((perk, i) => (
+                    <li key={i}>✓ {perk}</li>
+                  ))}
+                </ul>
+
+                <div className="tier-actions">
+                  <button 
+                    className={`tier-btn ${selectedTier === index ? 'selected' : ''}`}
+                    onClick={() => handleSelect(index)}
+                    disabled={status !== 'active'}
+                  >
+                    {status === 'sold-out' ? 'Sold Out' : status === 'locked' ? 'Locked' : selectedTier === index ? 'Selected ✓' : 'Select'}
+                  </button>
                 </div>
               </div>
-
-              <ul className="tier-perks">
-                {tier.perks.map((perk, i) => (
-                  <li key={i}>✓ {perk}</li>
-                ))}
-              </ul>
-
-              <div className="tier-actions">
-                <button 
-                  className={`tier-btn ${selectedTier === index ? 'selected' : ''}`}
-                  onClick={() => handleSelect(index)}
-                >
-                  {selectedTier === index ? 'Selected ✓' : 'Select'}
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Mint Panel - Shows when tier selected */}
@@ -386,15 +423,18 @@ export default function Mint() {
       {/* Success Modal */}
       {showSuccess && selectedTierData && (
         <div className="modal-overlay success-overlay">
-          <div className="confetti">
-            {[...Array(50)].map((_, i) => (
-              <div key={i} className="confetti-piece" style={{
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                backgroundColor: ['#00FF9D', '#00cc7d', '#ffd93d', '#ffffff'][Math.floor(Math.random() * 4)]
-              }}></div>
-            ))}
-          </div>
+          {showConfetti && (
+  <div className="confetti">
+    {[...Array(50)].map((_, i) => (
+      <div key={i} className="confetti-piece" style={{
+        left: `${Math.random() * 100}%`,
+        animationDelay: `${i * 0.05}s`,
+        animationDuration: '4s',
+        backgroundColor: ['#00FF9D', '#00cc7d', '#ffd93d', '#ffffff'][i % 4]
+      }}></div>
+    ))}
+  </div>
+)}
           <div className="success-modal">
             <div className="success-glow"></div>
             <div className="success-icon">✓</div>

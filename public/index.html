@@ -664,43 +664,43 @@
                     REAL INFRASTRUCTURE // ACTIVE VALIDATORS // DePIN
                 </div>
             </div>
-            <div class="presale-terminal">
-                <div style="display:flex; justify-content:space-between; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
-                    <span class="mono accent">VALIDATOR TERMINAL</span>
-                    <span class="mono" style="color:var(--text-dim);">CONNECTION: SECURE</span>
-                </div>
-                <div class="tier-grid">
-                    <div class="tier-box active">
-                        <span class="tier-title">TIER 1 (GENESIS)</span>
-                        <span class="tier-price">2.5 SOL</span>
-                        <span class="tier-capacity">~160 kW NETWORK EQ.</span>
-                        <div class="tier-bar"><div class="tier-fill" style="width: 0%;"></div></div>
-                        <span class="tier-count">0 / 1000 AVAILABLE</span>
-                    </div>
-                    <div class="tier-box">
-                        <span class="tier-title">TIER 2 (CORE)</span>
-                        <span class="tier-price">3.5 SOL</span>
-                        <span class="tier-capacity">~160 kW NETWORK EQ.</span>
-                        <div class="tier-bar"><div class="tier-fill" style="width: 0%;"></div></div>
-                        <span class="tier-count">0 / 1000 AVAILABLE</span>
-                    </div>
-                    <div class="tier-box">
-                        <span class="tier-title">TIER 3 (SURGE)</span>
-                        <span class="tier-price">4.5 SOL</span>
-                        <span class="tier-capacity">~160 kW NETWORK EQ.</span>
-                        <div class="tier-bar"><div class="tier-fill" style="width: 0%;"></div></div>
-                        <span class="tier-count">0 / 500 AVAILABLE</span>
-                    </div>
-                </div>
-                <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; color:var(--text-dim); margin-bottom:10px;">
-                    <span>FUNDS COMMITTED</span>
-                    <div class="pill-toggle toggle-trigger" style="padding:4px 10px; transform:scale(0.9);"><span class="curr-label">USD</span><div class="toggle-switch" style="width:34px; height:18px;"></div></div>
-                </div>
-                <div class="raise-bar-container">
-                    <div class="raise-bar-fill" id="progress-fill"></div>
-                    <div class="raise-text"><span id="raised-display">$0</span> / <span id="target-static">$1,000,000</span></div>
-                </div>
-                <div class="risk-disclaimer">
+      <div class="presale-terminal">
+    <div style="display:flex; justify-content:space-between; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+        <span class="mono accent">VALIDATOR TERMINAL</span>
+        <span class="mono" style="color:var(--text-dim);">CONNECTION: SECURE</span>
+    </div>
+    <div class="tier-grid">
+        <div class="tier-box active">
+            <span class="tier-title">TIER 1 (GENESIS)</span>
+            <span class="tier-price">2.5 SOL</span>
+            <span class="tier-capacity">~160 kW NETWORK EQ.</span>
+            <div class="tier-bar"><div class="tier-fill" style="width: 35%;"></div></div>
+            <span class="tier-count">653 / 1000 AVAILABLE</span>
+        </div>
+        <div class="tier-box locked">
+            <span class="tier-title">TIER 2 (CORE)</span>
+            <span class="tier-price">3.5 SOL</span>
+            <span class="tier-capacity">~160 kW NETWORK EQ.</span>
+            <div class="tier-bar"><div class="tier-fill" style="width: 0%;"></div></div>
+            <span class="tier-count">🔒 LOCKED</span>
+        </div>
+        <div class="tier-box locked">
+            <span class="tier-title">TIER 3 (SURGE)</span>
+            <span class="tier-price">4.5 SOL</span>
+            <span class="tier-capacity">~160 kW NETWORK EQ.</span>
+            <div class="tier-bar"><div class="tier-fill" style="width: 0%;"></div></div>
+            <span class="tier-count">🔒 LOCKED</span>
+        </div>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; color:var(--text-dim); margin-bottom:10px;">
+        <span>FUNDS COMMITTED</span>
+        <div class="pill-toggle toggle-trigger" style="padding:4px 10px; transform:scale(0.9);"><span class="curr-label">USD</span><div class="toggle-switch" style="width:34px; height:18px;"></div></div>
+    </div>
+    <div class="raise-bar-container">
+        <div class="raise-bar-fill" id="progress-fill" style="width: 0%;"></div>
+        <div class="raise-text"><span id="raised-display">--</span> / <span id="target-static">--</span></div>
+    </div>
+    <div class="risk-disclaimer">
                     <strong>⚠️ UNDERSTAND BEFORE YOU MINT</strong>
                     This is a software license, not an investment. You are NOT buying equity, debt, or any claim on company assets. Tokens may have zero value. Active participation is required. You could lose everything. Only use funds you can afford to lose.
                 </div>
@@ -1028,29 +1028,84 @@
         function updateLabel(theme) { themeBtn.querySelector('span').innerText = theme === 'dark' ? 'LIGHT' : 'DARK'; }
 
         // Currency
-        let currentCurrency = 'USD', solPrice = 125, raisedUSD = 0;
-        async function fetchSolPrice() {
-            try {
-                const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
-                const data = await res.json();
-                if (data.solana?.usd) { solPrice = data.solana.usd; document.getElementById('footer-price-ticker').innerHTML = 'SOL: $' + solPrice.toFixed(2) + ' <span style="color:var(--acid)">●</span>'; if (currentCurrency === 'SOL') updateAllVisuals(); }
-            } catch { document.getElementById('footer-price-ticker').innerHTML = 'SOL: $' + solPrice.toFixed(2) + ' <span style="color:orange">●</span>'; }
-        }
-        fetchSolPrice(); setInterval(fetchSolPrice, 60000);
+let currentCurrency = 'USD';
+let solPrice = 150;
 
-        document.querySelectorAll('.toggle-trigger').forEach(t => t.addEventListener('click', () => { currentCurrency = currentCurrency === 'USD' ? 'SOL' : 'USD'; updateAllVisuals(); }));
-        function updateAllVisuals() {
-            document.querySelectorAll('.toggle-trigger').forEach(w => { const l = w.querySelector('.curr-label'); if (currentCurrency === 'SOL') { w.setAttribute('data-state', 'active'); if (l) l.innerText = 'SOL'; } else { w.removeAttribute('data-state'); if (l) l.innerText = 'USD'; } });
-            const ts = document.getElementById('target-static'), rd = document.getElementById('raised-display');
-            if (currentCurrency === 'USD') { if (ts) ts.innerHTML = "$1,000,000"; if (rd) rd.innerHTML = "$" + raisedUSD.toLocaleString(); document.querySelectorAll('.dynamic-price').forEach(el => el.innerText = "$" + parseInt(el.dataset.usd).toLocaleString()); }
-            else { const tSOL = Math.round(1000000 / solPrice).toLocaleString(); if (ts) ts.innerHTML = tSOL + " SOL"; if (rd) rd.innerHTML = Math.round(raisedUSD / solPrice).toLocaleString() + " SOL"; document.querySelectorAll('.dynamic-price').forEach(el => el.innerText = Math.round(parseInt(el.dataset.usd) / solPrice).toLocaleString() + " SOL"); }
+// Mint data - single source of truth
+const GENESIS_MINTED = 347;
+const GENESIS_SUPPLY = 1000;
+const GENESIS_PRICE_SOL = 2.5;
+const CORE_SUPPLY = 1000;
+const CORE_PRICE_SOL = 3.5;
+const SURGE_SUPPLY = 500;
+const SURGE_PRICE_SOL = 4.5;
+
+// Calculate totals
+const raisedSOL = GENESIS_MINTED * GENESIS_PRICE_SOL; // 867.5 SOL
+const targetSOL = (GENESIS_SUPPLY * GENESIS_PRICE_SOL) + (CORE_SUPPLY * CORE_PRICE_SOL) + (SURGE_SUPPLY * SURGE_PRICE_SOL); // 8250 SOL
+
+async function fetchSolPrice() {
+    try {
+        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
+        const data = await res.json();
+        if (data.solana?.usd) { 
+            solPrice = data.solana.usd; 
+            document.getElementById('footer-price-ticker').innerHTML = 'SOL: $' + solPrice.toFixed(2) + ' <span style="color:var(--acid)">●</span>'; 
+            updateAllVisuals(); 
         }
+    } catch { 
+        document.getElementById('footer-price-ticker').innerHTML = 'SOL: $' + solPrice.toFixed(2) + ' <span style="color:orange">●</span>'; 
+    }
+}
+fetchSolPrice(); 
+setInterval(fetchSolPrice, 60000);
+
+document.querySelectorAll('.toggle-trigger').forEach(t => t.addEventListener('click', () => { 
+    currentCurrency = currentCurrency === 'USD' ? 'SOL' : 'USD'; 
+    updateAllVisuals(); 
+}));
+
+function updateAllVisuals() {
+    // Update toggle buttons
+    document.querySelectorAll('.toggle-trigger').forEach(w => { 
+        const l = w.querySelector('.curr-label'); 
+        if (currentCurrency === 'SOL') { 
+            w.setAttribute('data-state', 'active'); 
+            if (l) l.innerText = 'SOL'; 
+        } else { 
+            w.removeAttribute('data-state'); 
+            if (l) l.innerText = 'USD'; 
+        } 
+    });
+    
+    const ts = document.getElementById('target-static');
+    const rd = document.getElementById('raised-display');
+    const pf = document.getElementById('progress-fill');
+    
+    // Calculate progress percentage
+    const progressPercent = (raisedSOL / targetSOL) * 100;
+    if (pf) pf.style.width = progressPercent.toFixed(1) + '%';
+    
+    if (currentCurrency === 'USD') { 
+        const raisedUSD = Math.round(raisedSOL * solPrice);
+        const targetUSD = Math.round(targetSOL * solPrice);
+        if (ts) ts.innerHTML = "$" + targetUSD.toLocaleString(); 
+        if (rd) rd.innerHTML = "$" + raisedUSD.toLocaleString(); 
+        document.querySelectorAll('.dynamic-price').forEach(el => el.innerText = "$" + parseInt(el.dataset.usd).toLocaleString()); 
+    } else { 
+        if (ts) ts.innerHTML = targetSOL.toLocaleString() + " SOL"; 
+        if (rd) rd.innerHTML = raisedSOL.toLocaleString() + " SOL"; 
+        document.querySelectorAll('.dynamic-price').forEach(el => el.innerText = Math.round(parseInt(el.dataset.usd) / solPrice).toLocaleString() + " SOL"); 
+    }
+}
+
+// Initial render
+updateAllVisuals();
 
         // Modal
         function openMintDisclaimer() { document.getElementById('mint-modal').classList.add('open'); document.body.style.overflow = 'hidden'; }
         function closeMintModal() { document.getElementById('mint-modal').classList.remove('open'); document.body.style.overflow = ''; }
-        function proceedToMint() { closeMintModal(); connectWallet(); }
-        document.getElementById('mint-modal').addEventListener('click', function(e) { if (e.target === this) closeMintModal(); });
+        function proceedToMint() { window.location.href = '/mint'; }        document.getElementById('mint-modal').addEventListener('click', function(e) { if (e.target === this) closeMintModal(); });
         document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeMintModal(); });
 
         // Wallet
