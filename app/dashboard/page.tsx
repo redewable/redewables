@@ -39,6 +39,7 @@ const licenses = [
 
 export default function Dashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuClosing, setMenuClosing] = useState(false);
   const [pendingRewards, setPendingRewards] = useState(1247);
   const [displayedPending, setDisplayedPending] = useState(1247);
   const [totalEarned, setTotalEarned] = useState(2525);
@@ -64,6 +65,12 @@ export default function Dashboard() {
     { month: 'Nov', amount: 825 },
     { month: 'Dec', amount: 0 },
   ]);
+
+  const handleCloseMenu = () => {
+    setMenuOpen(false);
+    setMenuClosing(true);
+    setTimeout(() => setMenuClosing(false), 300);
+  };
 
   // Animate pending rewards counter
   useEffect(() => {
@@ -186,27 +193,27 @@ export default function Dashboard() {
       <div className="testnet-banner">⚠️ TESTNET MODE — Mock Data</div>
       <div className="grid-floor"></div>
 
-      {!menuOpen && (
+      {!menuOpen && !menuClosing && (
         <button className="menu-burger" onClick={() => setMenuOpen(true)}>
           ☰
         </button>
       )}
 
       <aside className={`sidebar ${menuOpen ? 'open' : ''}`}>
-        <button className="menu-close" onClick={() => setMenuOpen(false)}>
+        <button className="menu-close" onClick={handleCloseMenu}>
           ✕
         </button>
         
         <div className="logo">RE<span>DEW</span></div>
         
         <nav className="nav">
-          <a href="/dashboard" className="nav-link active" onClick={() => setMenuOpen(false)}>Dashboard</a>
-          <a href="/mint" className="nav-link" onClick={() => setMenuOpen(false)}>Mint License</a>
-          <a href="#" className="nav-link" onClick={() => setMenuOpen(false)}>
+          <a href="/dashboard" className="nav-link active" onClick={handleCloseMenu}>Dashboard</a>
+          <a href="/mint" className="nav-link" onClick={handleCloseMenu}>Mint License</a>
+          <a href="#" className="nav-link" onClick={handleCloseMenu}>
             Attestations
             {!landControlVerified && <span className="nav-badge">1</span>}
           </a>
-          <a href="#" className="nav-link" onClick={() => setMenuOpen(false)}>Rewards</a>
+          <a href="#" className="nav-link" onClick={handleCloseMenu}>Rewards</a>
         </nav>
 
         <div className="wallet-info">
@@ -215,7 +222,7 @@ export default function Dashboard() {
         </div>
       </aside>
 
-      {menuOpen && <div className="menu-overlay" onClick={() => setMenuOpen(false)}></div>}
+      {menuOpen && <div className="menu-overlay" onClick={handleCloseMenu}></div>}
 
       <DocumentModal 
         isOpen={documentOpen}
@@ -300,6 +307,16 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
+      
+      <footer className="dashboard-footer">
+        <div className="footer-links">
+          <a href="https://redewable.com" target="_blank">ReDewable.com</a>
+          <a href="/litepaper" target="_blank">Litepaper</a>
+          <a href="https://twitter.com" target="_blank">Twitter</a>
+          <a href="https://discord.com" target="_blank">Discord</a>
+        </div>
+        <div className="footer-copy">© 2025 ReDewable Energy Company, LLC</div>
+      </footer>
     </div>
   );
 }
