@@ -8,12 +8,21 @@ interface LicenseModalProps {
     name: string;
     mintDate: string;
     tokenId: string;
+    nftAddress?: string;
     attributes: { trait: string; value: string }[];
   } | null;
 }
 
 export default function LicenseModal({ isOpen, onClose, license }: LicenseModalProps) {
   if (!isOpen || !license) return null;
+
+  const solscanUrl = license.nftAddress 
+    ? `https://solscan.io/token/${license.nftAddress}?cluster=devnet`
+    : '#';
+  
+  const magicEdenUrl = license.nftAddress
+    ? `https://magiceden.io/item-details/${license.nftAddress}?cluster=devnet`
+    : '#';
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -62,8 +71,8 @@ export default function LicenseModal({ isOpen, onClose, license }: LicenseModalP
             <div className="metadata-section">
               <div className="metadata-title">LINKS</div>
               <div className="license-links">
-                <a href="#" className="license-link">View on Solscan ↗</a>
-                <a href="#" className="license-link">View on Magic Eden ↗</a>
+                <a href={solscanUrl} target="_blank" rel="noopener noreferrer" className="license-link">View on Solscan ↗</a>
+                <a href={magicEdenUrl} target="_blank" rel="noopener noreferrer" className="license-link">View on Magic Eden ↗</a>
               </div>
             </div>
           </div>

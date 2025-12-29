@@ -65,8 +65,8 @@ export default function Mint() {
   const [currentFeedIndex, setCurrentFeedIndex] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
   const [mintedNFT, setMintedNFT] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Fetch wallet balance
   useEffect(() => {
     if (publicKey && connection) {
       connection.getBalance(publicKey).then(balance => {
@@ -77,7 +77,6 @@ export default function Mint() {
     }
   }, [publicKey, connection]);
 
-  // Rotate live feed
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentFeedIndex(prev => (prev + 1) % recentMints.length);
@@ -85,7 +84,6 @@ export default function Mint() {
     return () => clearInterval(interval);
   }, []);
 
-  // Determine which tier is currently available
   const getActiveTierIndex = () => {
     if (tiers[0].minted < tiers[0].supply) return 0;
     if (tiers[1].minted < tiers[1].supply) return 1;
@@ -93,12 +91,10 @@ export default function Mint() {
   };
 
   const activeTierIndex = getActiveTierIndex();
-
   const totalSupply = tiers.reduce((acc, t) => acc + t.supply, 0);
   const totalMinted = tiers.reduce((acc, t) => acc + t.minted, 0);
   const totalRaised = tiers.reduce((acc, t) => acc + (t.minted * t.price), 0);
   const targetRaise = tiers.reduce((acc, t) => acc + (t.supply * t.price), 0);
-
   const selectedTierData = selectedTier !== null ? tiers[selectedTier] : null;
   const totalCost = selectedTierData ? selectedTierData.price * quantity : 0;
   const insufficientBalance = totalCost > walletBalance;
@@ -127,90 +123,82 @@ export default function Mint() {
     setShowConfirm(true);
   };
 
-const handleConfirmMint = async () => {
-  if (!publicKey || !selectedTierData || !signTransaction) return;
-  
-  setMinting(true);
-  
-  try {
-    const tierKey = ['genesis', 'core', 'surge'][selectedTier!];
-    const totalSOL = selectedTierData.price * quantity;
+  const handleConfirmMint = async () => {
+    if (!publicKey || !selectedTierData || !signTransaction) return;
     
-    // Create payment transaction
-    const { Transaction, SystemProgram, PublicKey: SolanaPublicKey, LAMPORTS_PER_SOL: LAMPORTS } = await import('@solana/web3.js');
+    setMinting(true);
+    setErrorMessage(null);
     
-    const treasuryWallet = new SolanaPublicKey('3Gzf9jz7jCehX2SvXgEHUpjXoSoraT84JUZLY97Jits5');
-    
-    const transaction = new Transaction().add(
-      SystemProgram.transfer({
-        fromPubkey: publicKey,
-        toPubkey: treasuryWallet,
-        lamports: Math.floor(totalSOL * LAMPORTS),
-      })
-    );
+    try {
+      const tierKey = ['genesis', 'core', 'surge'][selectedTier!];
+      const totalSOL = selectedTierData.price * quantity;
+      
+      const { Transaction, SystemProgram, PublicKey: SolanaPublicKey, LAMPORTS_PER_SOL: LAMPORTS } = await import('@solana/web3.js');
+      
+      const treasuryWallet = new SolanaPublicKey('3Gzf9jz7jCehX2SvXgEHUpjXoSoraT84JUZLY97Jits5');
+      
+      const transaction = new Transaction().add(
+        SystemProgram.transfer({
+          fromPubkey: publicKey,
+          toPubkey: treasuryWallet,
+          lamports: Math.floor(totalSOL * LAMPORTS),
+        })
+      );
 
-    // Get recent blockhash
-    const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
-    transaction.recentBlockhash = blockhash;
-    transaction.feePayer = publicKey;
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+      transaction.recentBlockhash = blockhash;
+      transaction.feePayer = publicKey;
 
-    // Sign and send
-    const signed = await signTransaction(transaction);
-    const signature = await connection.sendRawTransaction(signed.serialize());
-    
-    // Wait for confirmation
-    await connection.confirmTransaction({
-      blockhash,
-      lastValidBlockHeight,
-      signature,
-    });
-    
-    console.log('Payment confirmed:', signature);
+      const signed = await signTransaction(transaction);
+      const signature = await connection.sendRawTransaction(signed.serialize());
+      
+      await connection.confirmTransaction({
+        blockhash,
+        lastValidBlockHeight,
+        signature,
+      });
+      
+      console.log('Payment confirmed:', signature);
 
-    // Now mint the NFT
-    const response = await fetch('/api/mint', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        tier: tierKey,
-        recipient: publicKey.toString(),
-        paymentSignature: signature,
-      }),
-    });
+      const response = await fetch('/api/mint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tier: tierKey,
+          recipient: publicKey.toString(),
+          paymentSignature: signature,
+        }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (!data.success) {
-      throw new Error(data.error || 'Mint failed');
+      if (!data.success) {
+        throw new Error(data.error || 'Mint failed');
+      }
+
+      setMinting(false);
+      setShowConfirm(false);
+      setShowConfetti(true);
+      setShowSuccess(true);
+      setMintedNFT(data.nftAddress);
+      
+      const balance = await connection.getBalance(publicKey);
+      setWalletBalance(balance / LAMPORTS_PER_SOL);
+      
+      setTimeout(() => {
+        setShowConfetti(false);
+      }, 4000);
+
+    } catch (error: any) {
+      console.error('Mint error:', error);
+      setMinting(false);
+      
+      if (error.message?.includes('User rejected') || error.message?.includes('rejected')) {
+        setErrorMessage('Transaction cancelled. \nNo SOL was charged.');
+      } else {
+        setErrorMessage(error.message || 'Mint failed. Please try again.');
+      }
     }
-
-    setMinting(false);
-    setShowConfirm(false);
-    setShowConfetti(true);
-    setShowSuccess(true);
-    setMintedNFT(data.nftAddress);
-    
-    // Refresh balance
-    const balance = await connection.getBalance(publicKey);
-    setWalletBalance(balance / LAMPORTS_PER_SOL);
-    
-    setTimeout(() => {
-      setShowConfetti(false);
-    }, 4000);
-
-  } catch (error) {
-    console.error('Mint error:', error);
-    setMinting(false);
-    alert('Mint failed: ' + (error as Error).message);
-  }
-};
-
-  const handleCloseSuccess = () => {
-    setShowSuccess(false);
-    setShowConfetti(false);
-    setSelectedTier(null);
-    setQuantity(1);
-    setMintedNFT(null);
   };
 
   const handleShareTwitter = () => {
@@ -233,7 +221,6 @@ const handleConfirmMint = async () => {
       <div className="testnet-banner">⚠️ DEVNET MODE — Real Wallet, Test Network</div>
       <div className="grid-floor"></div>
 
-      {/* Live Mint Feed */}
       <div className="mint-feed">
         <div className="feed-item">
           <span className="feed-dot"></span>
@@ -244,7 +231,6 @@ const handleConfirmMint = async () => {
         </div>
       </div>
 
-      {/* Header */}
       <div className="mint-nav">
         <a href="/dashboard" className="back-link">← Dashboard</a>
         <div className="wallet-connect">
@@ -285,10 +271,7 @@ const handleConfirmMint = async () => {
             </div>
           </div>
           <div className="raise-bar">
-            <div 
-              className="raise-bar-fill" 
-              style={{ width: `${(totalMinted / totalSupply) * 100}%` }}
-            ></div>
+            <div className="raise-bar-fill" style={{ width: `${(totalMinted / totalSupply) * 100}%` }}></div>
           </div>
         </div>
 
@@ -296,10 +279,7 @@ const handleConfirmMint = async () => {
           {tiers.map((tier, index) => {
             const status = getTierStatus(index);
             return (
-              <div 
-                key={index}
-                className={`tier-card ${status} ${selectedTier === index ? 'selected' : ''}`}
-              >
+              <div key={index} className={`tier-card ${status} ${selectedTier === index ? 'selected' : ''}`}>
                 {status === 'sold-out' && <div className="tier-overlay sold-out-overlay">SOLD OUT</div>}
                 {status === 'locked' && <div className="tier-overlay locked-overlay">🔒 LOCKED</div>}
                 
@@ -322,10 +302,7 @@ const handleConfirmMint = async () => {
                     <span>{Math.round((tier.minted / tier.supply) * 100)}%</span>
                   </div>
                   <div className="supply-bar">
-                    <div 
-                      className="supply-bar-fill"
-                      style={{ width: `${(tier.minted / tier.supply) * 100}%` }}
-                    ></div>
+                    <div className="supply-bar-fill" style={{ width: `${(tier.minted / tier.supply) * 100}%` }}></div>
                   </div>
                 </div>
 
@@ -349,7 +326,6 @@ const handleConfirmMint = async () => {
           })}
         </div>
 
-        {/* Mint Panel */}
         {selectedTier !== null && selectedTierData && (
           <div className="mint-panel">
             <div className="mint-panel-preview">
@@ -367,17 +343,9 @@ const handleConfirmMint = async () => {
               <div className="quantity-selector">
                 <span className="quantity-label">Quantity</span>
                 <div className="quantity-controls">
-                  <button 
-                    className="quantity-btn"
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    disabled={quantity <= 1}
-                  >−</button>
+                  <button className="quantity-btn" onClick={() => setQuantity(Math.max(1, quantity - 1))} disabled={quantity <= 1}>−</button>
                   <span className="quantity-value">{quantity}</span>
-                  <button 
-                    className="quantity-btn"
-                    onClick={() => setQuantity(Math.min(10, quantity + 1))}
-                    disabled={quantity >= 10}
-                  >+</button>
+                  <button className="quantity-btn" onClick={() => setQuantity(Math.min(10, quantity + 1))} disabled={quantity >= 10}>+</button>
                 </div>
               </div>
 
@@ -395,9 +363,7 @@ const handleConfirmMint = async () => {
                   <span>{totalCost.toFixed(1)} SOL</span>
                 </div>
                 {connected && insufficientBalance && (
-                  <div className="balance-warning">
-                    ⚠️ Insufficient balance ({walletBalance.toFixed(2)} SOL)
-                  </div>
+                  <div className="balance-warning">⚠️ Insufficient balance ({walletBalance.toFixed(2)} SOL)</div>
                 )}
               </div>
 
@@ -417,7 +383,6 @@ const handleConfirmMint = async () => {
         </div>
       </div>
 
-      {/* Disclaimer Modal */}
       {showDisclaimer && (
         <div className="modal-overlay" onClick={() => setShowDisclaimer(false)}>
           <div className="disclaimer-modal" onClick={e => e.stopPropagation()}>
@@ -444,13 +409,12 @@ const handleConfirmMint = async () => {
         </div>
       )}
 
-      {/* Confirm Modal */}
       {showConfirm && selectedTierData && (
         <div className="modal-overlay">
           <div className="confirm-modal">
             <div className="modal-header">
               <h2 className="modal-title">CONFIRM MINT</h2>
-              <button className="modal-close-btn" onClick={() => setShowConfirm(false)}>✕</button>
+              <button className="modal-close-btn" onClick={() => !minting && setShowConfirm(false)}>✕</button>
             </div>
             <div className="confirm-content">
               <div className="confirm-preview">
@@ -483,29 +447,23 @@ const handleConfirmMint = async () => {
                 <span className={insufficientBalance ? 'insufficient' : ''}>{walletBalance.toFixed(2)} SOL</span>
               </div>
 
-              <div className="confirm-actions">
-                <button className="confirm-btn cancel" onClick={() => setShowConfirm(false)}>Cancel</button>
-                <button 
-                  className={`confirm-btn mint ${minting ? 'minting' : ''}`}
-                  onClick={handleConfirmMint}
-                  disabled={minting}
-                >
-                  {minting ? (
-                    <>
-                      <span className="spinner"></span>
-                      Minting...
-                    </>
-                  ) : (
-                    'Confirm Mint'
-                  )}
-                </button>
-              </div>
+              {minting ? (
+                <div className="minting-status">
+                  <div className="minting-spinner"></div>
+                  <div className="minting-text">Minting your license...</div>
+                  <div className="minting-subtext">This may take up to 30 seconds. Please don't close this window.</div>
+                </div>
+              ) : (
+                <div className="confirm-actions">
+                  <button className="confirm-btn cancel" onClick={() => setShowConfirm(false)}>Cancel</button>
+                  <button className="confirm-btn mint" onClick={handleConfirmMint}>Confirm Mint</button>
+                </div>
+              )}
             </div>
           </div>
         </div>
       )}
 
-      {/* Success Modal */}
       {showSuccess && selectedTierData && (
         <div className="modal-overlay success-overlay">
           {showConfetti && (
@@ -537,13 +495,20 @@ const handleConfirmMint = async () => {
             </div>
 
             <div className="success-actions">
-              <button className="success-btn secondary" onClick={handleShareTwitter}>
-                Share on 𝕏
-              </button>
-              <a href="/dashboard" className="success-btn primary">
-                View Dashboard
-              </a>
+              <button className="success-btn secondary" onClick={handleShareTwitter}>Share on 𝕏</button>
+              <a href="/dashboard" className="success-btn primary">View Dashboard</a>
             </div>
+          </div>
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="modal-overlay" onClick={() => setErrorMessage(null)}>
+          <div className="error-modal" onClick={e => e.stopPropagation()}>
+            <div className="error-icon">✕</div>
+            <h2 className="error-title">TRANSACTION FAILED</h2>
+            <p className="error-message">{errorMessage}</p>
+            <button className="error-btn" onClick={() => setErrorMessage(null)}>Try Again</button>
           </div>
         </div>
       )}

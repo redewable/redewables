@@ -3,11 +3,17 @@ import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
 import { create, mplCore, fetchCollection } from '@metaplex-foundation/mpl-core';
 import { keypairIdentity, generateSigner, publicKey } from '@metaplex-foundation/umi';
 import { irysUploader } from '@metaplex-foundation/umi-uploader-irys';
+import { createClient } from '@supabase/supabase-js';
 import * as fs from 'fs';
 import * as path from 'path';
 
 const DEVNET_RPC = 'https://api.devnet.solana.com';
 const COLLECTION_ADDRESS = '8VSWKB4KdvJhTNTKwzZH4izWdPDXr9t8sFcBsX9WfTH3';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 const TIERS = {
   genesis: {
@@ -38,7 +44,7 @@ const TIERS = {
 
 export async function POST(request: NextRequest) {
   try {
-    const { tier, recipient } = await request.json();
+    const { tier, recipient, paymentSignature } = await request.json();
 
     if (!tier || !TIERS[tier as keyof typeof TIERS]) {
       return NextResponse.json({ error: 'Invalid tier' }, { status: 400 });
@@ -80,7 +86,7 @@ export async function POST(request: NextRequest) {
     const collection = await fetchCollection(umi, publicKey(COLLECTION_ADDRESS));
     const assetSigner = generateSigner(umi);
 
-    await create(umi, {
+    const result = await create(umi, {
       asset: assetSigner,
       collection: collection,
       name: tierData.name,
@@ -89,6 +95,40 @@ export async function POST(request: NextRequest) {
     }).sendAndConfirm(umi);
 
     console.log(`✅ Minted: ${assetSigner.publicKey}`);
+
+    // Save to database
+    // First, create or get user
+    let { data: user } = await supabase
+      .from('users')
+      .select('id')
+      .eq('wallet_address', recipient)
+      .single();
+
+    if (!user) {
+      const { data: newUser } = await supabase
+        .from('users')
+        .insert({ wallet_address: recipient })
+        .select('id')
+        .single();
+      user = newUser;
+    }
+
+    // Save license
+    const { error: licenseError } = await supabase
+      .from('licenses')
+      .insert({
+        user_id: user?.id,
+        wallet_address: recipient,
+        nft_address: assetSigner.publicKey.toString(),
+        tier: tier,
+        payment_tx: paymentSignature,
+      });
+
+    if (licenseError) {
+      console.error('DB Error:', licenseError);
+    } else {
+      console.log('✅ License saved to database');
+    }
 
     return NextResponse.json({
       success: true,
