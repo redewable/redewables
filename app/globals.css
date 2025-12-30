@@ -3293,11 +3293,14 @@ body {
 }
 /* Connect Prompt */
 .connect-prompt {
-  min-height: 100vh;
+  flex: 0 0 100%;
+  width: 100%;
+  min-height: calc(100vh - 36px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .connect-box {
