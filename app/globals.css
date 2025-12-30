@@ -3424,3 +3424,154 @@ body {
     width: 100%;
   }
 }
+.claim-error {
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.claim-tx-link {
+  display: block;
+  color: #00FF9D;
+  font-size: 0.8rem;
+  text-align: center;
+  margin-bottom: 10px;
+  text-decoration: none;
+}
+
+.claim-tx-link:hover {
+  text-decoration: underline;
+}
+
+/* Nav button style */
+.nav-btn {
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Attestation countdown integrated */
+.attestation-countdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px;
+  background: rgba(0, 255, 157, 0.05);
+  border: 1px solid rgba(0, 255, 157, 0.1);
+  margin-bottom: 15px;
+}
+
+.attestation-countdown .countdown-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: #8f9fa3;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.attestation-countdown .countdown-timer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.attestation-countdown .countdown-unit {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.attestation-countdown .countdown-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #00FF9D;
+}
+
+.attestation-countdown .countdown-label-small {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: #8f9fa3;
+}
+
+.attestation-countdown .countdown-sep {
+  color: #8f9fa3;
+  font-size: 0.9rem;
+}
+
+/* Project Documents */
+.project-docs {
+  background: rgba(0, 255, 157, 0.02);
+  border: 1px solid #1a2f1f;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.docs-header {
+  margin-bottom: 15px;
+}
+
+.docs-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #8f9fa3;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.docs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.doc-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #1a2f1f;
+}
+
+.doc-icon {
+  font-size: 1.2rem;
+}
+
+.doc-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.doc-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  color: #e0e0e0;
+}
+
+.doc-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: #8f9fa3;
+}
+
+.doc-status {
+  font-size: 0.9rem;
+}
+
+.doc-status.verified {
+  color: #00FF9D;
+}
+
+.doc-status.pending {
+  color: #ffd93d;
+}
+
+.doc-status.locked {
+  color: #8f9fa3;
+}
