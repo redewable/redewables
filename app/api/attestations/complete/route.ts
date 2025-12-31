@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+function getEnv(name: string): string | null {
+  const v = process.env[name];
+  return v && v.trim().length > 0 ? v : null;
+}
 
 const TASK_REWARDS: Record<string, number> = {
   'land-control': 100,
@@ -16,6 +16,18 @@ const TASK_REWARDS: Record<string, number> = {
 
 export async function POST(request: NextRequest) {
   try {
+    const SUPABASE_URL = getEnv('NEXT_PUBLIC_SUPABASE_URL');
+    const SUPABASE_ANON_KEY = getEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY');
+
+    if (!SUPABASE_URL) {
+      return NextResponse.json({ error: 'Server not configured: NEXT_PUBLIC_SUPABASE_URL missing' }, { status: 500 });
+    }
+    if (!SUPABASE_ANON_KEY) {
+      return NextResponse.json({ error: 'Server not configured: NEXT_PUBLIC_SUPABASE_ANON_KEY missing' }, { status: 500 });
+    }
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     const { wallet, taskId, taskType } = await request.json();
 
     if (!wallet || !taskId || !taskType) {
@@ -23,11 +35,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Get user
-    const { data: user } = await supabase
+    const { data: user, error: userErr } = await supabase
       .from('users')
       .select('id')
       .eq('wallet_address', wallet)
       .single();
+
+    if (userErr) {
+      console.error('DB Error (user lookup):', userErr);
+      return NextResponse.json({ error: 'User lookup failed' }, { status: 500 });
+    }
 
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
@@ -35,8 +52,7 @@ export async function POST(request: NextRequest) {
 
     const rewardAmount = TASK_REWARDS[taskType] || 50;
 
-    // Add pending reward
-    const { data: reward, error } = await supabase
+    const { data: reward, error: rewardErr } = await supabase
       .from('rewards')
       .insert({
         user_id: user.id,
@@ -47,20 +63,18 @@ export async function POST(request: NextRequest) {
       .select()
       .single();
 
-    if (error) {
-      throw error;
+    if (rewardErr) {
+      console.error('DB Error (reward insert):', rewardErr);
+      return NextResponse.json({ error: 'Failed to add reward' }, { status: 500 });
     }
-
-    console.log(`✅ Added ${rewardAmount} $RDW reward for ${taskType}`);
 
     return NextResponse.json({
       success: true,
       reward: rewardAmount,
-      rewardId: reward.id,
+      rewardId: reward?.id,
     });
-
   } catch (error: any) {
     console.error('Attestation error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error.message || 'Attestation failed' }, { status: 500 });
   }
 }
