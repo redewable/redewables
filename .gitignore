@@ -5,3 +5,7 @@ redewable-src.zip
 repo-structure.txt
 .env.local
 .env.*
+
+# env
+.env.local
+.env.*
