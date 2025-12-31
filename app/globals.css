@@ -3578,3 +3578,1395 @@ body {
 .doc-status.locked {
   color: #8f9fa3;
 }
+.stat-card-link {
+  display: block;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.stat-card-link:hover {
+  transform: translateY(-2px);
+  border-color: #00FF9D;
+  background: rgba(0, 255, 157, 0.04);
+}
+
+.license-detail-header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.license-attributes {
+  border-top: 1px solid #1a2f1f;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.license-attribute-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: #8f9fa3;
+}
+
+.license-attribute-row .attr-value {
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+.stat-card-link {
+  display: block;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.stat-card-link:hover {
+  transform: translateY(-2px);
+  border-color: #00FF9D;
+  background: rgba(0, 255, 157, 0.04);
+}
+
+.licenses-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 6px 0 18px;
+}
+
+.licenses-wallet {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wallet-pill-label {
+  font-size: 0.72rem;
+  color: #8f9fa3;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.wallet-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,255,157,0.25);
+  background: rgba(0,255,157,0.06);
+  color: #ffffff;
+}
+
+.licenses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  .licenses-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+  .licenses-grid { grid-template-columns: 1fr; }
+}
+
+.license-grid-card {
+  text-align: left;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.35);
+  padding: 16px;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.license-grid-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0,255,157,0.55);
+  background: rgba(0,255,157,0.05);
+}
+
+.license-grid-top {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.license-grid-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: #0a1410;
+  background: #00FF9D;
+}
+
+.license-grid-meta { flex: 1; }
+.license-grid-name { font-weight: 700; font-size: 1rem; color: #ffffff; }
+.license-grid-sub {
+  margin-top: 2px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: #8f9fa3;
+}
+
+.license-grid-body {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.license-grid-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.license-grid-k {
+  font-size: 0.78rem;
+  color: #8f9fa3;
+}
+
+.license-grid-v {
+  font-size: 0.82rem;
+  color: #ffffff;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.license-grid-footer {
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  color: #8f9fa3;
+}
+
+/* NFT frame */
+.license-nft-frame {
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  padding: 2px;
+  background: linear-gradient(135deg, #00ff9d, #00b36b);
+}
+
+.license-nft-frame.tier-genesis {
+  background: linear-gradient(135deg, #ffd700, #ffb000);
+}
+
+.license-nft-frame.tier-core {
+  background: linear-gradient(135deg, #00ff9d, #00b36b);
+}
+
+.license-nft-frame.tier-surge {
+  background: linear-gradient(135deg, #4da3ff, #0066ff);
+}
+
+.license-nft-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: radial-gradient(circle at 30% 30%, #1c1c1c, #050505);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.license-nft-tier {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(0, 255, 157, 0.6);
+}
+
+.license-grid-card:hover .license-nft-frame {
+  box-shadow: 0 0 20px rgba(0, 255, 157, 0.45);
+}
+
+/* GRID */
+.licenses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  .licenses-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+  .licenses-grid { grid-template-columns: 1fr; }
+}
+
+/* NFT CARD */
+.license-nft-card {
+  position: relative;
+  text-align: left;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.35);
+  padding: 14px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+
+.license-nft-card:hover {
+  transform: translateY(-2px);
+  background: rgba(0,0,0,0.45);
+}
+
+/* RARITY STRIP */
+.rarity-strip {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.10);
+  backdrop-filter: blur(10px);
+}
+
+.rarity-text {
+  font-size: 0.72rem;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #0b1410;
+}
+
+.serial-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.80rem;
+  font-weight: 700;
+  color: #0b1410;
+}
+
+/* ART FRAME */
+.nft-art-frame {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.05), rgba(0,0,0,0.65));
+  padding-top: 8px; /* gives room behind strip */
+}
+
+.nft-art-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: translateZ(0);
+}
+
+/* GLOW LAYER */
+.nft-art-glow {
+  position: absolute;
+  inset: -30px;
+  opacity: 0.22;
+  filter: blur(22px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* META */
+.nft-card-meta {
+  padding: 12px 2px 10px;
+}
+
+.nft-card-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.nft-card-title {
+  font-weight: 800;
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.nft-tier-pill {
+  width: 34px;
+  height: 28px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  color: #0b1410;
+}
+
+/* SUB */
+.nft-card-sub {
+  margin-top: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: #8f9fa3;
+}
+
+/* STATS */
+.nft-card-stats {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nft-stat {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.nft-stat-k {
+  font-size: 0.78rem;
+  color: #8f9fa3;
+}
+
+.nft-stat-v {
+  font-size: 0.82rem;
+  color: #ffffff;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* FOOTER */
+.nft-card-footer {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  color: #8f9fa3;
+}
+
+/* TIER COLORS + ANIMATIONS */
+.license-nft-card.tier-core:hover { border-color: rgba(0,255,157,0.55); }
+.license-nft-card.tier-genesis:hover { border-color: rgba(255,208,64,0.60); }
+.license-nft-card.tier-surge:hover { border-color: rgba(77,163,255,0.60); }
+
+/* Rarity strip backgrounds */
+.rarity-strip.tier-core {
+  background: linear-gradient(135deg, #00ff9d, #00b36b);
+}
+.rarity-strip.tier-genesis {
+  background: linear-gradient(135deg, #ffd36a, #ffb000);
+}
+.rarity-strip.tier-surge {
+  background: linear-gradient(135deg, #4da3ff, #0066ff);
+}
+
+/* Tier pill colors */
+.license-nft-card.tier-core .nft-tier-pill { background: #00ff9d; }
+.license-nft-card.tier-genesis .nft-tier-pill { background: #ffd36a; }
+.license-nft-card.tier-surge .nft-tier-pill { background: #4da3ff; }
+
+/* Glow sources + animations */
+.license-nft-card.tier-core .nft-art-glow {
+  background: radial-gradient(circle at 40% 30%, rgba(0,255,157,0.85), rgba(0,255,157,0.0) 60%);
+  animation: glowPulseCore 2.6s ease-in-out infinite;
+}
+
+.license-nft-card.tier-genesis .nft-art-glow {
+  background: radial-gradient(circle at 40% 30%, rgba(255,211,106,0.90), rgba(255,211,106,0.0) 60%);
+  animation: glowPulseGenesis 3.0s ease-in-out infinite;
+}
+
+.license-nft-card.tier-surge .nft-art-glow {
+  background: radial-gradient(circle at 40% 30%, rgba(77,163,255,0.90), rgba(77,163,255,0.0) 60%);
+  animation: glowPulseSurge 2.4s ease-in-out infinite;
+}
+
+@keyframes glowPulseCore {
+  0%, 100% { opacity: 0.18; transform: scale(1); }
+  50% { opacity: 0.34; transform: scale(1.03); }
+}
+
+@keyframes glowPulseGenesis {
+  0%, 100% { opacity: 0.16; transform: scale(1); }
+  50% { opacity: 0.36; transform: scale(1.04); }
+}
+
+@keyframes glowPulseSurge {
+  0%, 100% { opacity: 0.16; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(1.03); }
+}
+
+/* MODAL NFT FRAME */
+.nft-modal-frame {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.06), rgba(0,0,0,0.85));
+}
+
+.nft-modal-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.nft-modal-tier {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 44px;
+  height: 36px;
+  border-radius: 12px;
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: #0b1410;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* GLOW */
+.nft-modal-glow {
+  position: absolute;
+  inset: -40px;
+  filter: blur(28px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* TIER COLORS */
+.license-modal.tier-core .nft-modal-tier {
+  background: #00ff9d;
+}
+.license-modal.tier-genesis .nft-modal-tier {
+  background: #ffd36a;
+}
+.license-modal.tier-surge .nft-modal-tier {
+  background: #4da3ff;
+}
+
+/* TIER GLOWS */
+.license-modal.tier-core .nft-modal-glow {
+  background: radial-gradient(circle at 40% 30%, rgba(0,255,157,0.9), rgba(0,255,157,0.0) 60%);
+  animation: glowPulseCore 2.8s ease-in-out infinite;
+}
+
+.license-modal.tier-genesis .nft-modal-glow {
+  background: radial-gradient(circle at 40% 30%, rgba(255,211,106,0.9), rgba(255,211,106,0.0) 60%);
+  animation: glowPulseGenesis 3.2s ease-in-out infinite;
+}
+
+.license-modal.tier-surge .nft-modal-glow {
+  background: radial-gradient(circle at 40% 30%, rgba(77,163,255,0.9), rgba(77,163,255,0.0) 60%);
+  animation: glowPulseSurge 2.6s ease-in-out infinite;
+}
+
+/* PARALLAX TILT (subtle) */
+.license-nft-card {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(var(--tz, 0px));
+  transform-style: preserve-3d;
+}
+
+@media (pointer: coarse) {
+  .license-nft-card {
+    transform: none !important;
+  }
+}
+
+/* 1% CLUB highlight */
+.license-nft-card.club-one .rarity-strip {
+  border-color: rgba(255,255,255,0.22);
+  box-shadow: 0 0 22px rgba(255, 211, 106, 0.25);
+}
+
+.license-nft-card.club-one .rarity-text {
+  color: #0b1410;
+}
+
+.license-nft-card.club-one.tier-core .rarity-strip {
+  background: linear-gradient(135deg, #00ff9d, #ffd36a);
+}
+
+.license-nft-card.club-one.tier-genesis .rarity-strip {
+  background: linear-gradient(135deg, #ffd36a, #ffffff);
+}
+
+.license-nft-card.club-one.tier-surge .rarity-strip {
+  background: linear-gradient(135deg, #4da3ff, #ffd36a);
+}
+
+/* MODAL REVEAL */
+.modal-overlay {
+  animation: overlayFadeIn 160ms ease-out;
+}
+
+.license-modal {
+  animation: modalPopIn 180ms ease-out;
+  max-height: 92vh;
+  overflow: hidden; /* important */
+}
+
+.license-modal-content {
+  overflow: auto;   /* important */
+  max-height: calc(92vh - 64px); /* header allowance */
+}
+
+/* Fix tall NFT preview clipping */
+.nft-modal-frame {
+  max-height: 58vh;
+}
+
+.nft-modal-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modalPopIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* FLIP CARD SHELL */
+.license-flip-card {
+  position: relative;
+  text-align: left;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  perspective: 1200px;
+}
+
+/* inner gets tilt + flip so transforms don't fight */
+.license-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  transform-style: preserve-3d;
+  transition: transform 220ms ease;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+}
+
+/* flip state */
+.license-flip-card.is-flipped .license-card-inner {
+  transform: rotateX(var(--rx, 0deg)) rotateY(calc(180deg + var(--ry, 0deg)));
+}
+
+/* disable tilt on touch */
+@media (pointer: coarse) {
+  .license-card-inner { transform: none !important; }
+}
+
+/* faces */
+.license-card-face {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.38);
+  padding: 14px;
+}
+
+.license-card-face.back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+
+/* HOVER LIFT without breaking tilt */
+.license-flip-card:hover .license-card-face.front {
+  border-color: rgba(255,255,255,0.16);
+}
+
+/* tier chip replaces big letters */
+.tier-chip {
+  font-size: 0.70rem;
+  letter-spacing: 0.10em;
+  font-weight: 900;
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #ffffff;
+  background: rgba(0,0,0,0.35);
+}
+
+/* BACK LAYOUT (no scrollbars) */
+.back-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.back-title {
+  font-weight: 900;
+  letter-spacing: 0.10em;
+  font-size: 0.72rem;
+  color: #8f9fa3;
+}
+
+.back-serial {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: #ffffff;
+}
+
+.back-rows, .back-attrs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.back-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.back-k {
+  font-size: 0.78rem;
+  color: #8f9fa3;
+}
+
+.back-v {
+  font-size: 0.82rem;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.back-v.mono, .mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.back-section-title {
+  margin-top: 14px;
+  margin-bottom: 10px;
+  font-weight: 900;
+  letter-spacing: 0.10em;
+  font-size: 0.72rem;
+  color: #8f9fa3;
+}
+
+.back-links {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.back-link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.35);
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 0.82rem;
+}
+
+.back-link-btn:hover {
+  border-color: rgba(255,255,255,0.22);
+}
+
+/* 1% CLUB highlight */
+.license-flip-card.club-one .rarity-strip {
+  box-shadow: 0 0 22px rgba(255, 211, 106, 0.25);
+}
+
+/* keep your existing rarity strip + nft-art styles + tier glow keyframes.
+   Only change needed: ensure .nft-art-frame has enough top padding for the strip */
+.nft-art-frame {
+  padding-top: 8px;
+}
+
+/* DEFAULT (right flip) */
+.license-flip-card .license-card-inner {
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+}
+
+/* RIGHT FLIP */
+.license-flip-card.flip-right.is-flipped .license-card-inner {
+  transform:
+    rotateX(var(--rx, 0deg))
+    rotateY(calc(180deg + var(--ry, 0deg)));
+}
+
+/* LEFT FLIP */
+.license-flip-card.flip-left.is-flipped .license-card-inner {
+  transform:
+    rotateX(var(--rx, 0deg))
+    rotateY(calc(-180deg + var(--ry, 0deg)));
+}
+
+@media (pointer: coarse) {
+  .license-card-inner {
+    transform: none !important;
+  }
+}
+
+/* ===== LICENSES TOOLBAR FILTER CHIPS ===== */
+.licenses-filters {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-chip {
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.25);
+  color: rgba(255,255,255,0.80);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+
+.filter-chip:hover {
+  border-color: rgba(255,255,255,0.20);
+  color: rgba(255,255,255,0.92);
+}
+
+.filter-chip.active {
+  border-color: rgba(0,255,157,0.45);
+  background: rgba(0,255,157,0.07);
+  color: #ffffff;
+}
+
+/* ===== GRID ===== */
+.licenses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  .licenses-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+  .licenses-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== FLIP CARD SHELL ===== */
+.license-flip-card {
+  position: relative;
+  text-align: left;
+  border-radius: 20px;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  perspective: 1200px;
+  border: 0;
+}
+
+.license-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  transform-style: preserve-3d;
+  transition: transform 220ms ease;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+}
+
+/* FLIP DIRECTION */
+.license-flip-card.flip-right.is-flipped .license-card-inner {
+  transform: rotateX(var(--rx, 0deg)) rotateY(calc(180deg + var(--ry, 0deg)));
+}
+
+.license-flip-card.flip-left.is-flipped .license-card-inner {
+  transform: rotateX(var(--rx, 0deg)) rotateY(calc(-180deg + var(--ry, 0deg)));
+}
+
+/* disable tilt on touch */
+@media (pointer: coarse) {
+  .license-card-inner { transform: none !important; }
+}
+
+/* ===== FACES ===== */
+.license-card-face {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.38);
+  padding: 14px;
+}
+
+.license-card-face.back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+
+/* subtle lift (no transform so it doesn't fight tilt) */
+.license-flip-card:hover .license-card-face.front {
+  border-color: rgba(255,255,255,0.16);
+}
+
+/* ===== EDGE INTENT HIGHLIGHT (pre-flip) ===== */
+.license-flip-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 22px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.license-flip-card.edge-left::before {
+  opacity: 1;
+  background: radial-gradient(circle at 10% 50%, rgba(255,255,255,0.18), rgba(255,255,255,0) 55%);
+}
+
+.license-flip-card.edge-right::before {
+  opacity: 1;
+  background: radial-gradient(circle at 90% 50%, rgba(255,255,255,0.18), rgba(255,255,255,0) 55%);
+}
+
+/* ===== FRONT (HIGH CLASS) ===== */
+.front-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tier-mark {
+  font-weight: 900;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  border-radius: 999px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.25);
+  color: rgba(255,255,255,0.90);
+}
+
+.club-mark {
+  font-weight: 900;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  border-radius: 999px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: linear-gradient(135deg, rgba(255,211,106,0.85), rgba(255,255,255,0.75));
+  color: #0b1410;
+}
+
+/* ===== ART FRAME ===== */
+.nft-art-frame {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.05), rgba(0,0,0,0.70));
+}
+
+.nft-art-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: translateZ(0);
+}
+
+/* Tier glow layer */
+.nft-art-glow {
+  position: absolute;
+  inset: -30px;
+  opacity: 0.22;
+  filter: blur(22px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tier-core .nft-art-glow {
+  background: radial-gradient(circle at 40% 30%, rgba(0,255,157,0.90), rgba(0,255,157,0.0) 60%);
+  animation: glowPulseCore 2.6s ease-in-out infinite;
+}
+
+.tier-genesis .nft-art-glow {
+  background: radial-gradient(circle at 40% 30%, rgba(255,211,106,0.95), rgba(255,211,106,0.0) 60%);
+  animation: glowPulseGenesis 3.0s ease-in-out infinite;
+}
+
+.tier-surge .nft-art-glow {
+  background: radial-gradient(circle at 40% 30%, rgba(77,163,255,0.95), rgba(77,163,255,0.0) 60%);
+  animation: glowPulseSurge 2.4s ease-in-out infinite;
+}
+
+@keyframes glowPulseCore {
+  0%, 100% { opacity: 0.18; transform: scale(1); }
+  50% { opacity: 0.34; transform: scale(1.03); }
+}
+
+@keyframes glowPulseGenesis {
+  0%, 100% { opacity: 0.16; transform: scale(1); }
+  50% { opacity: 0.36; transform: scale(1.04); }
+}
+
+@keyframes glowPulseSurge {
+  0%, 100% { opacity: 0.16; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(1.03); }
+}
+
+/* ===== 1% CLUB GLINT SWEEP (subtle, ~12s) ===== */
+.glint-sweep {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.0;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.18) 45%,
+    rgba(255,255,255,0.0) 65%
+  );
+  transform: translateX(-120%);
+  animation: glint12 12s ease-in-out infinite;
+}
+
+@keyframes glint12 {
+  0% { opacity: 0; transform: translateX(-120%); }
+  5% { opacity: 0.55; }
+  12% { opacity: 0.0; transform: translateX(120%); }
+  100% { opacity: 0; transform: translateX(120%); }
+}
+
+/* ===== FRONT META ===== */
+.front-meta {
+  padding: 12px 2px 8px;
+}
+
+.front-title {
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+}
+
+.front-sub {
+  margin-top: 6px;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.70);
+}
+
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ===== FOOTERS ===== */
+.front-footer {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(255,255,255,0.55);
+  font-weight: 800;
+  font-size: 0.82rem;
+}
+
+.front-hint { letter-spacing: 0.06em; }
+.front-hint-icon { opacity: 0.8; }
+
+/* ===== BACK (PREMIUM TYPOGRAPHY) ===== */
+.back-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.back-title {
+  font-weight: 950;
+  font-size: 1.05rem;
+  color: #ffffff;
+}
+
+.back-sub {
+  margin-top: 6px;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.70);
+}
+
+.edition-pill {
+  border-radius: 999px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.25);
+  color: rgba(255,255,255,0.90);
+  font-weight: 900;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.back-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.10);
+  margin: 14px 0;
+}
+
+.back-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.back-item {
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.25);
+  border-radius: 14px;
+  padding: 10px 10px;
+}
+
+.back-k {
+  font-size: 0.72rem;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  font-weight: 900;
+}
+
+.back-v {
+  margin-top: 8px;
+  font-size: 0.92rem;
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.back-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.back-link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.30);
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 0.84rem;
+}
+
+.back-link-btn:hover {
+  border-color: rgba(255,255,255,0.22);
+}
+
+/* ===== TIER BORDER ACCENTS (very subtle) ===== */
+.tier-core .license-card-face { box-shadow: 0 0 0 rgba(0,0,0,0); }
+.license-flip-card.tier-core:hover .license-card-face.front { border-color: rgba(0,255,157,0.35); }
+.license-flip-card.tier-genesis:hover .license-card-face.front { border-color: rgba(255,211,106,0.35); }
+.license-flip-card.tier-surge:hover .license-card-face.front { border-color: rgba(77,163,255,0.35); }
+
+/* ===== 1% CLUB EXTRA REFINEMENT (quiet) ===== */
+.license-flip-card.club-one .license-card-face.front {
+  border-color: rgba(255,211,106,0.20);
+}
+.license-flip-card.club-one:hover .license-card-face.front {
+  border-color: rgba(255,211,106,0.45);
+}
+
+/* FRONT EDITION PLATE (exclusive, not “badgey”) */
+.edition-plate {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+.edition-label {
+  font-weight: 900;
+  font-size: 0.70rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.70);
+}
+
+.edition-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 900;
+  font-size: 0.90rem;
+  color: #ffffff;
+}
+
+.club-gem {
+  margin-left: 6px;
+  font-weight: 900;
+  font-size: 0.74rem;
+  letter-spacing: 0.10em;
+  color: rgba(255,211,106,0.95);
+  text-transform: uppercase;
+}
+
+/* ===== TOP-CENTER EDITION PLACARD (MUSEUM / LUXE) ===== */
+.edition-placard {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+
+  padding: 8px 14px;
+  border-radius: 999px;
+
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(10px);
+}
+
+/* Engraved / collectible typography */
+.edition-text {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  white-space: nowrap;
+}
+
+/* 1% Club marker — quiet, elite */
+.edition-club {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 700;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 211, 106, 0.95);
+}
+
+/* Soft internal sheen — no outline */
+.edition-placard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  pointer-events: none;
+
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0.00) 0%,
+    rgba(255,255,255,0.10) 45%,
+    rgba(255,255,255,0.00) 70%
+  );
+  opacity: 0.35;
+}
+
+/* Subtle tier tint via glow, not border */
+.license-flip-card.tier-core .edition-placard {
+  box-shadow: 0 0 18px rgba(0,255,157,0.12);
+}
+
+.license-flip-card.tier-genesis .edition-placard {
+  box-shadow: 0 0 22px rgba(255,211,106,0.14);
+}
+
+.license-flip-card.tier-surge .edition-placard {
+  box-shadow: 0 0 18px rgba(77,163,255,0.14);
+}
+
+/* Extra refinement for 1% Club */
+.edition-placard.club {
+  background: rgba(0, 0, 0, 0.34);
+  box-shadow:
+    0 0 26px rgba(255, 211, 106, 0.18),
+    0 10px 30px rgba(0,0,0,0.35);
+}
+
+/* Subtle tier tint on the plate border */
+.license-flip-card.tier-core .edition-plate { border-color: rgba(0,255,157,0.22); }
+.license-flip-card.tier-genesis .edition-plate { border-color: rgba(255,211,106,0.22); }
+.license-flip-card.tier-surge .edition-plate { border-color: rgba(77,163,255,0.22); }
+
+/* Slightly elevated feel for 1% club */
+.edition-plate.club {
+  border-color: rgba(255,211,106,0.35);
+  box-shadow: 0 12px 34px rgba(255,211,106,0.08), 0 10px 30px rgba(0,0,0,0.35);
+}
+
+/* TOP-CENTER SERIAL (premium, brand aligned) */
+.edition-placard {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 14px;
+  border-radius: 999px;
+
+  background: rgba(0,0,0,0.32);
+  backdrop-filter: blur(14px);
+}
+
+.edition-text {
+  font-family: 'JetBrains Mono', monospace; /* matches your system vibe */
+  font-weight: 900;
+  font-size: 0.90rem;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.92);
+  white-space: nowrap;
+}
+
+.edition-club {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 900;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,211,106,0.95);
+}
+
+/* subtle internal polish (no outline) */
+.edition-placard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  pointer-events: none;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.10) 45%,
+    rgba(255,255,255,0) 70%
+  );
+  opacity: 0.25;
+}
+
+/* tier-tinted glow (not border) */
+.license-flip-card.tier-core .edition-placard { box-shadow: 0 0 18px rgba(0,255,157,0.14); }
+.license-flip-card.tier-genesis .edition-placard { box-shadow: 0 0 20px rgba(255,211,106,0.12); }
+.license-flip-card.tier-surge .edition-placard { box-shadow: 0 0 18px rgba(77,163,255,0.14); }
+
+/* 1% club: slightly more presence, still tasteful */
+.edition-placard.club {
+  background: rgba(0,0,0,0.38);
+  box-shadow: 0 0 26px rgba(255,211,106,0.18);
+}
+
+/* BACK SPEC PANEL (premium) */
+.back-spec {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.spec-row:last-child {
+  border-bottom: 0;
+}
+
+.spec-k {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  font-weight: 900;
+}
+
+.spec-v {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.92);
+  font-weight: 900;
+}
+
+.license-card-face.front::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 10px;
+  height: 2px;
+  border-radius: 999px;
+  opacity: 0.55;
+  filter: blur(0.2px);
+}
+
+.license-flip-card.tier-core .license-card-face.front::before {
+  background: linear-gradient(90deg, rgba(0,255,157,0), rgba(0,255,157,1), rgba(0,255,157,0));
+}
+
+.license-flip-card.tier-genesis .license-card-face.front::before {
+  background: linear-gradient(90deg, rgba(255,211,106,0), rgba(255,211,106,1), rgba(255,211,106,0));
+}
+
+.license-flip-card.tier-surge .license-card-face.front::before {
+  background: linear-gradient(90deg, rgba(77,163,255,0), rgba(77,163,255,1), rgba(77,163,255,0));
+}

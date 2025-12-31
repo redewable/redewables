@@ -1,0 +1,196 @@
+/* Licenses page CSS (authoritative). Loaded only on /licenses. */
+
+.licenses-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:6px 0 18px}
+.licenses-wallet{display:flex;align-items:center;gap:10px}
+.wallet-pill-label{font-size:.72rem;color:#8f9fa3;letter-spacing:.10em;text-transform:uppercase;font-weight:800}
+.wallet-pill{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:8px 10px;border-radius:10px;border:1px solid rgba(0,255,157,.25);background:rgba(0,255,157,.06);color:#fff}
+
+.licenses-filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.filter-chip{border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.25);color:rgba(255,255,255,.82);border-radius:999px;padding:8px 12px;font-weight:800;font-size:.78rem;letter-spacing:.03em;cursor:pointer}
+.filter-chip:hover{border-color:rgba(255,255,255,.20);color:rgba(255,255,255,.92)}
+.filter-chip.active{border-color:rgba(0,255,157,.45);background:rgba(0,255,157,.07);color:#fff}
+
+.licenses-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:1100px){.licenses-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:700px){.licenses-grid{grid-template-columns:1fr}}
+
+.license-flip-card{position:relative;text-align:left;border-radius:20px;background:transparent;padding:0;cursor:pointer;perspective:1200px;border:0}
+.license-flip-card::before{content:'';position:absolute;inset:-1px;border-radius:22px;pointer-events:none;opacity:0;transition:opacity 120ms ease}
+.license-flip-card.edge-left::before{opacity:1;background:radial-gradient(circle at 10% 50%,rgba(255,255,255,.18),rgba(255,255,255,0) 55%)}
+.license-flip-card.edge-right::before{opacity:1;background:radial-gradient(circle at 90% 50%,rgba(255,255,255,.18),rgba(255,255,255,0) 55%)}
+
+.license-card-inner{position:relative;width:100%;height:100%;border-radius:20px;transform-style:preserve-3d;transition:transform 220ms ease;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+.license-flip-card.flip-right.is-flipped .license-card-inner{transform:rotateX(var(--rx,0deg)) rotateY(calc(180deg + var(--ry,0deg)))}
+.license-flip-card.flip-left.is-flipped .license-card-inner{transform:rotateX(var(--rx,0deg)) rotateY(calc(-180deg + var(--ry,0deg)))}
+@media (pointer:coarse){.license-card-inner{transform:none !important}}
+
+.license-card-face{position:relative;border-radius:20px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.38);padding:14px}
+.license-card-face.back{position:absolute;inset:0;transform:rotateY(180deg)}
+.license-flip-card:hover .license-card-face.front{border-color:rgba(255,255,255,.16)}
+
+.front-topline{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.tier-mark{font-family:'JetBrains Mono',monospace;font-weight:900;font-size:.74rem;letter-spacing:.16em;border-radius:999px;padding:8px 10px;background:rgba(0,0,0,.28);color:rgba(255,255,255,.92)}
+.club-mark{font-family:'JetBrains Mono',monospace;font-weight:900;font-size:.70rem;letter-spacing:.16em;border-radius:999px;padding:8px 10px;background:rgba(0,0,0,.28);color:rgba(255,211,106,.95)}
+
+.nft-art-frame {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.05), rgba(0,0,0,0.72));
+  isolation: isolate; /* important: prevents glow bleed into parent stacking */
+}
+.nft-art-img{width:100%;height:auto;display:block;transform:translateZ(0)}
+
+.nft-art-glow {
+  position: absolute;
+  inset: 0;                 /* was -30px */
+  top: 18%;                 /* push it down */
+  opacity: 0.18;            /* reduce wash */
+  filter: blur(18px);
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: screen;   /* makes it feel like light, not fog */
+}
+.tier-core .nft-art-glow{background:radial-gradient(circle at 40% 30%,rgba(0,255,157,.90),rgba(0,255,157,0) 60%);animation:glowPulseCore 2.6s ease-in-out infinite}
+.tier-genesis .nft-art-glow{background:radial-gradient(circle at 40% 30%,rgba(255,211,106,.95),rgba(255,211,106,0) 60%);animation:glowPulseGenesis 3.0s ease-in-out infinite}
+.tier-surge .nft-art-glow{background:radial-gradient(circle at 40% 30%,rgba(77,163,255,.95),rgba(77,163,255,0) 60%);animation:glowPulseSurge 2.4s ease-in-out infinite}
+@keyframes glowPulseCore{0%,100%{opacity:.18}50%{opacity:.34}}
+@keyframes glowPulseGenesis{0%,100%{opacity:.16}50%{opacity:.36}}
+@keyframes glowPulseSurge{0%,100%{opacity:.16}50%{opacity:.35}}
+
+.glint-sweep{position:absolute;inset:-20%;pointer-events:none;opacity:0;background:linear-gradient(115deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.12) 48%,rgba(255,255,255,0) 62%);transform:translateX(-140%) rotate(8deg);animation:glint12 12s ease-in-out infinite;mix-blend-mode:screen}
+@keyframes glint12{0%{opacity:0;transform:translateX(-140%) rotate(8deg)}6%{opacity:.55}11%{opacity:0;transform:translateX(140%) rotate(8deg)}100%{opacity:0;transform:translateX(140%) rotate(8deg)}}
+
+
+.front-meta{padding:12px 2px 8px}
+.front-title{font-weight:900;font-size:1.05rem;color:#fff}
+.front-sub{margin-top:6px;font-size:.82rem;color:rgba(255,255,255,.70)}
+.mono{font-family:'JetBrains Mono',monospace}
+.front-footer{margin-top:10px;display:flex;justify-content:space-between;align-items:center;color:rgba(255,255,255,.55);font-weight:800;font-size:.82rem}
+
+.back-top{display:flex;justify-content:space-between;gap:12px}
+.back-title{font-weight:950;font-size:1.05rem;color:#fff}
+.back-sub{margin-top:6px;font-size:.82rem;color:rgba(255,255,255,.70)}
+.edition-pill{border-radius:999px;padding:8px 10px;background:rgba(0,0,0,.28);color:rgba(255,255,255,.92);font-weight:900;font-size:.80rem;white-space:nowrap;font-family:'JetBrains Mono',monospace}
+.back-divider{height:1px;background:rgba(255,255,255,.10);margin:14px 0}
+.back-spec{display:flex;flex-direction:column;gap:12px}
+.spec-row{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.spec-row:last-child{border-bottom:0}
+.spec-k{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:900}
+.spec-v{font-size:.95rem;color:rgba(255,255,255,.92);font-weight:900}
+.back-links{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.back-link-btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 10px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.30);color:#fff;text-decoration:none;font-weight:900;font-size:.84rem}
+.back-link-btn:hover{border-color:rgba(255,255,255,.22)}
+
+.license-flip-card.tier-core:hover .license-card-face.front{border-color:rgba(0,255,157,.35)}
+.license-flip-card.tier-genesis:hover .license-card-face.front{border-color:rgba(255,211,106,.35)}
+.license-flip-card.tier-surge:hover .license-card-face.front{border-color:rgba(77,163,255,.35)}
+
+/* SERIAL: engraved, no pill background */
+.serial-engrave {
+  position: absolute;
+  top: 30px;                /* slightly inside */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+
+  width: min(86%, 520px);
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* premium serial typography */
+.serial-text {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  font-size: 1.1rem;
+  letter-spacing: 0.21em;
+  text-transform: uppercase;
+  color: rgba(245, 255, 250, 0.92);
+
+  /* gold outline */
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.55);
+
+  /* subtle gold glow */
+  text-shadow:
+    0 0 10px rgba(255, 211, 106, 3),
+    0 0 22px rgba(255, 211, 106, 5);
+}
+
+.club-corner {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255,211,106,0.9);
+  box-shadow: 0 0 18px rgba(255,211,106,0.25);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* =========================
+   CARD TYPOGRAPHY — OXANIUM
+   ========================= */
+
+/* Apply Oxanium to everything inside the card */
+.license-flip-card,
+.license-flip-card * {
+  font-family: 'Oxanium', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.back-links {
+  position: relative;
+  z-index: 5;
+}
+
+.back-link-btn {
+  position: relative;
+  z-index: 6;
+  pointer-events: auto;
+}
+
+.license-flip-card {
+  cursor: pointer;
+}
+
+.license-flip-card:focus {
+  outline: none;
+}
+
+.license-flip-card:focus-visible {
+  box-shadow: 0 0 0 2px rgba(0,255,157,0.35);
+  border-radius: 22px;
+}
+/* Ensure clickable back face when flipped */
+.license-card-face.front { pointer-events: auto; }
+.license-card-face.back { pointer-events: none; }
+
+.license-flip-card.is-flipped .license-card-face.front { pointer-events: none; }
+.license-flip-card.is-flipped .license-card-face.back { pointer-events: auto; }
+
+/* Also ensure back links are above any overlays */
+.back-links { position: relative; z-index: 5; }
+.back-link-btn { position: relative; z-index: 6; pointer-events: auto; }
+
+/* Apply hover accent to BOTH faces */
+.license-flip-card:hover .license-card-face.front,
+.license-flip-card:hover .license-card-face.back {
+  border-color: rgba(255,211,106,0.35);
+}
+
+/* Optional: slightly stronger when flipped (feels intentional) */
+.license-flip-card.is-flipped:hover .license-card-face.back {
+  border-color: rgba(255,211,106,0.45);
+}
+.license-flip-card.is-flipped:hover .license-card-face.back {
+  box-shadow:
+    0 0 0 1px rgba(255,211,106,0.25),
+    inset 0 0 0 1px rgba(255,211,106,0.12);
+}

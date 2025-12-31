@@ -169,6 +169,7 @@ export default function Mint() {
           tier: tierKey,
           recipient: publicKey.toString(),
           paymentSignature: signature,
+          quantity,
         }),
       });
 
@@ -182,7 +183,7 @@ export default function Mint() {
       setShowConfirm(false);
       setShowConfetti(true);
       setShowSuccess(true);
-      setMintedNFT(data.nftAddress);
+      setMintedNFT(data.nftAddresses?.[0] || null); // keep your existing UI working
       
       const balance = await connection.getBalance(publicKey);
       setWalletBalance(balance / LAMPORTS_PER_SOL);

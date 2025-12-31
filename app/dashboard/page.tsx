@@ -11,6 +11,7 @@ import ClaimRewards from '../components/ClaimRewards';
 import DocumentModal from '../components/DocumentModal';
 import LicenseModal from '../components/LicenseModal';
 import MintGate from '../components/MintGate';
+import Link from 'next/link';
 
 interface DBLicense {
   id: string;
@@ -376,11 +377,22 @@ export default function Dashboard() {
           </button>
           <div className="logo">RE<span>DEW</span></div>
           <nav className="nav">
-            <a href="/dashboard" className="nav-link active" onClick={handleCloseMenu}>Dashboard</a>
-            <a href="/mint" className="nav-link" onClick={handleCloseMenu}>Mint License</a>
+            <a href="/dashboard" className="nav-link active" onClick={handleCloseMenu}>
+              Dashboard
+            </a>
+
+            <a href="/licenses" className="nav-link" onClick={handleCloseMenu}>
+              Licenses
+            </a>
+
+            <a href="/mint" className="nav-link" onClick={handleCloseMenu}>
+              Mint License
+            </a>
+
             <button className="nav-link nav-btn" onClick={() => scrollToSection('attestations')}>
               Attestations
             </button>
+
             <button className="nav-link nav-btn" onClick={() => scrollToSection('rewards')}>
               Rewards
             </button>
@@ -412,10 +424,10 @@ export default function Dashboard() {
           </div>
 
           <div className="stats-grid">
-            <div className="stat-card">
+            <Link href="/licenses" className="stat-card stat-card-link">
               <div className="stat-label">Licenses Owned</div>
               <div className="stat-value">{loadingLicenses ? '...' : licenses.length}</div>
-            </div>
+            </Link>
             <div className="stat-card">
               <div className="stat-label">Pending Rewards</div>
               <div className={`stat-value ${pendingAnimating ? 'animating' : ''}`}>
@@ -439,32 +451,7 @@ export default function Dashboard() {
           <div className="content-grid">
             {/* LEFT PANEL: Licenses, Claim, Attestations, History */}
             <div className="panel">
-              <h2 className="panel-title">My Licenses</h2>
-              <div className="license-list">
-                {loadingLicenses ? (
-                  <div className="loading-licenses">Loading licenses...</div>
-                ) : licenses.length === 0 ? (
-                  <div className="empty-licenses">
-                    <p>No licenses found</p>
-                    <a href="/mint" className="mint-link">Mint Your First License →</a>
-                  </div>
-                ) : (
-                  licenses.map((license, index) => (
-                    <div
-                      key={index}
-                      className="license-card clickable"
-                      onClick={() => setSelectedLicense(license)}
-                    >
-                      <div className="license-icon">{license.tier}</div>
-                      <div>
-                        <div className="license-name">{license.name}</div>
-                        <div className="license-meta">{license.tokenId} • {license.mintDate}</div>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-
+              <h2 className="panel-title">Rewards & Attestations</h2>
               <div id="rewards">
                 <ClaimRewards
                   pending={displayedPending}

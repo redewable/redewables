@@ -1,0 +1,111 @@
+.
+./.DS_Store
+./.env.local
+./app
+./app/icon.png
+./app/mint
+./app/mint/layout.tsx
+./app/mint/page.tsx
+./app/providers
+./app/providers/PrivyProvider.tsx
+./app/providers/WalletProvider.tsx
+./app/dashboard
+./app/dashboard/page.tsx
+./app/components
+./app/components/Attestations.tsx
+./app/components/LicenseModal.tsx
+./app/components/DocumentModal.tsx
+./app/components/Weather.tsx
+./app/components/MintGate.tsx
+./app/components/RewardChart.tsx
+./app/components/CountdownTimer.tsx
+./app/components/ProjectTimeline.tsx
+./app/components/ClaimRewards.tsx
+./app/layout.tsx
+./app/lib
+./app/lib/supabase.ts
+./app/api
+./app/api/attestations
+./app/api/attestations/complete
+./app/api/mint
+./app/api/mint/route.ts
+./app/api/licenses
+./app/api/licenses/route.ts
+./app/api/projects
+./app/api/projects/route.ts
+./app/api/rewards
+./app/api/rewards/route.ts
+./app/api/balance
+./app/api/balance/route.ts
+./app/api/claim
+./app/api/claim/route.ts
+./app/page.tsx
+./app/globals.css
+./test-user.json
+./CNAME
+./postcss.config.mjs
+./node_modules
+./treasury.json
+./.next
+./next-env.d.ts
+./README.md
+./tailwind.config.ts
+./Validator License Images
+./Validator License Images/.DS_Store
+./Validator License Images/Gemini
+./Validator License Images/Gemini/Gemini | Validator License | Surge.png
+./Validator License Images/Gemini/Gemini | Validator License | Genesis.png
+./Validator License Images/Gemini/Gemini | Validator License | Core.png
+./Validator License Images/Grok
+./Validator License Images/Grok/.DS_Store
+./Validator License Images/Grok/Grok | Validator License | Genesis.mp4
+./Validator License Images/Grok/3 | Grok | Validator License | Surge.jpeg
+./Validator License Images/Grok/2 | Grok | Validator License | Core.jpeg
+./Validator License Images/Grok/1 | Grok | Validator License | Genesis.jpeg
+./Validator License Images/ChatGPT
+./Validator License Images/ChatGPT/Gemini -- RDW TOKEN 4.png
+./Validator License Images/ChatGPT/Gemini -- RDW TOKEN 3.png
+./Validator License Images/ChatGPT/Gemini -- RDW TOKEN 2.png
+./Validator License Images/ChatGPT/Gemini -- RDW TOKEN.png
+./Validator License Images/ChatGPT/ChatGPT | Validator License | Surge.png
+./Validator License Images/ChatGPT/RDW TOKEN.png
+./Validator License Images/ChatGPT/ChatGPT | Validator License | Genesis.png
+./Validator License Images/ChatGPT/ChatGPT | Validator License | Core.png
+./public
+./public/index.html
+./public/.DS_Store
+./public/nft
+./public/nft/ChatSurge.png
+./public/nft/ChatGenesis.png
+./public/nft/ChatCore.png
+./public/nft/rdw-token.png
+./public/litepaper
+./public/litepaper/index.html
+./public/litepaper/.DS_Store
+./public/launchpad.html
+./public/grantprep.html
+./public/assets
+./public/assets/battery.png
+./public/assets/favicon.png
+./public/assets/social-share.png
+./public/onboarding.html
+./.gitignore
+./package-lock.json
+./package.json
+./scripts
+./scripts/upload-artwork.ts
+./scripts/create-token.ts
+./scripts/mint-nft.ts
+./scripts/transfer-to-treasury.ts
+./scripts/update-rdw-image.ts
+./scripts/update-token-metadata.ts
+./scripts/add-token-metadata.ts
+./scripts/collection-address.json
+./scripts/rdw-token.json
+./scripts/create-collection.ts
+./scripts/artwork-uris.json
+./repo-structure.txt
+./tsconfig.json
+./.git
+./eslint.config.mjs
+./next.config.ts
