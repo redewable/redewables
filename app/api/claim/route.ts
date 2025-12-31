@@ -5,33 +5,66 @@ import { createClient } from '@supabase/supabase-js';
 
 const RDW_MINT = 'DSrszSzWyGr96RQ5E4MnezpDEto4KPJL2kjxmpzRE6Zd';
 
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL) throw new Error('NEXT_PUBLIC_SUPABASE_URL is not set');
-if (!process.env.SUPABASE_SERVICE_ROLE_KEY) throw new Error('SUPABASE_SERVICE_ROLE_KEY is not set');
-if (!process.env.RDW_TREASURY_SECRET_KEY) throw new Error('RDW_TREASURY_SECRET_KEY is not set');
-if (!process.env.SOLANA_FEEPAYER_SECRET_KEY) throw new Error('SOLANA_FEEPAYER_SECRET_KEY is not set');
+// IMPORTANT: Do NOT throw at module load time.
+// Vercel/Next can evaluate API routes during build, and any throw will fail deployment.
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+function getEnv(name: string): string | null {
+  const v = process.env[name];
+  return v && v.trim().length > 0 ? v : null;
+}
 
 export async function POST(request: NextRequest) {
   try {
+    const SUPABASE_URL = getEnv('NEXT_PUBLIC_SUPABASE_URL');
+    const SUPABASE_SERVICE_ROLE_KEY = getEnv('SUPABASE_SERVICE_ROLE_KEY');
+    const RDW_TREASURY_SECRET_KEY = getEnv('RDW_TREASURY_SECRET_KEY');
+    const SOLANA_FEEPAYER_SECRET_KEY = getEnv('SOLANA_FEEPAYER_SECRET_KEY');
+
+    if (!SUPABASE_URL) {
+      return NextResponse.json({ error: 'Server not configured: NEXT_PUBLIC_SUPABASE_URL missing' }, { status: 500 });
+    }
+    if (!SUPABASE_SERVICE_ROLE_KEY) {
+      return NextResponse.json({ error: 'Server not configured: SUPABASE_SERVICE_ROLE_KEY missing' }, { status: 500 });
+    }
+    if (!RDW_TREASURY_SECRET_KEY) {
+      return NextResponse.json({ error: 'Server not configured: RDW_TREASURY_SECRET_KEY missing' }, { status: 500 });
+    }
+    if (!SOLANA_FEEPAYER_SECRET_KEY) {
+      return NextResponse.json({ error: 'Server not configured: SOLANA_FEEPAYER_SECRET_KEY missing' }, { status: 500 });
+    }
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
     const { wallet, amount } = await request.json();
 
-    if (!wallet || !amount) {
-      return NextResponse.json({ error: 'Missing wallet or amount' }, { status: 400 });
+    if (!wallet || typeof wallet !== 'string') {
+      return NextResponse.json({ error: 'Missing wallet' }, { status: 400 });
+    }
+
+    const amt = Number(amount);
+    if (!Number.isFinite(amt) || amt <= 0) {
+      return NextResponse.json({ error: 'Invalid amount' }, { status: 400 });
     }
 
     const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
 
     // Load treasury keypair from env
-    const treasurySecret = JSON.parse(process.env.RDW_TREASURY_SECRET_KEY as string);
-    const treasury = Keypair.fromSecretKey(new Uint8Array(treasurySecret));
+    let treasury: Keypair;
+    try {
+      const treasurySecret = JSON.parse(RDW_TREASURY_SECRET_KEY);
+      treasury = Keypair.fromSecretKey(new Uint8Array(treasurySecret));
+    } catch (e) {
+      return NextResponse.json({ error: 'Invalid RDW_TREASURY_SECRET_KEY format' }, { status: 500 });
+    }
 
     // Load fee payer keypair from env
-    const payerSecret = JSON.parse(process.env.SOLANA_FEEPAYER_SECRET_KEY as string);
-    const payer = Keypair.fromSecretKey(new Uint8Array(payerSecret));
+    let payer: Keypair;
+    try {
+      const payerSecret = JSON.parse(SOLANA_FEEPAYER_SECRET_KEY);
+      payer = Keypair.fromSecretKey(new Uint8Array(payerSecret));
+    } catch (e) {
+      return NextResponse.json({ error: 'Invalid SOLANA_FEEPAYER_SECRET_KEY format' }, { status: 500 });
+    }
 
     const mint = new PublicKey(RDW_MINT);
     const recipientPubkey = new PublicKey(wallet);
@@ -50,8 +83,8 @@ export async function POST(request: NextRequest) {
       treasury.publicKey
     );
 
-    // If your RDW mint uses different decimals, change this.
-    const rawAmount = Math.floor(Number(amount) * 1e6);
+    // NOTE: Assumes 6 decimals. Adjust if your mint differs.
+    const rawAmount = Math.floor(amt * 1e6);
 
     const signature = await transfer(
       connection,
@@ -62,27 +95,33 @@ export async function POST(request: NextRequest) {
       rawAmount
     );
 
-    // Record claim in database
-    const { data: user } = await supabase
+    // Record claim in database (best-effort)
+    const { data: user, error: userErr } = await supabase
       .from('users')
       .select('id')
       .eq('wallet_address', wallet)
       .single();
 
-    if (user) {
-      await supabase.from('rewards').insert({
+    if (!userErr && user) {
+      const { error: insertErr } = await supabase.from('rewards').insert({
         user_id: user.id,
-        amount: Number(amount),
+        amount: amt,
         reason: 'Manual claim',
         claimed: true,
         claimed_at: new Date().toISOString(),
       });
+
+      if (insertErr) {
+        console.error('DB Error (rewards insert):', insertErr);
+      }
+    } else if (userErr) {
+      console.error('DB Error (user lookup):', userErr);
     }
 
     return NextResponse.json({
       success: true,
       signature,
-      amount: Number(amount),
+      amount: amt,
       recipient: recipientTokenAccount.address.toString(),
     });
   } catch (error: any) {
