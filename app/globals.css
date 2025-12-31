@@ -1437,39 +1437,6 @@ body {
   color: #8f9fa3;
   margin-bottom: 12px;
 }
-.license-modal {
-  background: #080c0a;
-  border: 1px solid #1a2f1f;
-  max-width: 500px;
-  width: 100%;
-  position: relative;
-}
-
-.license-modal::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  width: 20px;
-  height: 20px;
-  border-top: 2px solid #00FF9D;
-  border-left: 2px solid #00FF9D;
-}
-
-.license-modal::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  right: -1px;
-  width: 20px;
-  height: 20px;
-  border-bottom: 2px solid #00FF9D;
-  border-right: 2px solid #00FF9D;
-}
-
-.license-modal-content {
-  padding: 24px;
-}
 
 .license-preview {
   display: flex;
@@ -3590,13 +3557,6 @@ body {
   background: rgba(0, 255, 157, 0.04);
 }
 
-.license-detail-header {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
 .license-attributes {
   border-top: 1px solid #1a2f1f;
   padding-top: 16px;
@@ -3675,192 +3635,6 @@ body {
 
 @media (max-width: 700px) {
   .licenses-grid { grid-template-columns: 1fr; }
-}
-
-.license-grid-card {
-  text-align: left;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(0,0,0,0.35);
-  padding: 16px;
-  cursor: pointer;
-  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-}
-
-.license-grid-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(0,255,157,0.55);
-  background: rgba(0,255,157,0.05);
-}
-
-.license-grid-top {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 14px;
-}
-
-.license-grid-badge {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  color: #0a1410;
-  background: #00FF9D;
-}
-
-.license-grid-meta { flex: 1; }
-.license-grid-name { font-weight: 700; font-size: 1rem; color: #ffffff; }
-.license-grid-sub {
-  margin-top: 2px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.78rem;
-  color: #8f9fa3;
-}
-
-.license-grid-body {
-  border-top: 1px solid rgba(255,255,255,0.08);
-  padding-top: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.license-grid-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.license-grid-k {
-  font-size: 0.78rem;
-  color: #8f9fa3;
-}
-
-.license-grid-v {
-  font-size: 0.82rem;
-  color: #ffffff;
-  font-weight: 600;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.license-grid-footer {
-  margin-top: 14px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.82rem;
-  color: #8f9fa3;
-}
-
-/* NFT frame */
-.license-nft-frame {
-  width: 72px;
-  height: 72px;
-  border-radius: 14px;
-  padding: 2px;
-  background: linear-gradient(135deg, #00ff9d, #00b36b);
-}
-
-.license-nft-frame.tier-genesis {
-  background: linear-gradient(135deg, #ffd700, #ffb000);
-}
-
-.license-nft-frame.tier-core {
-  background: linear-gradient(135deg, #00ff9d, #00b36b);
-}
-
-.license-nft-frame.tier-surge {
-  background: linear-gradient(135deg, #4da3ff, #0066ff);
-}
-
-.license-nft-inner {
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  background: radial-gradient(circle at 30% 30%, #1c1c1c, #050505);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.license-nft-tier {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #ffffff;
-  text-shadow: 0 0 12px rgba(0, 255, 157, 0.6);
-}
-
-.license-grid-card:hover .license-nft-frame {
-  box-shadow: 0 0 20px rgba(0, 255, 157, 0.45);
-}
-
-/* GRID */
-.licenses-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-@media (max-width: 1100px) {
-  .licenses-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-@media (max-width: 700px) {
-  .licenses-grid { grid-template-columns: 1fr; }
-}
-
-/* NFT CARD */
-.license-nft-card {
-  position: relative;
-  text-align: left;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(0,0,0,0.35);
-  padding: 14px;
-  cursor: pointer;
-  overflow: hidden;
-  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
-}
-
-.license-nft-card:hover {
-  transform: translateY(-2px);
-  background: rgba(0,0,0,0.45);
-}
-
-/* RARITY STRIP */
-.rarity-strip {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  right: 12px;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.10);
-  backdrop-filter: blur(10px);
-}
-
-.rarity-text {
-  font-size: 0.72rem;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  font-weight: 800;
-  color: #0b1410;
-}
-
-.serial-text {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.80rem;
-  font-weight: 700;
-  color: #0b1410;
 }
 
 /* ART FRAME */
@@ -3964,42 +3738,7 @@ body {
   color: #8f9fa3;
 }
 
-/* TIER COLORS + ANIMATIONS */
-.license-nft-card.tier-core:hover { border-color: rgba(0,255,157,0.55); }
-.license-nft-card.tier-genesis:hover { border-color: rgba(255,208,64,0.60); }
-.license-nft-card.tier-surge:hover { border-color: rgba(77,163,255,0.60); }
-
 /* Rarity strip backgrounds */
-.rarity-strip.tier-core {
-  background: linear-gradient(135deg, #00ff9d, #00b36b);
-}
-.rarity-strip.tier-genesis {
-  background: linear-gradient(135deg, #ffd36a, #ffb000);
-}
-.rarity-strip.tier-surge {
-  background: linear-gradient(135deg, #4da3ff, #0066ff);
-}
-
-/* Tier pill colors */
-.license-nft-card.tier-core .nft-tier-pill { background: #00ff9d; }
-.license-nft-card.tier-genesis .nft-tier-pill { background: #ffd36a; }
-.license-nft-card.tier-surge .nft-tier-pill { background: #4da3ff; }
-
-/* Glow sources + animations */
-.license-nft-card.tier-core .nft-art-glow {
-  background: radial-gradient(circle at 40% 30%, rgba(0,255,157,0.85), rgba(0,255,157,0.0) 60%);
-  animation: glowPulseCore 2.6s ease-in-out infinite;
-}
-
-.license-nft-card.tier-genesis .nft-art-glow {
-  background: radial-gradient(circle at 40% 30%, rgba(255,211,106,0.90), rgba(255,211,106,0.0) 60%);
-  animation: glowPulseGenesis 3.0s ease-in-out infinite;
-}
-
-.license-nft-card.tier-surge .nft-art-glow {
-  background: radial-gradient(circle at 40% 30%, rgba(77,163,255,0.90), rgba(77,163,255,0.0) 60%);
-  animation: glowPulseSurge 2.4s ease-in-out infinite;
-}
 
 @keyframes glowPulseCore {
   0%, 100% { opacity: 0.18; transform: scale(1); }
@@ -4016,112 +3755,7 @@ body {
   50% { opacity: 0.35; transform: scale(1.03); }
 }
 
-/* MODAL NFT FRAME */
-.nft-modal-frame {
-  position: relative;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.06), rgba(0,0,0,0.85));
-}
-
-.nft-modal-img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.nft-modal-tier {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 44px;
-  height: 36px;
-  border-radius: 12px;
-  font-weight: 900;
-  font-size: 1.2rem;
-  color: #0b1410;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-}
-
-/* GLOW */
-.nft-modal-glow {
-  position: absolute;
-  inset: -40px;
-  filter: blur(28px);
-  opacity: 0.35;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* TIER COLORS */
-.license-modal.tier-core .nft-modal-tier {
-  background: #00ff9d;
-}
-.license-modal.tier-genesis .nft-modal-tier {
-  background: #ffd36a;
-}
-.license-modal.tier-surge .nft-modal-tier {
-  background: #4da3ff;
-}
-
-/* TIER GLOWS */
-.license-modal.tier-core .nft-modal-glow {
-  background: radial-gradient(circle at 40% 30%, rgba(0,255,157,0.9), rgba(0,255,157,0.0) 60%);
-  animation: glowPulseCore 2.8s ease-in-out infinite;
-}
-
-.license-modal.tier-genesis .nft-modal-glow {
-  background: radial-gradient(circle at 40% 30%, rgba(255,211,106,0.9), rgba(255,211,106,0.0) 60%);
-  animation: glowPulseGenesis 3.2s ease-in-out infinite;
-}
-
-.license-modal.tier-surge .nft-modal-glow {
-  background: radial-gradient(circle at 40% 30%, rgba(77,163,255,0.9), rgba(77,163,255,0.0) 60%);
-  animation: glowPulseSurge 2.6s ease-in-out infinite;
-}
-
-/* PARALLAX TILT (subtle) */
-.license-nft-card {
-  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(var(--tz, 0px));
-  transform-style: preserve-3d;
-}
-
-@media (pointer: coarse) {
-  .license-nft-card {
-    transform: none !important;
-  }
-}
-
-/* 1% CLUB highlight */
-.license-nft-card.club-one .rarity-strip {
-  border-color: rgba(255,255,255,0.22);
-  box-shadow: 0 0 22px rgba(255, 211, 106, 0.25);
-}
-
-.license-nft-card.club-one .rarity-text {
-  color: #0b1410;
-}
-
-.license-nft-card.club-one.tier-core .rarity-strip {
-  background: linear-gradient(135deg, #00ff9d, #ffd36a);
-}
-
-.license-nft-card.club-one.tier-genesis .rarity-strip {
-  background: linear-gradient(135deg, #ffd36a, #ffffff);
-}
-
-.license-nft-card.club-one.tier-surge .rarity-strip {
-  background: linear-gradient(135deg, #4da3ff, #ffd36a);
-}
-
 /* MODAL REVEAL */
-.modal-overlay {
-  animation: overlayFadeIn 160ms ease-out;
-}
 
 .license-modal {
   animation: modalPopIn 180ms ease-out;
@@ -4134,18 +3768,6 @@ body {
   max-height: calc(92vh - 64px); /* header allowance */
 }
 
-/* Fix tall NFT preview clipping */
-.nft-modal-frame {
-  max-height: 58vh;
-}
-
-.nft-modal-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: contain;
-}
-
 @keyframes overlayFadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -4154,17 +3776,6 @@ body {
 @keyframes modalPopIn {
   from { opacity: 0; transform: translateY(10px) scale(0.98); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-/* FLIP CARD SHELL */
-.license-flip-card {
-  position: relative;
-  text-align: left;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  perspective: 1200px;
 }
 
 /* inner gets tilt + flip so transforms don't fight */
@@ -4176,11 +3787,6 @@ body {
   transform-style: preserve-3d;
   transition: transform 220ms ease;
   transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-}
-
-/* flip state */
-.license-flip-card.is-flipped .license-card-inner {
-  transform: rotateX(var(--rx, 0deg)) rotateY(calc(180deg + var(--ry, 0deg)));
 }
 
 /* disable tilt on touch */
@@ -4307,11 +3913,6 @@ body {
   border-color: rgba(255,255,255,0.22);
 }
 
-/* 1% CLUB highlight */
-.license-flip-card.club-one .rarity-strip {
-  box-shadow: 0 0 22px rgba(255, 211, 106, 0.25);
-}
-
 /* keep your existing rarity strip + nft-art styles + tier glow keyframes.
    Only change needed: ensure .nft-art-frame has enough top padding for the strip */
 .nft-art-frame {
@@ -4341,37 +3942,6 @@ body {
   .license-card-inner {
     transform: none !important;
   }
-}
-
-/* ===== LICENSES TOOLBAR FILTER CHIPS ===== */
-.licenses-filters {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.filter-chip {
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(0,0,0,0.25);
-  color: rgba(255,255,255,0.80);
-  border-radius: 999px;
-  padding: 8px 12px;
-  font-weight: 800;
-  font-size: 0.78rem;
-  letter-spacing: 0.03em;
-  cursor: pointer;
-}
-
-.filter-chip:hover {
-  border-color: rgba(255,255,255,0.20);
-  color: rgba(255,255,255,0.92);
-}
-
-.filter-chip.active {
-  border-color: rgba(0,255,157,0.45);
-  background: rgba(0,255,157,0.07);
-  color: #ffffff;
 }
 
 /* ===== GRID ===== */
@@ -4719,22 +4289,6 @@ body {
 }
 
 /* FRONT EDITION PLATE (exclusive, not “badgey”) */
-.edition-plate {
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-  z-index: 3;
-  display: inline-flex;
-  align-items: baseline;
-  gap: 8px;
-  padding: 10px 12px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(0,0,0,0.35);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-}
-
 .edition-label {
   font-weight: 900;
   font-size: 0.70rem;
@@ -4836,17 +4390,6 @@ body {
   box-shadow:
     0 0 26px rgba(255, 211, 106, 0.18),
     0 10px 30px rgba(0,0,0,0.35);
-}
-
-/* Subtle tier tint on the plate border */
-.license-flip-card.tier-core .edition-plate { border-color: rgba(0,255,157,0.22); }
-.license-flip-card.tier-genesis .edition-plate { border-color: rgba(255,211,106,0.22); }
-.license-flip-card.tier-surge .edition-plate { border-color: rgba(77,163,255,0.22); }
-
-/* Slightly elevated feel for 1% club */
-.edition-plate.club {
-  border-color: rgba(255,211,106,0.35);
-  box-shadow: 0 12px 34px rgba(255,211,106,0.08), 0 10px 30px rgba(0,0,0,0.35);
 }
 
 /* TOP-CENTER SERIAL (premium, brand aligned) */
@@ -4969,4 +4512,36 @@ body {
 
 .license-flip-card.tier-surge .license-card-face.front::before {
   background: linear-gradient(90deg, rgba(77,163,255,0), rgba(77,163,255,1), rgba(77,163,255,0));
+}
+
+.resume-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,211,106,0.35);
+  background: rgba(0,0,0,0.45);
+  box-shadow: 0 0 18px rgba(255,211,106,0.15);
+}
+
+.resume-text {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.9);
+}
+
+.resume-btn {
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffd36a, #ffb000);
+  color: #0b1410;
+  border: none;
+  cursor: pointer;
+}
+
+.resume-btn:hover {
+  filter: brightness(1.05);
 }
