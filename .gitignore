@@ -9,3 +9,7 @@ repo-structure.txt
 # env
 .env.local
 .env.*
+
+# ignore env files
+.env
+.env.*
