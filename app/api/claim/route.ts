@@ -1,37 +1,40 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Connection, Keypair, PublicKey, clusterApiUrl } from '@solana/web3.js';
+import { Connection, Keypair, PublicKey } from '@solana/web3.js';
 import { getOrCreateAssociatedTokenAccount, transfer } from '@solana/spl-token';
 import { createClient } from '@supabase/supabase-js';
 
 const RDW_MINT = 'DSrszSzWyGr96RQ5E4MnezpDEto4KPJL2kjxmpzRE6Zd';
 
-function getEnv(name: string): string | null {
-  const v = process.env[name];
-  return v && v.trim().length > 0 ? v : null;
-}
-
 export async function POST(request: NextRequest) {
   try {
-    const SUPABASE_URL = getEnv('NEXT_PUBLIC_SUPABASE_URL');
-    const SUPABASE_SERVICE_ROLE_KEY = getEnv('SUPABASE_SERVICE_ROLE_KEY');
-    const RDW_TREASURY_SECRET_KEY = getEnv('RDW_TREASURY_SECRET_KEY');
-    const SOLANA_FEEPAYER_SECRET_KEY = getEnv('SOLANA_FEEPAYER_SECRET_KEY');
+    // 1. Get Env Vars inside the handler to prevent build crashes
+    const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const RDW_TREASURY_SECRET_KEY = process.env.RDW_TREASURY_SECRET_KEY;
+    const SOLANA_FEEPAYER_SECRET_KEY = process.env.SOLANA_FEEPAYER_SECRET_KEY;
+    const RPC_URL = process.env.SOLANA_RPC_URL || 'https://api.devnet.solana.com';
 
-    if (!SUPABASE_URL) return NextResponse.json({ error: 'NEXT_PUBLIC_SUPABASE_URL missing' }, { status: 500 });
-    if (!SUPABASE_SERVICE_ROLE_KEY) return NextResponse.json({ error: 'SUPABASE_SERVICE_ROLE_KEY missing' }, { status: 500 });
-    if (!RDW_TREASURY_SECRET_KEY) return NextResponse.json({ error: 'RDW_TREASURY_SECRET_KEY missing' }, { status: 500 });
-    if (!SOLANA_FEEPAYER_SECRET_KEY) return NextResponse.json({ error: 'SOLANA_FEEPAYER_SECRET_KEY missing' }, { status: 500 });
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY || !RDW_TREASURY_SECRET_KEY || !SOLANA_FEEPAYER_SECRET_KEY) {
+      console.error('Missing critical environment variables for claim');
+      return NextResponse.json({ error: 'Server configuration incomplete' }, { status: 500 });
+    }
 
+    // 2. Initialize Supabase Client
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-    const { wallet, amount } = await request.json();
+    // 3. Request Validation
+    const body = await request.json();
+    const { wallet, amount } = body;
+    
     if (!wallet || typeof wallet !== 'string') return NextResponse.json({ error: 'Missing wallet' }, { status: 400 });
 
     const amt = Number(amount);
     if (!Number.isFinite(amt) || amt <= 0) return NextResponse.json({ error: 'Invalid amount' }, { status: 400 });
 
-    const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
+    // 4. Solana Transaction Setup
+    const connection = new Connection(RPC_URL, 'confirmed');
 
+    // Safe parsing for secret keys
     const treasurySecret = JSON.parse(RDW_TREASURY_SECRET_KEY);
     const treasury = Keypair.fromSecretKey(new Uint8Array(treasurySecret));
 
@@ -41,10 +44,12 @@ export async function POST(request: NextRequest) {
     const mint = new PublicKey(RDW_MINT);
     const recipientPubkey = new PublicKey(wallet);
 
+    // 5. Token Account Handling & Transfer
     const recipientTokenAccount = await getOrCreateAssociatedTokenAccount(connection, payer, mint, recipientPubkey);
     const treasuryTokenAccount = await getOrCreateAssociatedTokenAccount(connection, payer, mint, treasury.publicKey);
 
-    const rawAmount = Math.floor(amt * 1e6); // assumes 6 decimals
+    const rawAmount = Math.floor(amt * 1_000_000); // 6 decimals
+    
     const signature = await transfer(
       connection,
       payer,
@@ -54,7 +59,9 @@ export async function POST(request: NextRequest) {
       rawAmount
     );
 
+    // 6. DB Update
     const { data: user } = await supabase.from('users').select('id').eq('wallet_address', wallet).single();
+    
     if (user) {
       await supabase.from('rewards').insert({
         user_id: user.id,
@@ -65,9 +72,16 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    return NextResponse.json({ success: true, signature, amount: amt, recipient: recipientTokenAccount.address.toString() });
+    return NextResponse.json({ 
+      success: true, 
+      signature, 
+      amount: amt, 
+      recipient: recipientTokenAccount.address.toString() 
+    });
+
   } catch (err: any) {
-    console.error('Claim error:', err);
-    return NextResponse.json({ error: err.message || 'Claim failed' }, { status: 500 });
+    console.error('Claim process error:', err);
+    // Don't leak raw error messages to the client in production
+    return NextResponse.json({ error: 'Transaction failed. Please try again later.' }, { status: 500 });
   }
 }

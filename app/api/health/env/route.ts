@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
-const REQUIRED = [
+// This list must match exactly what you have in Vercel
+const REQUIRED_VARS = [
   'NEXT_PUBLIC_SUPABASE_URL',
   'NEXT_PUBLIC_SUPABASE_ANON_KEY',
   'SUPABASE_SERVICE_ROLE_KEY',
@@ -10,22 +11,32 @@ const REQUIRED = [
 ] as const;
 
 export async function GET() {
-  const result = REQUIRED.map((name) => {
-    const v = process.env[name];
-    return {
-      name,
-      present: !!(v && v.trim().length > 0),
-      // never leak full secrets:
-      sample: v ? `${v.slice(0, 4)}…${v.slice(-4)}` : null,
-      length: v?.length ?? 0,
-    };
-  });
+  try {
+    const status = REQUIRED_VARS.map((name) => {
+      const value = process.env[name];
+      const isPresent = !!(value && value.trim().length > 0);
+      
+      return {
+        name,
+        present: isPresent,
+        // ✅ SECURITY: Removed 'sample' and 'length'. 
+        // Just return if it exists or not.
+      };
+    });
 
-  const missing = result.filter((r) => !r.present).map((r) => r.name);
+    const missing = status.filter((r) => !r.present).map((r) => r.name);
 
-  return NextResponse.json({
-    ok: missing.length === 0,
-    missing,
-    vars: result,
-  });
+    return NextResponse.json({
+      ok: missing.length === 0,
+      timestamp: new Date().toISOString(),
+      missing: missing.length > 0 ? missing : "none",
+      env: status,
+    }, {
+      // ✅ React 19 / Next.js 15: Ensure this isn't cached
+      headers: { 'Cache-Control': 'no-store' }
+    });
+
+  } catch (error) {
+    return NextResponse.json({ ok: false, error: "Failed to check environment" }, { status: 500 });
+  }
 }
