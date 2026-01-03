@@ -153,59 +153,37 @@
   filter: sepia(1) saturate(4) hue-rotate(85deg) brightness(1.12)
           drop-shadow(0 0 10px rgba(0, 255, 157, .55))
           drop-shadow(0 0 26px rgba(0, 255, 157, .22));
-  animation: neonGreenBreath 2.4s ease-in-out infinite;
+  animation: neonGreenBreath 3.5s ease-in-out infinite;
 }
 
 .battery-charged.battery-img-wrapper::before{
   opacity: .65;
   background: radial-gradient(circle at 50% 55%,
-    rgba(0,255,157,.28) 0%,
-    rgba(0,255,157,.12) 38%,
-    rgba(0,255,157,0) 72%);
-  animation: neonGreenHalo 2.4s ease-in-out infinite;
+    rgba(0,255,157,.35) 0%,
+    rgba(0,255,157,.15) 40%,
+    rgba(0,255,157,0) 70%);
+  animation: neonGreenHalo 3.5s ease-in-out infinite;
 }
 
-/* subtle “powered” breathing */
+/* subtle "powered" breathing - slower and deeper */
 @keyframes neonGreenBreath{
   0%,100% {
-    filter: sepia(1) saturate(4) hue-rotate(85deg) brightness(1.08)
-            drop-shadow(0 0 9px rgba(0,255,157,.50))
-            drop-shadow(0 0 22px rgba(0,255,157,.18));
+    filter: sepia(1) saturate(4) hue-rotate(85deg) brightness(1.05)
+            drop-shadow(0 0 8px rgba(0,255,157,.45))
+            drop-shadow(0 0 18px rgba(0,255,157,.15));
   }
   50% {
-    filter: sepia(1) saturate(4) hue-rotate(85deg) brightness(1.20)
-            drop-shadow(0 0 14px rgba(0,255,157,.75))
-            drop-shadow(0 0 34px rgba(0,255,157,.28));
+    filter: sepia(1) saturate(4) hue-rotate(85deg) brightness(1.25)
+            drop-shadow(0 0 16px rgba(0,255,157,.85))
+            drop-shadow(0 0 40px rgba(0,255,157,.35));
   }
 }
 
 @keyframes neonGreenHalo{
-  0%,100% { opacity: .60; }
-  50%     { opacity: .85; }
+  0%,100% { opacity: .50; }
+  50%     { opacity: .95; }
 }
 
-/* OPTIONAL: shimmer sweep that won’t clip */
-.battery-charged.battery-img-wrapper::after{
-  content:"";
-  position:absolute;
-  inset: -8px;
-  border-radius: 16px;
-  z-index: 3;
-  background: linear-gradient(120deg,
-    transparent 2%,
-    rgba(255,255,255,.08) 45%,
-    transparent 60%);
-  transform: translateX(-120%);
-  animation: neonSweep 4.2s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes neonSweep{
-  2%, 55% { transform: translateX(-120%); opacity: 0; }
-  60%     { opacity: 1; }
-  85%     { transform: translateX(120%); opacity: 1; }
-  100%    { opacity: 0; }
-}
 
         /* ADDED: keep copy from crowding the battery */
 .battery-img-wrapper + p { margin-top: 6px; }
@@ -632,7 +610,7 @@
             <a href="https://x.com/ReDewable" target="_blank"><i class="fab fa-x-twitter"></i></a>
             <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank"><i class="fab fa-telegram-plane"></i></a>
         </div>
-        <a href="litepaper/index.html" class="btn">LITEPAPER</a>
+        <a href="/litepaper" class="btn">LITEPAPER</a>
     </nav>
 
     <div class="page">
@@ -647,7 +625,7 @@
                 <a href="#tokenomics">ALLOCATION</a>
                 <div class="pill-toggle theme-switch" id="theme-btn"><span>LIGHT</span><div class="toggle-switch"></div></div>
             </nav>
-            <div class="header-right"><a href="litepaper/index.html" class="btn-outline">LITEPAPER</a></div>
+            <div class="header-right"><a href="/litepaper" class="btn-outline">LITEPAPER</a></div>
             <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
         </header>
 
@@ -674,8 +652,8 @@
             <span class="tier-title">TIER 1 (GENESIS)</span>
             <span class="tier-price">2.5 SOL</span>
             <span class="tier-capacity">~160 kW NETWORK EQ.</span>
-            <div class="tier-bar"><div class="tier-fill" style="width: 35%;"></div></div>
-            <span class="tier-count">653 / 1000 AVAILABLE</span>
+            <div class="tier-bar"><div class="tier-fill" id="genesis-fill" style="width: 0%;"></div></div>
+            <span class="tier-count" id="genesis-count">-- / 1000 AVAILABLE</span>
         </div>
         <div class="tier-box locked">
             <span class="tier-title">TIER 2 (CORE)</span>
@@ -706,7 +684,7 @@
                 </div>
                 <div style="display: grid; gap: 15px;">
                     <button class="btn" style="width: 100%; font-size: 1.1rem; padding: 15px;" onclick="openMintDisclaimer()">MINT VALIDATOR LICENSE</button>
-                    <a href="onboarding.html" class="btn-outline" style="width: 100%; justify-content: center;">NEW TO CRYPTO? START HERE →</a>
+                    <a href="/onboarding" class="btn-outline" style="width: 100%; justify-content: center;">NEW TO CRYPTO? START HERE →</a>
                 </div>
                 <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                     <span class="mono" style="font-size: 0.7rem; border: 1px solid var(--border); padding: 5px 10px; color: var(--text-dim);">KYC REQUIRED</span>
@@ -740,7 +718,7 @@
                         <img src="assets/battery.png" alt="Drained battery" class="battery-img">
                     </div>
                     <p>Texas power demand will grow <strong>70% by 2031</strong>—driven by AI data centers. Add extreme weather (deep freezes, heat waves), and the grid faces collapse. Batteries absorb the shock, storing cheap solar energy and releasing it when demand spikes.</p>
-                    <div class="check-item" style="margin-top: auto;">
+                    <div class="check-item" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border);">
                         <i class="fas fa-exclamation-triangle" style="color: #ff6b6b;"></i>
                         <span><strong>The Problem:</strong> Not enough storage to meet growing demand.</span>
                     </div>
@@ -1002,7 +980,7 @@
                     <span class="ticker-box" id="footer-price-ticker">SOL: <span>●</span> CONNECTING...</span>
                 </div>
                 <div class="footer-right">
-                    <a href="litepaper/index.html" class="footer-tech-btn"><i class="fas fa-file-code"></i> LITEPAPER_V2.1</a>
+                    <a href="/litepaper" class="footer-tech-btn"><i class="fas fa-file-code"></i> LITEPAPER_V2.1</a>
                     <div style="display:flex; gap: 20px;">
                         <a href="https://x.com/ReDewable" target="_blank" class="footer-social-link"><i class="fab fa-x-twitter"></i></a>
                         <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank" class="footer-social-link"><i class="fab fa-telegram-plane"></i></a>
@@ -1031,8 +1009,11 @@
 let currentCurrency = 'USD';
 let solPrice = 150;
 
-// Mint data - single source of truth
-const GENESIS_MINTED = 347;
+// Mint data - fetched from API
+let genesisMinted = 0;
+let coreMinted = 0;
+let surgeMinted = 0;
+
 const GENESIS_SUPPLY = 1000;
 const GENESIS_PRICE_SOL = 2.5;
 const CORE_SUPPLY = 1000;
@@ -1040,9 +1021,29 @@ const CORE_PRICE_SOL = 3.5;
 const SURGE_SUPPLY = 500;
 const SURGE_PRICE_SOL = 4.5;
 
-// Calculate totals
-const raisedSOL = GENESIS_MINTED * GENESIS_PRICE_SOL; // 867.5 SOL
+// Calculate totals dynamically
+function getRaisedSOL() {
+    return (genesisMinted * GENESIS_PRICE_SOL) + (coreMinted * CORE_PRICE_SOL) + (surgeMinted * SURGE_PRICE_SOL);
+}
 const targetSOL = (GENESIS_SUPPLY * GENESIS_PRICE_SOL) + (CORE_SUPPLY * CORE_PRICE_SOL) + (SURGE_SUPPLY * SURGE_PRICE_SOL); // 8250 SOL
+
+// Fetch live mint counts from Supabase
+async function fetchMintCounts() {
+    try {
+        const res = await fetch('/api/licenses/counts');
+        const data = await res.json();
+        if (data.counts) {
+            genesisMinted = data.counts.genesis || 0;
+            coreMinted = data.counts.core || 0;
+            surgeMinted = data.counts.surge || 0;
+            updateAllVisuals();
+        }
+    } catch (err) {
+        console.log('Using fallback mint counts');
+    }
+}
+fetchMintCounts();
+setInterval(fetchMintCounts, 60000);
 
 async function fetchSolPrice() {
     try {
@@ -1066,6 +1067,8 @@ document.querySelectorAll('.toggle-trigger').forEach(t => t.addEventListener('cl
 }));
 
 function updateAllVisuals() {
+    const raisedSOL = getRaisedSOL();
+    
     // Update toggle buttons
     document.querySelectorAll('.toggle-trigger').forEach(w => { 
         const l = w.querySelector('.curr-label'); 
@@ -1085,6 +1088,13 @@ function updateAllVisuals() {
     // Calculate progress percentage
     const progressPercent = (raisedSOL / targetSOL) * 100;
     if (pf) pf.style.width = progressPercent.toFixed(1) + '%';
+    
+    // Update tier count display
+    const genesisAvailable = GENESIS_SUPPLY - genesisMinted;
+    const genesisCount = document.getElementById('genesis-count');
+    const genesisFill = document.getElementById('genesis-fill');
+    if (genesisCount) genesisCount.innerHTML = genesisAvailable + ' / ' + GENESIS_SUPPLY + ' AVAILABLE';
+    if (genesisFill) genesisFill.style.width = ((genesisMinted / GENESIS_SUPPLY) * 100).toFixed(1) + '%';
     
     if (currentCurrency === 'USD') { 
         const raisedUSD = Math.round(raisedSOL * solPrice);
