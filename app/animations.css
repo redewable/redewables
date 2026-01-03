@@ -1,0 +1,139 @@
+/* ============================================
+   ANIMATIONS.CSS — All keyframes and animations
+   ============================================ */
+
+/* === GENERAL === */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInBurger {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* === BADGES & NOTIFICATIONS === */
+@keyframes badgePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* === REWARD ANIMATIONS === */
+@keyframes rewardPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* === MINT PAGE === */
+@keyframes nftFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes nftGlow {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.35; }
+}
+
+@keyframes mintPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes feedFade {
+  0%, 100% { opacity: 0; transform: translateY(10px); }
+  10%, 90% { opacity: 1; transform: translateY(0); }
+}
+
+/* === SUCCESS/ERROR MODALS === */
+@keyframes successGlow {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes successPop {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+@keyframes errorPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 107, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(255, 107, 107, 0.5); }
+}
+
+/* === CONFETTI === */
+@keyframes confettiFall {
+  0% {
+    top: -20px;
+    transform: rotate(0deg) translateX(0);
+    opacity: 1;
+  }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% {
+    top: 100vh;
+    transform: rotate(720deg) translateX(100px);
+    opacity: 0;
+  }
+}
+
+/* === LICENSE CARDS (GLOW PULSES) === */
+@keyframes glowPulseCore {
+  0%, 100% { opacity: 0.18; transform: scale(1); }
+  50% { opacity: 0.34; transform: scale(1.03); }
+}
+
+@keyframes glowPulseGenesis {
+  0%, 100% { opacity: 0.16; transform: scale(1); }
+  50% { opacity: 0.36; transform: scale(1.04); }
+}
+
+@keyframes glowPulseSurge {
+  0%, 100% { opacity: 0.16; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(1.03); }
+}
+
+/* === LICENSE CARD GLINT === */
+@keyframes glint12 {
+  0% {
+    opacity: 0;
+    transform: translateX(-140%) rotate(8deg);
+  }
+  6% { opacity: 0.55; }
+  11% {
+    opacity: 0;
+    transform: translateX(140%) rotate(8deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(140%) rotate(8deg);
+  }
+}
+
+/* === MODAL ANIMATIONS === */
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalPopIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}

@@ -54,7 +54,7 @@ export default function ClaimRewards({ pending, wallet, onClaim }: ClaimRewardsP
   };
 
   return (
-    <div className="claim-widget">
+    <div className={`claim-widget ${pending > 0 ? 'has-rewards' : ''}`}>
       <div className="claim-header">
         <span className="claim-title">PENDING REWARDS</span>
       </div>

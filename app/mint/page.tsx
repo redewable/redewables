@@ -1,20 +1,41 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import '../mint.css';
+import '../modals.css';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { useConnection } from '@solana/wallet-adapter-react';
-import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import { usePrivy } from '@privy-io/react-auth';
+import { createClient } from '@supabase/supabase-js';
+import DashboardLayout from '../components/DashboardLayout';
 
-const tiers = [
+interface TierData {
+  name: string;
+  letter: string;
+  price: number;
+  priceUSD: number;
+  supply: number;
+  minted: number;
+  multiplier: string;
+  description: string;
+  perks: string[];
+}
+
+interface RecentMint {
+  wallet: string;
+  tier: string;
+  time: string;
+}
+
+const baseTiers: Omit<TierData, 'minted'>[] = [
   {
     name: 'Genesis',
     letter: 'G',
     price: 2.5,
-    priceUSD: 375,
+    priceUSD: 0, // Will be calculated dynamically
     supply: 1000,
-    minted: 347,
     multiplier: '1.5x',
     description: 'Early supporter tier with maximum rewards',
     perks: ['1.5x reward multiplier', 'Priority attestation access', 'Genesis badge', 'All project access'],
@@ -23,9 +44,8 @@ const tiers = [
     name: 'Core',
     letter: 'C',
     price: 3.5,
-    priceUSD: 525,
+    priceUSD: 0, // Will be calculated dynamically
     supply: 1000,
-    minted: 0,
     multiplier: '1.0x',
     description: 'Standard validator license',
     perks: ['1.0x reward multiplier', 'Standard attestation access', 'Core badge', 'All project access'],
@@ -34,27 +54,55 @@ const tiers = [
     name: 'Surge',
     letter: 'S',
     price: 4.5,
-    priceUSD: 675,
+    priceUSD: 0, // Will be calculated dynamically
     supply: 500,
-    minted: 0,
     multiplier: '2.0x',
     description: 'Premium tier with boosted rewards',
     perks: ['2.0x reward multiplier', 'Priority attestation access', 'Surge badge', 'All project access', 'Governance voting'],
   },
 ];
 
-const recentMints = [
-  { wallet: '7xK9...3mPq', tier: 'Genesis', time: '2m ago' },
-  { wallet: '9aB2...7kLm', tier: 'Genesis', time: '5m ago' },
-  { wallet: '3cD4...9nOp', tier: 'Genesis', time: '8m ago' },
-  { wallet: '5eF6...1qRs', tier: 'Genesis', time: '12m ago' },
-  { wallet: '2gH8...4tUv', tier: 'Genesis', time: '15m ago' },
-];
+function getEnv(name: string): string | null {
+  const v = (process.env as any)[name] as string | undefined;
+  return v && v.trim().length > 0 ? v : null;
+}
+
+function timeAgo(date: Date): string {
+  const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (seconds < 60) return `${seconds}s ago`;
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+}
 
 export default function Mint() {
-  const { publicKey, connected, disconnect, signTransaction } = useWallet();
+  // External wallet adapter
+  const { publicKey: adapterPublicKey, connected: adapterConnected, disconnect: adapterDisconnect, signTransaction: adapterSignTransaction } = useWallet();
   const { setVisible } = useWalletModal();
   const { connection } = useConnection();
+  
+  // Privy (email/social login - for auth display only)
+  const { login, logout, authenticated: privyAuthenticated, user } = usePrivy();
+  
+  // Unified wallet state
+  const connected = adapterConnected || privyAuthenticated;
+  const publicKey = adapterPublicKey; // Only external wallet can sign transactions
+  
+  // Sign transaction (only available for external wallets)
+  const signTransaction = adapterSignTransaction;
+  
+  // Unified disconnect
+  const disconnect = useCallback(async () => {
+    if (adapterConnected) {
+      await adapterDisconnect();
+    }
+    if (privyAuthenticated) {
+      await logout();
+    }
+  }, [adapterConnected, adapterDisconnect, privyAuthenticated, logout]);
   
   const [selectedTier, setSelectedTier] = useState<number | null>(null);
   const [quantity, setQuantity] = useState(1);
@@ -67,7 +115,112 @@ export default function Mint() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [mintedNFT, setMintedNFT] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { login, logout, authenticated, user } = usePrivy();
+
+  // Dynamic data state
+  const [mintedCounts, setMintedCounts] = useState<{ genesis: number; core: number; surge: number }>({ genesis: 0, core: 0, surge: 0 });
+  const [recentMints, setRecentMints] = useState<RecentMint[]>([]);
+  const [dataLoading, setDataLoading] = useState(true);
+  const [networkStats, setNetworkStats] = useState({ validators: 0, power: 0 });
+  const [solPrice, setSolPrice] = useState<number>(150); // Default fallback price
+
+  const supabase = useMemo(() => {
+    const url = getEnv('NEXT_PUBLIC_SUPABASE_URL');
+    const key = getEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY');
+    if (!url || !key) return null;
+    return createClient(url, key);
+  }, []);
+
+  // Fetch minted counts and recent mints
+  useEffect(() => {
+    async function fetchMintData() {
+      if (!supabase) {
+        setDataLoading(false);
+        return;
+      }
+
+      try {
+        // Fetch all minted licenses
+        const { data: licenses, error } = await supabase
+          .from('licenses')
+          .select('tier, wallet_address, minted_at')
+          .eq('mint_status', 'minted')
+          .order('minted_at', { ascending: false });
+
+        if (error) throw error;
+
+        // Count by tier and calculate network stats
+        const counts = { genesis: 0, core: 0, surge: 0 };
+        const uniqueWallets = new Set<string>();
+        let totalPower = 0;
+
+        (licenses || []).forEach((l: any) => {
+          const tier = l.tier?.toLowerCase();
+          uniqueWallets.add(l.wallet_address);
+          if (tier === 'genesis') {
+            counts.genesis++;
+            totalPower += 1.5;
+          } else if (tier === 'core') {
+            counts.core++;
+            totalPower += 1.0;
+          } else if (tier === 'surge') {
+            counts.surge++;
+            totalPower += 2.0;
+          }
+        });
+        setMintedCounts(counts);
+        setNetworkStats({ validators: uniqueWallets.size, power: totalPower });
+
+        // Get recent mints (last 10)
+        const recent = (licenses || []).slice(0, 10).map((l: any) => ({
+          wallet: `${l.wallet_address.slice(0, 4)}...${l.wallet_address.slice(-4)}`,
+          tier: l.tier?.charAt(0).toUpperCase() + l.tier?.slice(1) || 'Unknown',
+          time: l.minted_at ? timeAgo(new Date(l.minted_at)) : 'just now',
+        }));
+        setRecentMints(recent);
+
+      } catch (err) {
+        console.error('Error fetching mint data:', err);
+      } finally {
+        setDataLoading(false);
+      }
+    }
+
+    fetchMintData();
+
+    // Refresh every 30 seconds
+    const interval = setInterval(fetchMintData, 30000);
+    return () => clearInterval(interval);
+  }, [supabase]);
+
+  // Fetch SOL price from CoinGecko
+  useEffect(() => {
+    async function fetchSolPrice() {
+      try {
+        const response = await fetch(
+          'https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd'
+        );
+        const data = await response.json();
+        if (data.solana?.usd) {
+          setSolPrice(data.solana.usd);
+        }
+      } catch (error) {
+        console.error('Failed to fetch SOL price:', error);
+        // Keep default fallback price
+      }
+    }
+
+    fetchSolPrice();
+    // Refresh price every 5 minutes
+    const interval = setInterval(fetchSolPrice, 5 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Combine base tiers with dynamic minted counts and USD prices
+  const tiers: TierData[] = baseTiers.map((tier, index) => ({
+    ...tier,
+    priceUSD: Math.round(tier.price * solPrice),
+    minted: index === 0 ? mintedCounts.genesis : index === 1 ? mintedCounts.core : mintedCounts.surge,
+  }));
 
   useEffect(() => {
     if (publicKey && connection) {
@@ -80,11 +233,12 @@ export default function Mint() {
   }, [publicKey, connection]);
 
   useEffect(() => {
+    if (recentMints.length === 0) return;
     const interval = setInterval(() => {
       setCurrentFeedIndex(prev => (prev + 1) % recentMints.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [recentMints.length]);
 
   const getActiveTierIndex = () => {
     if (tiers[0].minted < tiers[0].supply) return 0;
@@ -109,6 +263,13 @@ export default function Mint() {
     } else {
       setSelectedTier(index);
       setQuantity(1);
+      // Smooth scroll to mint panel after render
+      setTimeout(() => {
+        document.querySelector('.mint-panel')?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+      }, 100);
     }
   };
 
@@ -147,43 +308,94 @@ export default function Mint() {
         })
       );
 
-      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash('confirmed');
       transaction.recentBlockhash = blockhash;
       transaction.feePayer = publicKey;
 
       const signed = await signTransaction(transaction);
-      const signature = await connection.sendRawTransaction(signed.serialize());
-      
-      await connection.confirmTransaction({
-        blockhash,
-        lastValidBlockHeight,
-        signature,
+      const signature = await connection.sendRawTransaction(signed.serialize(), {
+        skipPreflight: false,
+        preflightCommitment: 'confirmed',
       });
+      
+      console.log('Payment sent:', signature);
+
+      // Wait for confirmation with timeout and retry
+      let confirmed = false;
+      for (let attempt = 0; attempt < 30; attempt++) {
+        try {
+          const status = await connection.getSignatureStatus(signature);
+          if (status.value?.confirmationStatus === 'confirmed' || status.value?.confirmationStatus === 'finalized') {
+            confirmed = true;
+            break;
+          }
+          if (status.value?.err) {
+            throw new Error('Transaction failed on-chain');
+          }
+        } catch (e) {
+          // Ignore and retry
+        }
+        await new Promise(r => setTimeout(r, 1000));
+      }
+
+      if (!confirmed) {
+        // Last check - maybe it confirmed but we missed it
+        const finalStatus = await connection.getSignatureStatus(signature);
+        if (!finalStatus.value || finalStatus.value.err) {
+          throw new Error('Transaction confirmation timeout. Check your wallet - if SOL was deducted, contact support with signature: ' + signature);
+        }
+      }
       
       console.log('Payment confirmed:', signature);
 
-      const response = await fetch('/api/mint', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          tier: tierKey,
-          recipient: publicKey.toString(),
-          paymentSignature: signature,
-          quantity,
-        }),
-      });
+      // Call mint API with retry logic
+      let mintResponse = null;
+      let mintError = null;
+      
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+          const response = await fetch('/api/mint', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              tier: tierKey,
+              recipient: publicKey.toString(),
+              paymentSignature: signature,
+              quantity,
+            }),
+          });
 
-      const data = await response.json();
+          const data = await response.json();
 
-      if (!data.success) {
-        throw new Error(data.error || 'Mint failed');
+          if (data.success) {
+            mintResponse = data;
+            break;
+          } else {
+            mintError = data.error;
+            // If transaction not found, wait and retry
+            if (data.error?.includes('not found')) {
+              await new Promise(r => setTimeout(r, 2000));
+              continue;
+            }
+            throw new Error(data.error || 'Mint failed');
+          }
+        } catch (e: any) {
+          mintError = e.message;
+          if (attempt < 2) {
+            await new Promise(r => setTimeout(r, 2000));
+          }
+        }
+      }
+
+      if (!mintResponse) {
+        throw new Error(mintError || 'Mint failed after retries. Signature: ' + signature);
       }
 
       setMinting(false);
       setShowConfirm(false);
       setShowConfetti(true);
       setShowSuccess(true);
-      setMintedNFT(data.nftAddresses?.[0] || null); // keep your existing UI working
+      setMintedNFT(mintResponse.nftAddresses?.[0] || null);
       
       const balance = await connection.getBalance(publicKey);
       setWalletBalance(balance / LAMPORTS_PER_SOL);
@@ -220,35 +432,52 @@ export default function Mint() {
   };
 
   return (
-    <div className="mint-container">
-      <div className="testnet-banner">⚠️ DEVNET MODE — Real Wallet, Test Network</div>
-      <div className="grid-floor"></div>
+    <DashboardLayout showConnectPrompt={false}>
+      <div className="mint-container">
+        <div className="testnet-banner">⚠️ DEVNET MODE — Real Wallet, Test Network</div>
+        <div className="grid-floor"></div>
 
-      <div className="mint-feed">
-        <div className="feed-item">
-          <span className="feed-dot"></span>
-          <span className="feed-wallet">{recentMints[currentFeedIndex].wallet}</span>
-          <span className="feed-text">just minted</span>
-          <span className="feed-tier">{recentMints[currentFeedIndex].tier}</span>
-          <span className="feed-time">{recentMints[currentFeedIndex].time}</span>
-        </div>
+        <div className="mint-feed">
+        {recentMints.length > 0 ? (
+          <div className="feed-item">
+            <span className="feed-dot"></span>
+            <span className="feed-wallet">{recentMints[currentFeedIndex]?.wallet}</span>
+            <span className="feed-text">just minted</span>
+            <span 
+              className="feed-tier"
+              style={{ 
+                color: recentMints[currentFeedIndex]?.tier === 'Genesis' ? '#00FF9D' 
+                     : recentMints[currentFeedIndex]?.tier === 'Core' ? '#C0C0C0' 
+                     : '#00FFFF' 
+              }}
+            >
+              {recentMints[currentFeedIndex]?.tier}
+            </span>
+            <span className="feed-time">{recentMints[currentFeedIndex]?.time}</span>
+          </div>
+        ) : (
+          <div className="feed-item">
+            <span className="feed-dot"></span>
+            <span className="feed-text">Be the first to mint a validator license!</span>
+          </div>
+        )}
       </div>
 
       <div className="mint-nav">
         <a href="/dashboard" className="back-link">← Dashboard</a>
        <div className="wallet-connect">
-  {connected && publicKey ? (
+  {adapterConnected && publicKey ? (
     <div className="wallet-connected">
       <span className="wallet-balance">{walletBalance.toFixed(2)} SOL</span>
       <button className="wallet-btn connected" onClick={() => disconnect()}>
         {shortenAddress(publicKey.toString())}
       </button>
     </div>
-  ) : authenticated ? (
+  ) : privyAuthenticated ? (
     <div className="wallet-connected">
       <span className="user-email">{user?.email?.address || 'Logged In'}</span>
-      <button className="wallet-btn connected" onClick={() => logout()}>
-        Logout
+      <button className="wallet-btn" onClick={() => setVisible(true)}>
+        Connect Wallet to Mint
       </button>
     </div>
   ) : (
@@ -290,13 +519,43 @@ export default function Mint() {
           </div>
         </div>
 
+        <div className="network-stats">
+          <div className="network-stat">
+            <span className="network-stat-value">{dataLoading ? '—' : networkStats.validators}</span>
+            <span className="network-stat-label">Validators</span>
+          </div>
+          <div className="network-stat">
+            <span className="network-stat-value">{dataLoading ? '—' : networkStats.power.toFixed(1)}x</span>
+            <span className="network-stat-label">Network Power</span>
+          </div>
+          <div className="network-stat">
+            <span className="network-stat-value">
+              <span style={{ color: '#00FF9D' }}>{mintedCounts.genesis}</span>
+              {' / '}
+              <span style={{ color: '#C0C0C0' }}>{mintedCounts.core}</span>
+              {' / '}
+              <span style={{ color: '#00FFFF' }}>{mintedCounts.surge}</span>
+            </span>
+            <span className="network-stat-label">G / C / S Minted</span>
+          </div>
+        </div>
+
         <div className="tier-grid">
           {tiers.map((tier, index) => {
             const status = getTierStatus(index);
+            const tierClass = tier.name.toLowerCase();
+            const unlockText = index === 1 ? 'Unlocks after Genesis' : index === 2 ? 'Unlocks after Core' : '';
             return (
-              <div key={index} className={`tier-card ${status} ${selectedTier === index ? 'selected' : ''}`}>
+              <div key={index} className={`tier-card tier-${tierClass} ${status} ${selectedTier === index ? 'selected' : ''}`}>
                 {status === 'sold-out' && <div className="tier-overlay sold-out-overlay">SOLD OUT</div>}
-                {status === 'locked' && <div className="tier-overlay locked-overlay">🔒 LOCKED</div>}
+                {status === 'locked' && (
+                  <div className="tier-overlay locked-overlay">
+                    <div className="locked-content">
+                      <span className="locked-label">LOCKED</span>
+                      <span className="locked-unlock">{unlockText}</span>
+                    </div>
+                  </div>
+                )}
                 
                 <div className="tier-header">
                   <div className="tier-icon">{tier.letter}</div>
@@ -528,5 +787,6 @@ export default function Mint() {
         </div>
       )}
     </div>
+    </DashboardLayout>
   );
 }

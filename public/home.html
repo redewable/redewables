@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReDewable Energy // VALIDATOR LICENSE SALE</title>
+    
+    <meta property="og:title" content="ReDewable // THE SHOCK ABSORBER FOR THE GRID">
+    <meta property="og:description" content="Validate the Texas Grid. Join the Network. The first DePIN Validator Sale funding a 400MW BESS.">
+    <meta property="og:image" content="assets/social-share.png">
+    <meta property="og:url" content="https://www.redewable.energy">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ReDewable">
+    
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-main: #020403;
+            --bg-panel: #080c0a;   
+            --bg-card: #000000;    
+            --text-main: #ffffff;
+            --text-dim: #8f9fa3;   
+            --border: #333;
+            --acid: #00FF9D;       
+            --acid-dim: rgba(0, 255, 157, 0.1);
+            --font-head: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --gap-desktop: 100px;
+            --content-max-width: 1200px;
+            --content-padding: 24px;
+            --header-offset: 110px;
+        }
+        [data-theme="light"] {
+            --bg-main: #f0f2f5;
+            --bg-panel: #ffffff;
+            --bg-card: #f8f9fa;
+            --text-main: #111111;
+            --text-dim: #555555;
+            --border: #d1d5db;
+            --acid: #008f5d; 
+            --acid-dim: rgba(0, 143, 93, 0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: var(--header-offset); }
+        body {
+            background-color: var(--bg-main); font-family: var(--font-body);
+            color: var(--text-main); overflow-x: hidden; min-height: 100vh;
+            padding-top: 50px; line-height: 1.6; transition: background-color 0.3s, color 0.3s;
+        }
+        .grid-floor {
+            position: fixed; bottom: -30%; left: -50%; width: 200%; height: 100%;
+            background-image: linear-gradient(#00361A 2px, transparent 2px),
+            linear-gradient(90deg, #0a1f12 1px, transparent 1px);
+            background-size: 50px 50px; transform: perspective(500px) rotateX(60deg);
+            opacity: 0.2; z-index: -2; pointer-events: none;
+            mask-image: linear-gradient(to top, #000 10%, transparent 90%);
+        }
+        .crt-overlay {
+            position: fixed; inset: 0; pointer-events: none; z-index: 999;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+            linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 3px, 3px 100%; opacity: 0.2;
+        }
+        [data-theme="light"] .grid-floor { opacity: 0.05; }
+        [data-theme="light"] .crt-overlay { display: none; }
+
+        /* CHANGED: Battery image graphics — professional neon */
+.battery-img-wrapper{
+  width: 140px;
+  height: 92px;
+  margin: 18px auto 26px;         /* adds breathing room before paragraph */
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: visible;               /* IMPORTANT: don't clip glow */
+}
+
+.battery-img{
+  width: 96px;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 2;
+  transform: translateZ(0);        /* smoother rendering */
+}
+
+/* A soft halo behind the icon (not clipped) */
+.battery-img-wrapper::before{
+  content:"";
+  position:absolute;
+  inset: -18px;                    /* room for glow */
+  border-radius: 18px;
+  z-index: 1;
+  opacity: 0.0;
+  transition: opacity .25s ease;
+}
+
+/* -------------------- RED: dying neon sign -------------------- */
+/* Use a stable tint + occasional micro flicker (not constant strobing). */
+.battery-drained .battery-img{
+  /* tint */
+  filter: sepia(1) saturate(6) hue-rotate(-35deg) brightness(.92);
+  /* crisp neon edge + glow */
+  filter: sepia(1) saturate(6) hue-rotate(-35deg) brightness(.92)
+          drop-shadow(0 0 6px rgba(255, 70, 70, .45))
+          drop-shadow(0 0 16px rgba(255, 70, 70, .18));
+  animation: neonRedFlicker 6.5s linear infinite;
+}
+
+.battery-drained.battery-img-wrapper::before{
+  opacity: .55;
+  background: radial-gradient(circle at 50% 55%,
+    rgba(255, 70, 70, .26) 0%,
+    rgba(255, 70, 70, .10) 35%,
+    rgba(255, 70, 70, 0) 70%);
+  filter: blur(2px);
+  animation: neonRedHalo 6.5s linear infinite;
+}
+
+/* A few tiny dips inside a long cycle = “dying sign” */
+@keyframes neonRedFlicker{
+  2%, 7%, 11%, 100% { opacity: 1; }
+  8%  { opacity: .25; }
+  9%  { opacity: .95; }
+  40% { opacity: 1; }
+  41% { opacity: .55; }
+  42% { opacity: 1; }
+  73% { opacity: 1; }
+  74% { opacity: .15; }
+  75% { opacity: .85; }
+  76% { opacity: 1; }
+}
+
+@keyframes neonRedHalo{
+  2%, 7%, 11%, 100% { opacity: .55; }
+  8%  { opacity: .10; }
+  9%  { opacity: .45; }
+  41% { opacity: .28; }
+  42% { opacity: .55; }
+  74% { opacity: .08; }
+  75% { opacity: .40; }
+  76% { opacity: .55; }
+}
+
+/* -------------------- GREEN: full-blast neon -------------------- */
+.battery-charged .battery-img{
+  filter: sepia(1) saturate(4) hue-rotate(85deg) brightness(1.12)
+          drop-shadow(0 0 10px rgba(0, 255, 157, .55))
+          drop-shadow(0 0 26px rgba(0, 255, 157, .22));
+  animation: neonGreenBreath 2.4s ease-in-out infinite;
+}
+
+.battery-charged.battery-img-wrapper::before{
+  opacity: .65;
+  background: radial-gradient(circle at 50% 55%,
+    rgba(0,255,157,.28) 0%,
+    rgba(0,255,157,.12) 38%,
+    rgba(0,255,157,0) 72%);
+  animation: neonGreenHalo 2.4s ease-in-out infinite;
+}
+
+/* subtle “powered” breathing */
+@keyframes neonGreenBreath{
+  0%,100% {
+    filter: sepia(1) saturate(4) hue-rotate(85deg) brightness(1.08)
+            drop-shadow(0 0 9px rgba(0,255,157,.50))
+            drop-shadow(0 0 22px rgba(0,255,157,.18));
+  }
+  50% {
+    filter: sepia(1) saturate(4) hue-rotate(85deg) brightness(1.20)
+            drop-shadow(0 0 14px rgba(0,255,157,.75))
+            drop-shadow(0 0 34px rgba(0,255,157,.28));
+  }
+}
+
+@keyframes neonGreenHalo{
+  0%,100% { opacity: .60; }
+  50%     { opacity: .85; }
+}
+
+/* OPTIONAL: shimmer sweep that won’t clip */
+.battery-charged.battery-img-wrapper::after{
+  content:"";
+  position:absolute;
+  inset: -8px;
+  border-radius: 16px;
+  z-index: 3;
+  background: linear-gradient(120deg,
+    transparent 2%,
+    rgba(255,255,255,.08) 45%,
+    transparent 60%);
+  transform: translateX(-120%);
+  animation: neonSweep 4.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes neonSweep{
+  2%, 55% { transform: translateX(-120%); opacity: 0; }
+  60%     { opacity: 1; }
+  85%     { transform: translateX(120%); opacity: 1; }
+  100%    { opacity: 0; }
+}
+
+        /* ADDED: keep copy from crowding the battery */
+.battery-img-wrapper + p { margin-top: 6px; }
+
+         /* Energy flow */
+        .energy-flow {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin: 30px 0 40px; font-family: var(--font-mono); font-size: 0.85rem;
+        }
+        .energy-flow .label { color: var(--text-dim); }
+        .energy-flow .arrow { color: var(--acid); animation: flow-right 2s ease-in-out infinite; }
+        .energy-flow .arrow:nth-child(3) { animation-delay: 0.15s; }
+        .energy-flow .arrow:nth-child(4) { animation-delay: 0.3s; }
+        .energy-flow .arrow:nth-child(7) { animation-delay: 0.15s; }
+        .energy-flow .arrow:nth-child(8) { animation-delay: 0.3s; }
+        .energy-flow .battery-box {
+            padding: 10px 20px; border: 2px solid var(--acid); background: linear-gradient(135deg, var(--acid-dim), rgba(0,255,157,0.25));
+            color: var(--acid); font-weight: 700; position: relative; box-shadow: 0 0 20px var(--acid-dim);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .energy-flow .battery-box i { font-size: 1.1rem; }
+        @keyframes flow-right {
+            0%, 100% { opacity: 0.3; transform: translateX(-3px); }
+            50% { opacity: 1; transform: translateX(3px); }
+        }
+
+        /* ADDED: Camera feed placeholder */
+        .camera-feed-placeholder {
+            background: var(--bg-card); border: 1px solid var(--border);
+            height: 120px; margin-bottom: 15px; position: relative;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .camera-feed-placeholder::before {
+            content: ""; position: absolute; inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 4px);
+            animation: static-noise 0.5s steps(5) infinite; opacity: 0.5;
+        }
+        @keyframes static-noise {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+        .camera-feed-placeholder .offline-text {
+            font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim);
+            text-transform: uppercase; letter-spacing: 0.1em; z-index: 1;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .camera-feed-placeholder .offline-text i { color: #ff6b6b; }
+        .camera-feed-label {
+            font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-dim);
+            text-align: center; margin-top: 8px; z-index: 1;
+        }
+
+        /* Live data box */
+        .live-data-box {
+            background: var(--bg-card); border: 1px solid var(--acid); padding: 20px; margin-top: 25px;
+        }
+        .live-data-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+        }
+        .live-indicator {
+            display: flex; align-items: center; justify-content: center;
+            width: 20px; height: 20px; position: relative;
+        }
+        .live-indicator .dot {
+            width: 8px; height: 8px; background: var(--acid); border-radius: 50%;
+            position: absolute; z-index: 2;
+        }
+        .live-indicator .ring {
+            position: absolute; width: 16px; height: 16px; border: 1px solid var(--acid);
+            border-radius: 50%; animation: ring-pulse 2s ease-out infinite;
+        }
+        @keyframes ring-pulse {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        .live-data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .live-data-item { display: flex; flex-direction: column; gap: 3px; }
+        .live-data-item .label {
+            font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-dim);
+            text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .live-data-item .value {
+            font-family: var(--font-head); font-size: 0.95rem; color: var(--text-main); font-weight: 700;
+        }
+
+        /* Site intel panel */
+        .site-intel {
+            background: var(--bg-card); border: 1px solid var(--border); padding: 15px;
+            margin: 15px 0; font-family: var(--font-mono); font-size: 0.75rem;
+        }
+        .site-intel-row {
+            display: flex; justify-content: space-between; padding: 8px 0;
+            border-bottom: 1px dashed var(--border);
+        }
+        .site-intel-row:last-child { border-bottom: none; }
+        .site-intel-row .label { color: var(--text-dim); }
+        .site-intel-row .value { color: var(--acid); font-weight: 600; }
+
+        /* Roadmap timeline */
+        .roadmap-log { border-left: 2px solid var(--border); margin-left: 20px; padding-left: 40px; }
+        .log-entry { margin-bottom: 50px; position: relative; opacity: 0.5; transition: 0.3s; }
+        .log-entry.current { opacity: 1; }
+        .log-entry.current .log-title { color: var(--text-main); }
+        .log-entry.completed { opacity: 0.7; }
+        .log-entry.completed .log-title { color: var(--text-dim); }
+        .log-entry::before {
+            content: ""; position: absolute; left: -47px; top: 4px; width: 12px; height: 12px;
+            background: var(--bg-card); border: 2px solid var(--border); border-radius: 50%;
+        }
+        .log-entry.current::before {
+            background: var(--acid); border-color: var(--acid); box-shadow: 0 0 12px var(--acid);
+        }
+        /* CHANGED: Completed entries - solid dot, no checkmark inside */
+        .log-entry.completed::before {
+            background: var(--acid); border-color: var(--acid);
+        }
+        .log-phase { color: var(--acid); font-family: var(--font-mono); font-size: 0.75rem; margin-bottom: 5px; display: block; }
+        /* CHANGED: log-title now flex for checkmark placement */
+        .log-title { 
+            font-family: var(--font-head); font-size: 1.3rem; color: var(--text-dim); 
+            margin-bottom: 8px; text-transform: uppercase;
+            display: flex; align-items: center; gap: 10px;
+        }
+        /* ADDED: Checkmark icon for completed entries - right of title */
+        .log-entry.completed .log-title::after {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 0.9rem;
+            color: var(--acid);
+        }
+        .log-details { font-size: 0.9rem; color: var(--text-dim); line-height: 1.7; }
+
+        /* Utils */
+        .page { max-width: var(--content-max-width); margin: 0 auto; padding: 0 var(--content-padding); position: relative; z-index: 1; }
+        .section { margin-bottom: var(--gap-desktop); }
+        .mono { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.05em; }
+        .accent { color: var(--acid); }
+        h1 { font-family: var(--font-head); font-size: clamp(2.5rem, 7vw, 4.8rem); line-height: 0.95; margin: 0 0 25px; font-weight: 800; text-transform: uppercase; letter-spacing: -0.03em; }
+        h2 { font-family: var(--font-head); font-size: clamp(1.8rem, 5vw, 2.8rem); margin: 0; text-transform: uppercase; font-weight: 800; }
+        h3 { font-family: var(--font-head); font-size: 1.2rem; margin: 0 0 12px; text-transform: uppercase; color: var(--text-main); }
+
+        /* Buttons */
+        .btn {
+            padding: 14px 30px; background: var(--acid); color: #000;
+            font-family: var(--font-head); font-weight: 700; text-transform: uppercase;
+            border: none; cursor: pointer; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; text-decoration: none;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 0 25px var(--acid-dim); filter: brightness(1.1); }
+        .btn-outline {
+            background: transparent; border: 1px solid var(--acid); color: var(--acid);
+            padding: 12px 30px; font-family: var(--font-head); font-weight: 700; text-transform: uppercase;
+            text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
+            transition: all 0.2s; font-size: 0.9rem; cursor: pointer;
+        }
+        .btn-outline:hover { background: var(--acid); color: #000; }
+        .saft-badge {
+            position: fixed; top: 0; left: 0; right: 0; background: #000; color: #00FF9D;
+            padding: 12px 0; border-bottom: 1px solid #00FF9D;
+            font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem;
+            letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+            z-index: 9999; box-shadow: 0 0 15px rgba(0, 255, 157, 0.2);
+            display: flex; justify-content: center; align-items: center;
+        }
+        .saft-badge:hover { background: #00FF9D; color: #000; }
+
+        /* Header */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 30px 0; margin-bottom: 60px; border-bottom: 1px solid var(--border); }
+        .logo { font-family: var(--font-head); font-weight: 800; font-size: 1.4rem; color: var(--text-main); font-style: italic; }
+        .logo span { color: var(--acid); }
+        .nav { display: flex; gap: 20px; font-family: var(--font-head); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; align-items: center; }
+        .nav a { color: var(--text-dim); text-decoration: none; transition: 0.3s; }
+        .nav a:hover { color: var(--acid); }
+
+        /* Hero */
+        .hero { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: start; }
+        .presale-terminal {
+            background: var(--bg-panel); border: 1px solid var(--border); padding: 30px;
+            position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.2); margin-top: 10px;
+        }
+        .presale-terminal::before { content: ""; position: absolute; top: -1px; left: -1px; width: 15px; height: 15px; border-top: 2px solid var(--acid); border-left: 2px solid var(--acid); }
+        .presale-terminal::after { content: ""; position: absolute; bottom: -1px; right: -1px; width: 15px; height: 15px; border-bottom: 2px solid var(--acid); border-right: 2px solid var(--acid); }
+        .tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .tier-box { border: 1px solid var(--border); padding: 15px 5px; text-align: center; opacity: 0.5; transition: 0.3s; background: var(--bg-card); display: flex; flex-direction: column; justify-content: center; }
+        .tier-box.active { border-color: var(--acid); opacity: 1; background: var(--acid-dim); }
+        .tier-title { font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono); display: block; margin-bottom: 5px; }
+        .tier-price { font-size: 1.1rem; color: var(--text-main); font-family: var(--font-head); font-weight: 700; }
+        .tier-capacity { font-size: 0.55rem; color: var(--acid); font-family: var(--font-mono); display: block; margin-top: 5px; }
+        .tier-bar { width: 100%; height: 4px; background: var(--border); margin-top: 8px; }
+        .tier-fill { height: 100%; background: var(--acid); }
+        .tier-count { font-size: 0.65rem; color: var(--text-dim); font-family: var(--font-mono); margin-top: 6px; }
+        .raise-bar-container { background: var(--bg-card); height: 30px; border: 1px solid var(--border); margin: 20px 0; position: relative; }
+        .raise-bar-fill { height: 100%; background: var(--acid); width: 0%; transition: width 1s ease; opacity: 0.9; box-shadow: 0 0 20px var(--acid-dim); }
+        .raise-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; color: #fff; font-size: 0.85rem; z-index: 2; text-shadow: 0 0 5px #000; }
+        .risk-disclaimer {
+            background: rgba(255, 200, 0, 0.08); border: 1px solid rgba(255, 200, 0, 0.3);
+            padding: 15px; margin: 20px 0; font-size: 0.75rem; color: var(--text-dim); line-height: 1.5;
+        }
+        .risk-disclaimer strong { color: #ffcc00; display: block; margin-bottom: 8px; font-family: var(--font-mono); font-size: 0.7rem; }
+
+        /* Sections */
+        .section-head { margin-bottom: 30px; padding-left: 20px; border-left: 4px solid var(--acid); }
+        .section-sub { font-family: var(--font-head); color: var(--acid); font-size: 0.9rem; margin-bottom: 5px; display: block; font-weight: 700; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+        .feature-box {
+            background: var(--bg-panel); border: 1px solid var(--border); padding: 35px;
+            position: relative; transition: 0.3s; display: flex; flex-direction: column;
+        }
+        .feature-box:hover { border-color: var(--acid); }
+        .feature-box p { margin-bottom: 20px; color: var(--text-dim); line-height: 1.6; font-size: 0.95rem; }
+        .check-item { display: flex; gap: 12px; margin-bottom: 12px; color: var(--text-dim); align-items: flex-start; }
+        .check-item i { color: var(--acid); font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; margin-top: 2px; }
+        .check-item strong { color: var(--text-main); }
+
+        /* Status bar */
+        .status-bar {
+            background: var(--bg-panel); border: 1px solid var(--border); padding: 25px;
+            margin: -40px 0 80px; display: flex; justify-content: space-between; flex-wrap: wrap;
+            gap: 20px; position: relative; z-index: 2; box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .status-point { text-align: center; flex: 1; }
+        .status-point span { display: block; font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-dim); margin-bottom: 6px; }
+        .status-point strong { color: var(--acid); font-size: 0.95rem; letter-spacing: 0.05em; text-transform: uppercase; }
+
+        /* Capital allocation */
+        .allocation-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 50px; row-gap: 20px; }
+        .grid-head-left { grid-column: 1; grid-row: 1; }
+        .grid-head-right { grid-column: 2; grid-row: 1; display: flex; align-items: center; }
+        .grid-head-right p { font-size: 1rem; color: var(--text-dim); line-height: 1.6; margin: 0; }
+        .grid-toggle-left { grid-column: 1; grid-row: 2; display: flex; justify-content: flex-end; }
+        .grid-content-left { grid-column: 1; grid-row: 3; }
+        .grid-content-right { grid-column: 2; grid-row: 3; }
+        .budget-list { background: var(--bg-card); border: 1px solid var(--border); display: flex; flex-direction: column; }
+        .budget-row { display: flex; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.85rem; }
+        .budget-row:last-child { border-bottom: none; background: #0d1a12; color: #00FF9D; font-weight: 700; border-top: 1px solid #00FF9D; }
+        .grid-content-right .feature-box { height: 100%; border-color: var(--acid); justify-content: center; }
+
+        /* Partners */
+        .partner-full { margin-top: 40px; border-top: 1px solid var(--border); padding-top: 30px; }
+        .logo-label { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); margin-bottom: 15px; display: block; }
+        .logo-grid { display: flex; gap: 15px; flex-wrap: wrap; }
+        .logo-link {
+            flex: 1; min-width: 140px; text-align: center; padding: 18px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            color: var(--text-dim); font-family: var(--font-head); font-weight: 700;
+            text-decoration: none; text-transform: uppercase; font-size: 0.85rem;
+            transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .logo-link:hover { border-color: var(--acid); color: var(--acid); background: var(--acid-dim); }
+        .logo-link i { font-size: 1.1rem; }
+
+        /* Tokenomics */
+        .composite-bar { display: flex; width: 100%; height: 40px; background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 25px; overflow: hidden; }
+        .segment { height: 100%; cursor: pointer; transition: all 0.3s ease; border-right: 1px solid rgba(0,0,0,0.5); opacity: 0.6; }
+        .segment:hover, .segment.active { opacity: 1; box-shadow: 0 0 15px var(--acid); }
+        .seg-nodes { background: #00FF9D; } .seg-rwa { background: #00D486; } .seg-treasury { background: #00995e; }
+        .seg-team { background: #00663f; } .seg-eco { background: #004d2f; } .seg-liq { background: #00331f; }
+        .legend-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .legend-item { padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
+        .legend-item:hover, .legend-item.active { border-color: var(--acid); background: var(--acid-dim); }
+        .l-head { display: flex; justify-content: space-between; font-family: var(--font-head); font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
+
+        /* Dashboard mockups */
+        .dashboard-grid { display: flex; justify-content: center; gap: 25px; margin: 35px 0; flex-wrap: wrap; }
+        .dash-mockup {
+            width: 180px; height: 120px; background: var(--bg-card); border: 1px solid var(--border);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+            font-family: var(--font-head); font-size: 0.85rem; color: var(--text-dim); text-align: center; transition: 0.3s;
+        }
+        .dash-mockup:hover { border-color: var(--acid); color: var(--acid); box-shadow: 0 0 15px var(--acid-dim); }
+        .dash-mockup i { font-size: 1.8rem; color: var(--acid); }
+
+        /* Validator requirements */
+        .requirements-list { display: flex; flex-direction: column; gap: 14px; }
+        .requirements-list .check-item { margin-bottom: 0; align-items: center; }
+        .requirements-list .check-item i { width: 24px; }
+        .data-verify-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
+        .data-verify-grid .check-item { margin-bottom: 0; font-size: 0.85rem; }
+
+        /* Pill toggle */
+        .pill-toggle {
+            display: flex; align-items: center; gap: 8px; background: var(--bg-panel); border: 1px solid var(--border);
+            border-radius: 100px; padding: 4px 8px; cursor: pointer; width: fit-content; transition: 0.3s;
+        }
+        .pill-toggle:hover { border-color: var(--acid); }
+        .pill-toggle span { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; color: var(--text-dim); }
+        .toggle-switch {
+            position: relative; width: 36px; height: 18px; background: var(--bg-card);
+            border-radius: 100px; cursor: pointer; border: 1px solid var(--border);
+        }
+        .toggle-switch::after {
+            content: ''; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px;
+            background: var(--acid); border-radius: 50%; transition: transform 0.3s ease;
+        }
+        [data-state="active"] .toggle-switch::after { transform: translateX(18px); }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10001;
+            display: none; align-items: center; justify-content: center; padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: var(--bg-panel); border: 1px solid var(--acid); max-width: 500px; width: 100%;
+            padding: 35px; position: relative; box-shadow: 0 0 50px var(--acid-dim);
+        }
+        .modal-box::before { content: ""; position: absolute; top: -1px; left: -1px; width: 20px; height: 20px; border-top: 2px solid var(--acid); border-left: 2px solid var(--acid); }
+        .modal-box::after { content: ""; position: absolute; bottom: -1px; right: -1px; width: 20px; height: 20px; border-bottom: 2px solid var(--acid); border-right: 2px solid var(--acid); }
+        .modal-title { font-family: var(--font-head); font-size: 1.4rem; font-weight: 800; text-transform: uppercase; color: #ffcc00; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .modal-title i { font-size: 1.2rem; }
+        .modal-list { list-style: none; padding: 0; margin: 0 0 25px; }
+        .modal-list li { padding: 10px 0; border-bottom: 1px solid var(--border); color: var(--text-dim); font-size: 0.95rem; display: flex; align-items: flex-start; gap: 12px; }
+        .modal-list li:last-child { border-bottom: none; }
+        .modal-list li i { color: var(--acid); margin-top: 3px; flex-shrink: 0; }
+        .modal-buttons { display: flex; gap: 15px; flex-wrap: wrap; }
+        .modal-buttons .btn { flex: 1; min-width: 150px; justify-content: center; }
+        .modal-buttons .btn-cancel { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
+        .modal-buttons .btn-cancel:hover { border-color: var(--text-dim); color: var(--text-main); background: rgba(255,255,255,0.05); }
+
+        /* Mobile menu */
+        .hamburger { display: none; background: none; border: none; cursor: pointer; z-index: 10001; position: fixed; top: 80px; right: 20px; width: 35px; height: 25px; padding: 0; }
+        .hamburger span { display: block; width: 100%; height: 3px; background: var(--acid); position: absolute; left: 0; transition: all 0.3s; box-shadow: 0 0 8px rgba(0, 255, 157, 0.6); }
+        .hamburger span:nth-child(1) { top: 0; } .hamburger span:nth-child(2) { top: 11px; } .hamburger span:nth-child(3) { top: 22px; }
+        .hamburger.active span:nth-child(1) { top: 11px; transform: rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { top: 11px; transform: rotate(-45deg); }
+        .mobile-menu {
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100%;
+            background: var(--bg-main); z-index: 10000; padding: 120px 40px 40px;
+            display: flex; flex-direction: column; gap: 25px; transition: right 0.4s; overflow-y: auto;
+        }
+        .mobile-menu.open { right: 0; }
+        .mobile-menu-close { position: absolute; top: 30px; right: 20px; width: 35px; height: 35px; background: none; border: none; cursor: pointer; padding: 0; }
+        .mobile-menu-close span { display: block; width: 100%; height: 3px; background: var(--acid); position: absolute; left: 0; box-shadow: 0 0 8px rgba(0, 255, 157, 0.6); }
+        .mobile-menu-close span:first-child { top: 50%; transform: translateY(-50%) rotate(45deg); }
+        .mobile-menu-close span:last-child { top: 50%; transform: translateY(-50%) rotate(-45deg); }
+        .mobile-menu a { font-family: var(--font-head); font-size: 1.4rem; font-weight: 700; color: var(--text-main); border-bottom: 1px solid var(--border); padding-bottom: 15px; text-decoration: none; display: block; transition: 0.3s; }
+        .mobile-menu a:hover { color: var(--acid); padding-left: 10px; }
+        .mobile-menu a span { color: var(--acid); font-family: var(--font-mono); font-size: 0.9rem; margin-right: 15px; }
+        .mobile-menu a.btn { border-bottom: none; background: var(--acid); color: #000; padding: 15px; margin-top: 20px; width: 100%; text-align: center; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); }
+        .mobile-menu-socials { margin-top: auto; padding-top: 20px; display: flex; gap: 30px; justify-content: center; }
+        .mobile-menu-socials a { border: none; padding: 0; font-size: 2rem; color: var(--text-dim); }
+
+        /* Footer */
+        footer { border-top: 1px solid var(--border); padding: 60px 0; margin-top: 100px; font-size: 0.9rem; color: var(--text-dim); }
+        .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .footer-left { display: flex; flex-direction: column; gap: 12px; }
+        .corp-link { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); opacity: 0.7; text-decoration: none; border-bottom: 1px dotted var(--border); transition: 0.3s; }
+        .corp-link:hover { color: var(--acid); opacity: 1; }
+        .ticker-box { font-family: var(--font-mono); color: var(--acid); font-size: 0.85rem; animation: slow-pulse 4s ease-in-out infinite; }
+        @keyframes slow-pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+        .footer-right { display: flex; gap: 25px; align-items: center; }
+        .footer-tech-btn { border: 1px solid var(--border); padding: 8px 16px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); text-decoration: none; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.02); }
+        .footer-tech-btn:hover { border-color: var(--acid); color: var(--acid); box-shadow: 0 0 15px var(--acid-dim); }
+        .footer-social-link { color: var(--text-dim); font-size: 1.4rem; transition: color 0.3s; }
+        .footer-social-link:hover { color: var(--acid); }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+            .nav, .header-right { display: none; }
+            .hamburger { display: block; }
+            .hero { grid-template-columns: 1fr; }
+            .tier-grid { grid-template-columns: 1fr; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .legend-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 3rem; }
+            .status-bar { flex-direction: column; text-align: center; }
+            .allocation-grid { display: flex; flex-direction: column; gap: 20px; }
+            .grid-head-left { order: 1; }
+            .grid-head-right { order: 2; }
+            .grid-toggle-left { order: 3; justify-content: flex-start; }
+            .grid-content-left { order: 4; }
+            .grid-content-right { order: 5; }
+            .grid-content-right .feature-box { height: auto; }
+            .logo-grid { flex-direction: column; }
+            .live-data-grid { grid-template-columns: 1fr; }
+            .data-verify-grid { grid-template-columns: 1fr; }
+            .footer-inner { flex-direction: column; gap: 40px; text-align: center; align-items: center; }
+            .footer-left { align-items: center; }
+            .footer-right { flex-direction: column; gap: 25px; }
+            .energy-flow { flex-wrap: wrap; }
+            .modal-buttons { flex-direction: column; }
+            .modal-buttons .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <a href="#presale" class="saft-badge">VALIDATOR LICENSE SALE — TIER 1 NOW OPEN</a>
+    <div class="grid-floor"></div>
+    <div class="crt-overlay"></div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="mint-modal">
+        <div class="modal-box">
+            <div class="modal-title"><i class="fas fa-exclamation-triangle"></i> BEFORE YOU MINT</div>
+            <ul class="modal-list">
+                <li><i class="fas fa-file-contract"></i> This is a software license — not an investment.</li>
+                <li><i class="fas fa-user-check"></i> Active validator participation is required (attestations, verification).</li>
+                <li><i class="fas fa-ban"></i> No returns. No refunds.</li>
+                <li><i class="fas fa-times-circle"></i> No equity, debt, revenue share, or claim on assets.</li>
+                <li><i class="fas fa-coins"></i> Tokens may have zero value.</li>
+                <li><i class="fas fa-skull-crossbones"></i> Only use funds you can afford to lose.</li>
+            </ul>
+            <div class="modal-buttons">
+                <button class="btn" onclick="proceedToMint()">I UNDERSTAND — CONTINUE</button>
+                <button class="btn btn-cancel" onclick="closeMintModal()">CANCEL</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="mobile-menu" id="mobile-menu">
+        <button class="mobile-menu-close" id="mobile-menu-close"><span></span><span></span></button>
+        <a href="#thesis"><span>01 //</span> THESIS</a>
+        <a href="#model"><span>02 //</span> CAPITAL</a>
+        <a href="#asset"><span>03 //</span> ASSET</a>
+        <a href="#validator"><span>04 //</span> VALIDATORS</a>
+        <a href="#roadmap"><span>05 //</span> ROADMAP</a>
+        <a href="#tokenomics"><span>06 //</span> ALLOCATION</a>
+        <div class="mobile-menu-socials">
+            <a href="https://x.com/ReDewable" target="_blank"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+        </div>
+        <a href="/litepaper" class="btn">LITEPAPER</a>
+    </nav>
+
+    <div class="page">
+        <header>
+            <div class="logo">REDEWABLE<span>.ENERGY</span></div>
+            <nav class="nav">
+                <a href="#thesis">THESIS</a>
+                <a href="#model">CAPITAL</a>
+                <a href="#asset">ASSET</a>
+                <a href="#validator">VALIDATORS</a>
+                <a href="#roadmap">ROADMAP</a>
+                <a href="#tokenomics">ALLOCATION</a>
+                <div class="pill-toggle theme-switch" id="theme-btn"><span>LIGHT</span><div class="toggle-switch"></div></div>
+            </nav>
+            <div class="header-right"><a href="/litepaper" class="btn-outline">LITEPAPER</a></div>
+            <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+        </header>
+
+        <!-- HERO -->
+        <section class="hero section" id="presale">
+            <div>
+                <div class="mono accent" style="margin-bottom: 10px;">/// NETWORK STATUS: ACCEPTING VALIDATORS</div>
+                <h1>The Shock Absorber<br>For The Grid.</h1>
+                <p style="font-size: 1.1rem; color: var(--text-dim); line-height: 1.7; max-width: 90%; margin-bottom: 30px;">
+                    We develop utility-scale battery storage that captures excess solar generation and delivers reliable, dispatchable power to the Texas grid. Validators fund early-stage development—land, engineering, permits—and serve as the decentralized verification layer for real grid data and project milestones.<br><br>
+                    This isn't passive income. <br><br><strong>By partnering with ReDewable.Energy, you're building the grid's oracle energy network.</strong>
+                </p>
+                <div style="padding-left: 15px; border-left: 2px solid var(--acid); color: var(--text-main); font-family: var(--font-mono); font-size: 0.9rem;">
+                    REAL INFRASTRUCTURE // ACTIVE VALIDATORS // DePIN
+                </div>
+            </div>
+      <div class="presale-terminal">
+    <div style="display:flex; justify-content:space-between; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+        <span class="mono accent">VALIDATOR TERMINAL</span>
+        <span class="mono" style="color:var(--text-dim);">CONNECTION: SECURE</span>
+    </div>
+    <div class="tier-grid">
+        <div class="tier-box active">
+            <span class="tier-title">TIER 1 (GENESIS)</span>
+            <span class="tier-price">2.5 SOL</span>
+            <span class="tier-capacity">~160 kW NETWORK EQ.</span>
+            <div class="tier-bar"><div class="tier-fill" style="width: 35%;"></div></div>
+            <span class="tier-count">653 / 1000 AVAILABLE</span>
+        </div>
+        <div class="tier-box locked">
+            <span class="tier-title">TIER 2 (CORE)</span>
+            <span class="tier-price">3.5 SOL</span>
+            <span class="tier-capacity">~160 kW NETWORK EQ.</span>
+            <div class="tier-bar"><div class="tier-fill" style="width: 0%;"></div></div>
+            <span class="tier-count">🔒 LOCKED</span>
+        </div>
+        <div class="tier-box locked">
+            <span class="tier-title">TIER 3 (SURGE)</span>
+            <span class="tier-price">4.5 SOL</span>
+            <span class="tier-capacity">~160 kW NETWORK EQ.</span>
+            <div class="tier-bar"><div class="tier-fill" style="width: 0%;"></div></div>
+            <span class="tier-count">🔒 LOCKED</span>
+        </div>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; color:var(--text-dim); margin-bottom:10px;">
+        <span>FUNDS COMMITTED</span>
+        <div class="pill-toggle toggle-trigger" style="padding:4px 10px; transform:scale(0.9);"><span class="curr-label">USD</span><div class="toggle-switch" style="width:34px; height:18px;"></div></div>
+    </div>
+    <div class="raise-bar-container">
+        <div class="raise-bar-fill" id="progress-fill" style="width: 0%;"></div>
+        <div class="raise-text"><span id="raised-display">--</span> / <span id="target-static">--</span></div>
+    </div>
+    <div class="risk-disclaimer">
+                    <strong>⚠️ UNDERSTAND BEFORE YOU MINT</strong>
+                    This is a software license, not an investment. You are NOT buying equity, debt, or any claim on company assets. Tokens may have zero value. Active participation is required. You could lose everything. Only use funds you can afford to lose.
+                </div>
+                <div style="display: grid; gap: 15px;">
+                    <button class="btn" style="width: 100%; font-size: 1.1rem; padding: 15px;" onclick="openMintDisclaimer()">MINT VALIDATOR LICENSE</button>
+                    <a href="/onboarding" class="btn-outline" style="width: 100%; justify-content: center;">NEW TO CRYPTO? START HERE →</a>
+                </div>
+                <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                    <span class="mono" style="font-size: 0.7rem; border: 1px solid var(--border); padding: 5px 10px; color: var(--text-dim);">KYC REQUIRED</span>
+                    <span class="mono" style="font-size: 0.7rem; border: 1px solid var(--border); padding: 5px 10px; color: var(--text-dim);">SIGNED VENDOR AGREEMENTS</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHANGED: Status bar - renamed sensor label -->
+        <div class="status-bar">
+            <div class="status-point"><span>ASSET CLASS</span><strong>400MW BESS</strong></div>
+            <div class="status-point"><span>GRID NODE</span><strong>ERCOT WEST</strong></div>
+            <div class="status-point"><span>LIVE SITE FEED</span><strong>CAMERA + SENSORS</strong></div>
+            <div class="status-point"><span>STATUS</span><strong>PRE-NTP</strong></div>
+        </div>
+
+        <!-- 01: THESIS -->
+        <section id="thesis" class="section">
+            <div class="section-head"><span class="section-sub">01 // THE THESIS</span><h2>WHY BATTERIES MATTER</h2></div>
+            <div class="energy-flow">
+                <span class="label">SOLAR</span>
+                <span class="arrow">→</span><span class="arrow">→</span><span class="arrow">→</span>
+                <div class="battery-box"><i class="fas fa-battery-full"></i> BATTERY</div>
+                <span class="arrow">→</span><span class="arrow">→</span><span class="arrow">→</span>
+                <span class="label">GRID</span>
+            </div>
+            <div class="grid-2">
+                <div class="feature-box">
+                    <h3>The Grid Is Maxed Out</h3>
+                    <div class="battery-img-wrapper battery-drained">
+                        <img src="assets/battery.png" alt="Drained battery" class="battery-img">
+                    </div>
+                    <p>Texas power demand will grow <strong>70% by 2031</strong>—driven by AI data centers. Add extreme weather (deep freezes, heat waves), and the grid faces collapse. Batteries absorb the shock, storing cheap solar energy and releasing it when demand spikes.</p>
+                    <div class="check-item" style="margin-top: auto;">
+                        <i class="fas fa-exclamation-triangle" style="color: #ff6b6b;"></i>
+                        <span><strong>The Problem:</strong> Not enough storage to meet growing demand.</span>
+                    </div>
+                </div>
+                <div class="feature-box">
+                    <h3>Data Centers Need Stability</h3>
+                    <div class="battery-img-wrapper battery-charged">
+                        <img src="assets/battery.png" alt="Charging battery" class="battery-img">
+                    </div>
+                    <p>Texas Senate Bill 6 now <strong>requires data centers to disconnect</strong> during grid emergencies. AI training can't pause mid-run—that destroys expensive compute jobs. Battery storage provides the frequency response that keeps voltage stable and operations online.</p>
+                    <div style="margin-top: auto;">
+                        <div class="check-item"><i class="fas fa-bolt"></i><span><strong>The Solution:</strong> Batteries deploy faster than new power lines.</span></div>
+                        <div class="check-item"><i class="fas fa-file-contract"></i><span><strong>Our Role:</strong> Our Role: We specialize in early-stage development—preparing shovel-ready sites for institutional deployment.</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02: CAPITAL -->
+        <section id="model" class="section">
+            <div class="allocation-grid">
+                <div class="grid-head-left"><div class="section-head" style="margin-bottom:0;"><span class="section-sub">02 // USE OF FUNDS</span><h2>WHERE THE MONEY GOES</h2></div></div>
+                <div class="grid-head-right"><p>We develop sites to "Shovel-Ready" (NTP) status—land secured, permits filed, engineering complete. Large operators deploy capital at construction scale; we specialize in the early-stage groundwork that prepares projects for institutional investment.
+
+</p></div>
+                <div class="grid-toggle-left"><div class="pill-toggle toggle-trigger"><span class="curr-label">USD</span><div class="toggle-switch"></div></div></div>
+                <div class="grid-content-left">
+                    <div class="budget-list">
+                        <div class="budget-row"><span>Engineering & Geotech (ANS)</span><span class="dynamic-price" data-usd="213000">$213,000</span></div>
+                        <div class="budget-row"><span>Grid Interconnection (Enerzinx)</span><span class="dynamic-price" data-usd="50000">$50,000</span></div>
+                        <div class="budget-row"><span>ERCOT Filing Package</span><span class="dynamic-price" data-usd="150000">$150,000</span></div>
+                        <div class="budget-row"><span>PACE Financing Prep</span><span class="dynamic-price" data-usd="25000">$25,000</span></div>
+                        <div class="budget-row"><span>Legal & Compliance</span><span class="dynamic-price" data-usd="100000">$100,000</span></div>
+                        <div class="budget-row"><span>Land Acquisition</span><span class="dynamic-price" data-usd="200000">$200,000</span></div>
+                        <div class="budget-row"><span>Operations & Contingency</span><span class="dynamic-price" data-usd="262000">$262,000</span></div>
+                        <div class="budget-row"><span>TOTAL RAISE</span><span class="dynamic-price" data-usd="1000000">$1,000,000</span></div>
+                    </div>
+                </div>
+                <div class="grid-content-right">
+                    <div class="feature-box">
+                        <h3 style="text-align: center;">THE VALIDATION CYCLE</h3>
+                        <p style="text-align: center;">How validators build the oracle network:</p>
+                        <div class="check-item"><i class="fas fa-fingerprint"></i><span><strong>1. Get License:</strong> Mint a Validator License (NFT)</span></div>
+                        <div class="check-item"><i class="fas fa-database"></i><span><strong>2. Verify Data:</strong> Review ERCOT grid data & milestones</span></div>
+                        <div class="check-item"><i class="fas fa-signature"></i><span><strong>3. Sign Attestation:</strong> On-chain signature confirms accuracy</span></div>
+                        <div class="check-item"><i class="fas fa-coins"></i><span><strong>4. Claim Rewards:</strong> Active validators receive $RDW</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="partner-full">
+                <span class="logo-label">VENDORS & SERVICE PROVIDERS (SIGNED AGREEMENTS)</span>
+                <div class="logo-grid">
+                    <a href="https://enerzinx.com/" target="_blank" class="logo-link"><i class="fas fa-bolt"></i> ENERZINX</a>
+                    <a href="https://ans-team.com/" target="_blank" class="logo-link"><i class="fas fa-drafting-compass"></i> ANS ENGINEERING</a>
+                    <a href="https://www.pacehouston.com/" target="_blank" class="logo-link"><i class="fas fa-university"></i> PACE HOUSTON</a>
+                    <a href="https://www.tesla.com/megapack" target="_blank" class="logo-link"><i class="fas fa-car-battery"></i> TESLA (OEM)</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 03: ASSET - CHANGED: Balanced layout + live weather API -->
+        <section id="asset" class="section">
+            <div class="section-head"><span class="section-sub">03 // THE ASSET</span><h2>REDEW ANSON — FLAGSHIP SITE</h2></div>
+            <div class="grid-2">
+                <div class="feature-box">
+                    <h3>Strategic Location</h3>
+                    <div class="site-intel">
+                        <div class="site-intel-row"><span class="label">LOCATION</span><span class="value">ANSON, TX</span></div>
+                        <div class="site-intel-row"><span class="label">GRID ZONE</span><span class="value">ERCOT WEST</span></div>
+                        <div class="site-intel-row"><span class="label">CORRIDOR</span><span class="value">STARGATE</span></div>
+                        <div class="site-intel-row"><span class="label">CAPACITY</span><span class="value">400 MW</span></div>
+                    </div>
+                    <p>Located in West Texas near massive solar farms in the "Stargate Corridor." When solar over-generates, prices crash (sometimes negative). Batteries charge cheap. When the sun sets and demand spikes, batteries discharge at premium rates.</p>
+                    <div class="mono" style="font-size: 0.75rem; color: var(--text-dim); margin-top: 10px;">>> Anson is the flagship — future sites will be sourced via validator scouting (US + global).</div>
+                    <div class="mono accent" style="font-size: 0.85rem; margin-top: 15px;">>> LAND UNDER OPTION</div>
+                </div>
+                <div class="feature-box">
+                    <h3>Development Pipeline</h3>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 12px 0;"><span style="color: var(--text-main); font-weight: 700;">SITE 01 (ANSON)</span><span class="mono accent">ACTIVE</span></div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 12px 0;"><span style="color: var(--text-dim);">SITE 02 (WEST)</span><span class="mono">SCREENING</span></div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 12px 0;"><span style="color: var(--text-dim);">SITE 03 (COAST)</span><span class="mono">NEGOTIATION</span></div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 12px 0;"><span style="color: var(--text-dim);">SITE 04 (NORTH)</span><span class="mono">PROSPECTING</span></div>
+                    <div style="display: flex; justify-content: space-between; padding: 12px 0;"><span style="color: var(--text-dim);">SITE 05 (SOUTH)</span><span class="mono">PROSPECTING</span></div>
+                    <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--border);">
+                        <div class="mono" style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 12px;">ANSON PROGRESS</div>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <div><div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span style="font-size: 0.8rem;">Land Secured</span><span class="mono accent" style="font-size: 0.7rem;">100%</span></div><div style="height: 5px; background: var(--border); border-radius: 3px;"><div style="width: 100%; height: 100%; background: var(--acid); border-radius: 3px;"></div></div></div>
+                            <div><div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span style="font-size: 0.8rem;">Vendor Contracts</span><span class="mono accent" style="font-size: 0.7rem;">100%</span></div><div style="height: 5px; background: var(--border); border-radius: 3px;"><div style="width: 100%; height: 100%; background: var(--acid); border-radius: 3px;"></div></div></div>
+                            <div><div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span style="font-size: 0.8rem;">Engineering</span><span class="mono" style="font-size: 0.7rem; color: var(--text-dim);">PENDING</span></div><div style="height: 5px; background: var(--border); border-radius: 3px;"><div style="width: 0%; height: 100%; background: var(--acid); border-radius: 3px;"></div></div></div>
+                            <div><div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span style="font-size: 0.8rem;">ERCOT Filing</span><span class="mono" style="font-size: 0.7rem; color: var(--text-dim);">PENDING</span></div><div style="height: 5px; background: var(--border); border-radius: 3px;"><div style="width: 0%; height: 100%; background: var(--acid); border-radius: 3px;"></div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- CHANGED: Live feed box moved to full-width below for balance -->
+            <div class="live-data-box" style="margin-top: 40px;">
+                <div class="live-data-header">
+                    <span class="mono" style="font-size: 0.7rem; color: var(--acid);">ANSON, TEXAS — LIVE CAMERA + WEATHER FEED</span>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span class="mono" style="font-size: 0.6rem; color: var(--text-dim);" id="weather-status">CONNECTING...</span>
+                        <div class="live-indicator"><div class="dot"></div><div class="ring"></div></div>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <!-- Camera feed placeholder -->
+                    <div class="camera-feed-placeholder" style="height: 180px; margin: 0;">
+                        <span class="offline-text"><i class="fas fa-video-slash"></i> STREAM: OFFLINE</span>
+                        <span class="camera-feed-label">PTZ CAMERA — COMING SOON</span>
+                    </div>
+                    <!-- Weather data grid -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; align-content: center;">
+                        <div class="live-data-item">
+                            <span class="label"><i class="fas fa-thermometer-half" style="margin-right: 5px;"></i>Temperature</span>
+                            <span class="value" id="poi-temp"><span class="loading-pulse">--</span> °F</span>
+                        </div>
+                        <div class="live-data-item">
+                            <span class="label"><i class="fas fa-sun" style="margin-right: 5px;"></i>Solar Irradiance</span>
+                            <span class="value" id="poi-solar"><span class="loading-pulse">--</span> W/m²</span>
+                        </div>
+                        <div class="live-data-item">
+                            <span class="label"><i class="fas fa-wind" style="margin-right: 5px;"></i>Wind Speed</span>
+                            <span class="value" id="poi-wind"><span class="loading-pulse">--</span> mph</span>
+                        </div>
+                        <div class="live-data-item">
+                            <span class="label"><i class="fas fa-tint" style="margin-right: 5px;"></i>Humidity</span>
+                            <span class="value" id="poi-humidity"><span class="loading-pulse">--</span>%</span>
+                        </div>
+                        <div class="live-data-item">
+                            <span class="label"><i class="fas fa-compass" style="margin-right: 5px;"></i>Wind Direction</span>
+                            <span class="value" id="poi-wind-dir"><span class="loading-pulse">--</span></span>
+                        </div>
+                        <div class="live-data-item">
+                            <span class="label"><i class="fas fa-clock" style="margin-right: 5px;"></i>Last Updated</span>
+                            <span class="value" id="poi-updated">--:--:-- --</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                    <span class="mono" style="font-size: 0.6rem; color: var(--text-dim);">DATA SOURCE: OPEN-METEO API • COORDS: 32.755843, -99.896823</span>
+                    <span class="mono" style="font-size: 0.6rem; color: var(--text-dim);">DAVIS VANTAGE PRO2 — COMING SOON</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 04: VALIDATORS - ADDED: Camera feed verification -->
+        <section id="validator" class="section">
+            <div class="feature-box" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                <span class="mono accent">04 // WHAT VALIDATORS DO</span>
+                <h2 style="margin: 10px 0 15px;">BUILD THE GRID ORACLE NETWORK</h2>
+                <p style="max-width: 650px; margin-bottom: 15px; color: var(--text-dim);">Validators verify real data and sign on-chain attestations. You're helping build a decentralized network for energy infrastructure—not just clicking buttons.</p>
+                <p style="max-width: 650px; margin-bottom: 25px; color: var(--text-dim); font-size: 0.85rem; font-style: italic;">Coming Soon: Global site scouting + PPA off-taker identification. <strong>Validators help expand globally.</strong></p>
+                <p style="max-width: 650px; margin-bottom: 30px; color: var(--text-dim); font-size: 0.9rem;"><strong>Time commitment:</strong> ~5 minutes per month. Real work, not busy work.</p>
+                <div class="dashboard-grid">
+                    <div class="dash-mockup"><i class="fas fa-database"></i><span>VERIFY<br>GRID DATA</span></div>
+                    <div class="dash-mockup"><i class="fas fa-signature"></i><span>SIGN<br>ATTESTATION</span></div>
+                    <div class="dash-mockup"><i class="fas fa-coins"></i><span>CLAIM<br>REWARDS</span></div>
+                </div>
+                <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 28px; margin-top: 25px; max-width: 600px; width: 100%; text-align: left;">
+                    <h3 style="text-align: center; margin-bottom: 18px;">WHAT'S REQUIRED</h3>
+                    <div class="requirements-list">
+                        <div class="check-item"><i class="fas fa-calendar-check"></i><span><strong>Monthly:</strong> Check grid data and sign your attestation</span></div>
+                        <!-- ADDED: Camera monitoring requirement -->
+                        <div class="check-item"><i class="fas fa-video"></i><span><strong>Monthly:</strong> Verify live site security & conditions (camera + sensors)</span></div>
+                        <div class="check-item"><i class="fas fa-dice"></i><span><strong>Random (20%):</strong> Provide proof you verified the source</span></div>
+                        <div class="check-item"><i class="fas fa-vote-yea"></i><span><strong>Quarterly:</strong> Vote on a network governance proposal</span></div>
+                        <div class="check-item"><i class="fas fa-sync-alt"></i><span><strong>Yearly:</strong> Renew your license (free, takes seconds)</span></div>
+                    </div>
+                    <div style="margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border);">
+                        <div class="mono" style="font-size: 0.75rem; color: var(--acid); margin-bottom: 12px;">DATA YOU'LL CHECK:</div>
+                        <div class="data-verify-grid">
+                            <div class="check-item"><i class="fas fa-chart-line"></i><span>ERCOT Pricing</span></div>
+                            <div class="check-item"><i class="fas fa-list-ol"></i><span>Queue Position</span></div>
+                            <div class="check-item"><i class="fas fa-hard-hat"></i><span>Engineering Progress</span></div>
+                            <div class="check-item"><i class="fas fa-thermometer-half"></i><span>Site Sensor Data</span></div>
+                            <!-- ADDED: Site Camera Feed -->
+                            <div class="check-item"><i class="fas fa-video"></i><span>Site Camera Feed</span></div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 18px; font-size: 0.85rem; color: var(--text-dim);">Miss something? Rewards pause until you catch up. Spot an error? Flag it and earn bonus points.</p>
+                </div>
+                <button class="btn" style="opacity: 0.5; cursor: not-allowed; margin-top: 25px;">DASHBOARD LAUNCHING Q1</button>
+            </div>
+        </section>
+
+        <!-- 05: ROADMAP - CHANGED: Checkmark placement + camera milestone -->
+        <section id="roadmap" class="section">
+            <div class="section-head"><span class="section-sub">05 // THE PATH</span><h2>FROM FUNDING TO NTP</h2></div>
+            <div class="roadmap-log">
+                <div class="log-entry completed">
+                    <span class="log-phase">PHASE 00 // COMPLETE</span>
+                    <h3 class="log-title">FOUNDATION SECURED</h3>
+                    <div class="log-details">> Land option executed<br>> Vendor contracts signed<br>> Sensors deployed at site<br>> Legal structure established</div>
+                </div>
+                <div class="log-entry current">
+                    <span class="log-phase">PHASE 01 // NOW</span>
+                    <h3 class="log-title">VALIDATOR RAISE</h3>
+                    <div class="log-details">> Launch Validator License Sale<br>> Fund land acquisition + legal<br>> Begin engineering + ERCOT filing<br>> Deploy live PTZ camera + weather station at Anson site</div>
+                </div>
+                <div class="log-entry future">
+                    <span class="log-phase">PHASE 02 // PRE-DEVELOPMENT</span>
+                    <h3 class="log-title">BUILD THE FOUNDATION</h3>
+                    <div class="log-details">> Exercise land option<br>> Submit ERCOT package<br>> Complete geotech + engineering</div>
+                </div>
+                <div class="log-entry future">
+                    <span class="log-phase">PHASE 03 // TOKEN LAUNCH</span>
+                    <h3 class="log-title">$RDW GOES LIVE</h3>
+                    <div class="log-details">> Token Generation Event<br>> Validator rewards activated<br>> Open market trading begins</div>
+                </div>
+                <div class="log-entry future">
+                    <span class="log-phase">PHASE 04 // EXIT</span>
+                    <h3 class="log-title">NTP SALE</h3>
+                    <div class="log-details">> Project reaches "Shovel Ready"<br>> Sale to institutional buyer<br>> DAO votes on treasury allocation</div>
+                </div>
+                <div class="log-entry future">
+                    <span class="log-phase">PHASE 05 // SCALE</span>
+                    <h3 class="log-title">NETWORK EXPANSION</h3>
+                    <div class="log-details">> Deploy capital to Site 02+<br>> Grow validator network<br>> Repeat development cycle</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 06: TOKENOMICS -->
+        <section id="tokenomics" class="section">
+            <div class="section-head"><span class="section-sub">06 // TOKEN ALLOCATION</span><h2>$RDW DISTRIBUTION</h2></div>
+            <div class="composite-bar">
+                <div class="segment seg-nodes" style="width: 30%" data-id="nodes" onclick="hl('nodes')"></div>
+                <div class="segment seg-rwa" style="width: 25%" data-id="rwa" onclick="hl('rwa')"></div>
+                <div class="segment seg-treasury" style="width: 15%" data-id="treasury" onclick="hl('treasury')"></div>
+                <div class="segment seg-team" style="width: 15%" data-id="team" onclick="hl('team')"></div>
+                <div class="segment seg-eco" style="width: 10%" data-id="eco" onclick="hl('eco')"></div>
+                <div class="segment seg-liq" style="width: 5%" data-id="liq" onclick="hl('liq')"></div>
+            </div>
+            <div class="legend-grid">
+                <div class="legend-item active" id="leg-nodes" onclick="hl('nodes')"><div class="l-head"><span>VALIDATOR REWARDS</span><span class="accent">30%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">Distributed to active validators over 36 months.</div></div>
+                <div class="legend-item" id="leg-rwa" onclick="hl('rwa')"><div class="l-head"><span>RWA RESERVE</span><span class="accent">25%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">Backed by physical asset development.</div></div>
+                <div class="legend-item" id="leg-treasury" onclick="hl('treasury')"><div class="l-head"><span>TREASURY</span><span class="accent">15%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">DAO-governed. All allocations by vote.</div></div>
+                <div class="legend-item" id="leg-team" onclick="hl('team')"><div class="l-head"><span>TEAM</span><span class="accent">15%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">1-year cliff, 3-year vesting.</div></div>
+                <div class="legend-item" id="leg-eco" onclick="hl('eco')"><div class="l-head"><span>ECOSYSTEM</span><span class="accent">10%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">Grants & integrations.</div></div>
+                <div class="legend-item" id="leg-liq" onclick="hl('liq')"><div class="l-head"><span>LIQUIDITY</span><span class="accent">5%</span></div><div style="font-size: 0.85rem; color: var(--text-dim);">Initial DEX liquidity.</div></div>
+            </div>
+        </section>
+
+        <!-- OPERATOR -->
+        <section class="section">
+            <div class="feature-box" style="display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                <div><span class="mono accent">THE OPERATOR</span><h2 style="margin-top: 10px;">TALOR BYINGTON</h2></div>
+                <div style="flex: 1; max-width: 550px;">
+                    <p style="margin-bottom: 20px; font-size: 1rem; color: var(--text-dim);">10+ years operational leadership. Built and scaled physical businesses. Now bridging real-world energy infrastructure with decentralized networks.</p>
+                    <a href="https://x.com/TalorMayde" target="_blank" class="btn-outline">@TALORMAYDE</a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-inner">
+                <div class="footer-left">
+                    <span>© 2025 REDEWABLE PROTOCOL</span>
+                    <a href="https://redewable.com" target="_blank" class="corp-link">SERVICE PROVIDER: REDEWABLE ENERGY COMPANY, LLC ↗</a>
+                    <span class="ticker-box" id="footer-price-ticker">SOL: <span>●</span> CONNECTING...</span>
+                </div>
+                <div class="footer-right">
+                    <a href="/litepaper" class="footer-tech-btn"><i class="fas fa-file-code"></i> LITEPAPER_V2.1</a>
+                    <div style="display:flex; gap: 20px;">
+                        <a href="https://x.com/ReDewable" target="_blank" class="footer-social-link"><i class="fab fa-x-twitter"></i></a>
+                        <a href="https://t.me/+gMV0it-OXBA4NWIx" target="_blank" class="footer-social-link"><i class="fab fa-telegram-plane"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Theme
+        const themeBtn = document.getElementById('theme-btn');
+        const body = document.body;
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        body.setAttribute('data-theme', savedTheme);
+        updateLabel(savedTheme);
+        themeBtn.addEventListener('click', () => {
+            const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateLabel(newTheme);
+        });
+        function updateLabel(theme) { themeBtn.querySelector('span').innerText = theme === 'dark' ? 'LIGHT' : 'DARK'; }
+
+        // Currency
+let currentCurrency = 'USD';
+let solPrice = 150;
+
+// Mint data - fetched from API
+let genesisMinted = 0;
+let coreMinted = 0;
+let surgeMinted = 0;
+
+const GENESIS_SUPPLY = 1000;
+const GENESIS_PRICE_SOL = 2.5;
+const CORE_SUPPLY = 1000;
+const CORE_PRICE_SOL = 3.5;
+const SURGE_SUPPLY = 500;
+const SURGE_PRICE_SOL = 4.5;
+
+// Calculate totals dynamically
+function getRaisedSOL() {
+    return (genesisMinted * GENESIS_PRICE_SOL) + (coreMinted * CORE_PRICE_SOL) + (surgeMinted * SURGE_PRICE_SOL);
+}
+const targetSOL = (GENESIS_SUPPLY * GENESIS_PRICE_SOL) + (CORE_SUPPLY * CORE_PRICE_SOL) + (SURGE_SUPPLY * SURGE_PRICE_SOL); // 8250 SOL
+
+// Fetch live mint counts from Supabase
+async function fetchMintCounts() {
+    try {
+        const res = await fetch('/api/licenses/counts');
+        const data = await res.json();
+        if (data.counts) {
+            genesisMinted = data.counts.genesis || 0;
+            coreMinted = data.counts.core || 0;
+            surgeMinted = data.counts.surge || 0;
+            updateAllVisuals();
+        }
+    } catch (err) {
+        console.log('Using fallback mint counts');
+    }
+}
+fetchMintCounts();
+setInterval(fetchMintCounts, 60000);
+
+async function fetchSolPrice() {
+    try {
+        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
+        const data = await res.json();
+        if (data.solana?.usd) { 
+            solPrice = data.solana.usd; 
+            document.getElementById('footer-price-ticker').innerHTML = 'SOL: $' + solPrice.toFixed(2) + ' <span style="color:var(--acid)">●</span>'; 
+            updateAllVisuals(); 
+        }
+    } catch { 
+        document.getElementById('footer-price-ticker').innerHTML = 'SOL: $' + solPrice.toFixed(2) + ' <span style="color:orange">●</span>'; 
+    }
+}
+fetchSolPrice(); 
+setInterval(fetchSolPrice, 60000);
+
+document.querySelectorAll('.toggle-trigger').forEach(t => t.addEventListener('click', () => { 
+    currentCurrency = currentCurrency === 'USD' ? 'SOL' : 'USD'; 
+    updateAllVisuals(); 
+}));
+
+function updateAllVisuals() {
+    const raisedSOL = getRaisedSOL();
+    
+    // Update toggle buttons
+    document.querySelectorAll('.toggle-trigger').forEach(w => { 
+        const l = w.querySelector('.curr-label'); 
+        if (currentCurrency === 'SOL') { 
+            w.setAttribute('data-state', 'active'); 
+            if (l) l.innerText = 'SOL'; 
+        } else { 
+            w.removeAttribute('data-state'); 
+            if (l) l.innerText = 'USD'; 
+        } 
+    });
+    
+    const ts = document.getElementById('target-static');
+    const rd = document.getElementById('raised-display');
+    const pf = document.getElementById('progress-fill');
+    
+    // Calculate progress percentage
+    const progressPercent = (raisedSOL / targetSOL) * 100;
+    if (pf) pf.style.width = progressPercent.toFixed(1) + '%';
+    
+    if (currentCurrency === 'USD') { 
+        const raisedUSD = Math.round(raisedSOL * solPrice);
+        const targetUSD = Math.round(targetSOL * solPrice);
+        if (ts) ts.innerHTML = "$" + targetUSD.toLocaleString(); 
+        if (rd) rd.innerHTML = "$" + raisedUSD.toLocaleString(); 
+        document.querySelectorAll('.dynamic-price').forEach(el => el.innerText = "$" + parseInt(el.dataset.usd).toLocaleString()); 
+    } else { 
+        if (ts) ts.innerHTML = targetSOL.toLocaleString() + " SOL"; 
+        if (rd) rd.innerHTML = raisedSOL.toLocaleString() + " SOL"; 
+        document.querySelectorAll('.dynamic-price').forEach(el => el.innerText = Math.round(parseInt(el.dataset.usd) / solPrice).toLocaleString() + " SOL"); 
+    }
+}
+
+// Initial render
+updateAllVisuals();
+
+        // Modal
+        function openMintDisclaimer() { document.getElementById('mint-modal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+        function closeMintModal() { document.getElementById('mint-modal').classList.remove('open'); document.body.style.overflow = ''; }
+        function proceedToMint() { window.location.href = '/mint'; }        document.getElementById('mint-modal').addEventListener('click', function(e) { if (e.target === this) closeMintModal(); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeMintModal(); });
+
+        // Wallet
+        async function connectWallet() { 
+            if ("solana" in window) { 
+                try { const r = await window.solana.connect(); alert("Connected: " + r.publicKey.toString().slice(0, 6) + "..."); } 
+                catch { alert("Connection rejected!"); } 
+            } else { window.open("https://phantom.app/", "_blank"); } 
+        }
+
+        // Tokenomics
+        window.hl = function(id) { 
+            document.querySelectorAll('.segment').forEach(e => e.classList.remove('active')); 
+            document.querySelectorAll('.legend-item').forEach(e => e.classList.remove('active')); 
+            const s = document.querySelector('.segment[data-id="' + id + '"]'), l = document.getElementById('leg-' + id); 
+            if (s) s.classList.add('active'); if (l) l.classList.add('active'); 
+        };
+
+        // Mobile menu
+        const hamburger = document.getElementById('hamburger'), mobileMenu = document.getElementById('mobile-menu'), closeBtn = document.getElementById('mobile-menu-close');
+        function toggleMenu() { hamburger.classList.toggle('active'); mobileMenu.classList.toggle('open'); document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : ''; }
+        if (hamburger && mobileMenu) { hamburger.addEventListener('click', toggleMenu); if (closeBtn) closeBtn.addEventListener('click', toggleMenu); document.querySelectorAll('.mobile-menu a').forEach(a => a.addEventListener('click', function() { if (this.getAttribute('href').startsWith('#')) toggleMenu(); })); }
+
+        // CHANGED: Live weather data from Open-Meteo API (Anson, TX coordinates)
+        const ANSON_LAT = 32.7526;
+        const ANSON_LON = -99.8926;
+        
+        async function fetchLiveWeather() {
+            const statusEl = document.getElementById('weather-status');
+            try {
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${ANSON_LAT}&longitude=${ANSON_LON}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,shortwave_radiation&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America/Chicago`;
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                if (data.current) {
+                    const c = data.current;
+                    document.getElementById('poi-temp').innerHTML = Math.round(c.temperature_2m) + ' °F';
+                    document.getElementById('poi-humidity').innerHTML = c.relative_humidity_2m + '%';
+                    document.getElementById('poi-wind').innerHTML = Math.round(c.wind_speed_10m) + ' mph';
+                    document.getElementById('poi-solar').innerHTML = Math.round(c.shortwave_radiation) + ' W/m²';
+                    document.getElementById('poi-wind-dir').innerHTML = getWindDirection(c.wind_direction_10m);
+                    document.getElementById('poi-updated').innerHTML = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+                    if (statusEl) statusEl.innerHTML = '<span style="color: var(--acid);">● LIVE</span>';
+                }
+            } catch (err) {
+                console.error('Weather fetch error:', err);
+                if (statusEl) statusEl.innerHTML = '<span style="color: #ff6b6b;">● OFFLINE</span>';
+            }
+        }
+        
+        function getWindDirection(degrees) {
+            const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+            const index = Math.round(degrees / 22.5) % 16;
+            return directions[index] + ' (' + Math.round(degrees) + '°)';
+        }
+        
+        // Fetch immediately and then every 5 minutes
+        fetchLiveWeather();
+        setInterval(fetchLiveWeather, 300000);
+    </script>
+</body>
+</html>

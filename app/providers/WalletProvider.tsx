@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, ReactNode, useMemo } from 'react';
+import { FC, ReactNode, useMemo, useEffect, useState } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
@@ -13,6 +13,10 @@ interface Props {
 }
 
 export const SolanaWalletProvider: FC<Props> = ({ children }) => {
+  // ✅ Prevent hydration mismatch by waiting for mount
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+
   const endpoint = useMemo(() => clusterApiUrl('devnet'), []);
   
   const wallets = useMemo(
@@ -22,6 +26,8 @@ export const SolanaWalletProvider: FC<Props> = ({ children }) => {
     ],
     []
   );
+
+  if (!mounted) return <>{children}</>;
 
   return (
     <ConnectionProvider endpoint={endpoint}>

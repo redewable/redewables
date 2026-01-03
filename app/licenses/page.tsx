@@ -4,7 +4,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useWallet } from '@solana/wallet-adapter-react';
+import { usePrivy } from '@privy-io/react-auth';
 import './licenses.css';
+import DashboardLayout from '../components/DashboardLayout';
 
 interface DBLicense {
   id: string;
@@ -67,7 +69,16 @@ type ClickFX = { id: string; dir: 'left' | 'right' } | null;
 type TierFilter = 'all' | 'genesis' | 'core' | 'surge';
 
 export default function LicensesPage() {
-  const { publicKey, connected } = useWallet();
+  // External wallet adapter
+  const { publicKey: adapterPublicKey, connected: adapterConnected } = useWallet();
+  
+  // Privy (email/social login - for auth display only)
+  const { authenticated: privyAuthenticated } = usePrivy();
+  
+  // Unified wallet state - external wallet required for transactions
+  const connected = adapterConnected || privyAuthenticated;
+  const publicKey = adapterPublicKey;
+  
   const walletStr = useMemo(() => publicKey?.toString() || null, [publicKey]);
 
   const [licenses, setLicenses] = useState<any[]>([]);
@@ -185,75 +196,55 @@ export default function LicensesPage() {
     }, 80);
   };
 
-  if (!connected) {
-    return (
-      <div className="dashboard-container">
-        <div className="grid-floor"></div>
-        <div className="connect-prompt">
-          <div className="connect-box">
-            <div className="logo">RE<span>DEW</span></div>
-            <h1>LICENSES</h1>
-            <p>Connect your wallet to view your validator licenses</p>
-            <Link className="connect-btn" href="/dashboard">
-              Go to Dashboard →
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="dashboard-container">
-      <div className="grid-floor"></div>
+    <DashboardLayout>
+      <div className="dashboard-container">
+        <div className="testnet-banner">⚠️ DEVNET MODE — Real Wallet, Test Network</div>
+        <div className="grid-floor"></div>
 
-      <main className="main-content" style={{ maxWidth: 1200 }}>
-        <div className="page-header">
-          <h1 className="page-title">Licenses</h1>
-          <p className="page-subtitle">Tap a card to flip. Esc flips back.</p>
-        </div>
-
-        <div className="licenses-toolbar">
-          <Link href="/dashboard" className="back-link">
-            ← Back to Dashboard
-          </Link>
-
-          <div className="licenses-filters">
-            <button
-              type="button"
-              className={`filter-chip ${tierFilter === 'all' ? 'active' : ''}`}
-              onClick={() => setTierFilter('all')}
-            >
-              All
-            </button>
-            <button
-              type="button"
-              className={`filter-chip ${tierFilter === 'genesis' ? 'active' : ''}`}
-              onClick={() => setTierFilter('genesis')}
-            >
-              Genesis
-            </button>
-            <button
-              type="button"
-              className={`filter-chip ${tierFilter === 'core' ? 'active' : ''}`}
-              onClick={() => setTierFilter('core')}
-            >
-              Core
-            </button>
-            <button
-              type="button"
-              className={`filter-chip ${tierFilter === 'surge' ? 'active' : ''}`}
-              onClick={() => setTierFilter('surge')}
-            >
-              Surge
-            </button>
+        <main className="main-content" style={{ maxWidth: 1200 }}>
+          <div className="page-header">
+            <h1 className="page-title">My Licenses</h1>
+            <p className="page-subtitle">Tap a card to flip. Esc flips back.</p>
           </div>
 
-          <div className="licenses-wallet">
-            <span className="wallet-pill-label">Connected</span>
-            <span className="wallet-pill">{walletStr ? shortenAddress(walletStr) : ''}</span>
+          <div className="licenses-toolbar">
+            <div className="licenses-wallet">
+              <span className="wallet-pill-label">Wallet</span>
+              <span className="wallet-pill">{publicKey ? shortenAddress(publicKey.toString()) : ''}</span>
+            </div>
+
+            <div className="licenses-filters">
+              <button
+                type="button"
+                className={`filter-chip ${tierFilter === 'all' ? 'active' : ''}`}
+                onClick={() => setTierFilter('all')}
+              >
+                All
+              </button>
+              <button
+                type="button"
+                className={`filter-chip ${tierFilter === 'genesis' ? 'active' : ''}`}
+                onClick={() => setTierFilter('genesis')}
+              >
+                Genesis
+              </button>
+              <button
+                type="button"
+                className={`filter-chip ${tierFilter === 'core' ? 'active' : ''}`}
+                onClick={() => setTierFilter('core')}
+              >
+                Core
+              </button>
+              <button
+                type="button"
+                className={`filter-chip ${tierFilter === 'surge' ? 'active' : ''}`}
+                onClick={() => setTierFilter('surge')}
+              >
+                Surge
+              </button>
+            </div>
           </div>
-        </div>
 
         {loading ? (
           <div className="loading-licenses">Loading licenses...</div>
@@ -437,5 +428,6 @@ export default function LicensesPage() {
         )}
       </main>
     </div>
+    </DashboardLayout>
   );
 }

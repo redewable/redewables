@@ -1,18 +1,37 @@
 /* Licenses page CSS (authoritative). Loaded only on /licenses. */
 
-.licenses-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:6px 0 18px}
+/* Desktop: toolbar layout */
+.licenses-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:6px 0 18px;flex-wrap:wrap}
 .licenses-wallet{display:flex;align-items:center;gap:10px}
 .wallet-pill-label{font-size:.72rem;color:#8f9fa3;letter-spacing:.10em;text-transform:uppercase;font-weight:800}
 .wallet-pill{font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:8px 10px;border-radius:10px;border:1px solid rgba(0,255,157,.25);background:rgba(0,255,157,.06);color:#fff}
 
-.licenses-filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.filter-chip{border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.25);color:rgba(255,255,255,.82);border-radius:999px;padding:8px 12px;font-weight:800;font-size:.78rem;letter-spacing:.03em;cursor:pointer}
+/* Filters - always horizontal row */
+.licenses-filters{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.filter-chip{border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.25);color:rgba(255,255,255,.82);border-radius:999px;padding:8px 14px;font-weight:800;font-size:.78rem;letter-spacing:.03em;cursor:pointer;white-space:nowrap}
 .filter-chip:hover{border-color:rgba(255,255,255,.20);color:rgba(255,255,255,.92)}
 .filter-chip.active{border-color:rgba(0,255,157,.45);background:rgba(0,255,157,.07);color:#fff}
 
+/* Hide CONNECTED label on smaller screens */
+.licenses-connected{display:flex;align-items:center;gap:8px}
+.connected-label{font-size:.72rem;color:#8f9fa3;letter-spacing:.10em;text-transform:uppercase;font-weight:800}
+
 .licenses-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-@media (max-width:1100px){.licenses-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:700px){.licenses-grid{grid-template-columns:1fr}}
+
+/* Tablet: 2 columns, reorder toolbar */
+@media (max-width:1100px){
+  .licenses-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .licenses-toolbar{justify-content:center}
+  .licenses-connected{display:none}
+}
+
+/* Mobile: single column, compact layout */
+@media (max-width:768px){
+  .licenses-toolbar{flex-direction:column;align-items:center;gap:16px}
+  .licenses-wallet{order:2}
+  .licenses-filters{order:1}
+  .licenses-grid{grid-template-columns:1fr}
+}
 
 .license-flip-card{position:relative;text-align:left;border-radius:20px;background:transparent;padding:0;cursor:pointer;perspective:1200px;border:0}
 .license-flip-card::before{content:'';position:absolute;inset:-1px;border-radius:22px;pointer-events:none;opacity:0;transition:opacity 120ms ease}
@@ -52,9 +71,9 @@
   z-index: 0;
   mix-blend-mode: screen;   /* makes it feel like light, not fog */
 }
-.tier-core .nft-art-glow{background:radial-gradient(circle at 40% 30%,rgba(0,255,157,.90),rgba(0,255,157,0) 60%);animation:glowPulseCore 2.6s ease-in-out infinite}
-.tier-genesis .nft-art-glow{background:radial-gradient(circle at 40% 30%,rgba(255,211,106,.95),rgba(255,211,106,0) 60%);animation:glowPulseGenesis 3.0s ease-in-out infinite}
-.tier-surge .nft-art-glow{background:radial-gradient(circle at 40% 30%,rgba(77,163,255,.95),rgba(77,163,255,0) 60%);animation:glowPulseSurge 2.4s ease-in-out infinite}
+.tier-genesis .nft-art-glow{background:radial-gradient(circle at 40% 30%,rgba(0,255,157,.90),rgba(0,255,157,0) 60%);animation:glowPulseGenesis 3.0s ease-in-out infinite}
+.tier-core .nft-art-glow{background:radial-gradient(circle at 40% 30%,rgba(192,192,192,.95),rgba(192,192,192,0) 60%);animation:glowPulseCore 2.6s ease-in-out infinite}
+.tier-surge .nft-art-glow{background:radial-gradient(circle at 40% 30%,rgba(0,255,255,.95),rgba(0,255,255,0) 60%);animation:glowPulseSurge 2.4s ease-in-out infinite}
 @keyframes glowPulseCore{0%,100%{opacity:.18}50%{opacity:.34}}
 @keyframes glowPulseGenesis{0%,100%{opacity:.16}50%{opacity:.36}}
 @keyframes glowPulseSurge{0%,100%{opacity:.16}50%{opacity:.35}}
@@ -83,9 +102,19 @@
 .back-link-btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 10px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.30);color:#fff;text-decoration:none;font-weight:900;font-size:.84rem}
 .back-link-btn:hover{border-color:rgba(255,255,255,.22)}
 
-.license-flip-card.tier-core:hover .license-card-face.front{border-color:rgba(0,255,157,.35)}
-.license-flip-card.tier-genesis:hover .license-card-face.front{border-color:rgba(255,211,106,.35)}
-.license-flip-card.tier-surge:hover .license-card-face.front{border-color:rgba(77,163,255,.35)}
+.license-flip-card.tier-genesis:hover .license-card-face.front{border-color:rgba(0,255,157,.35)}
+.license-flip-card.tier-core:hover .license-card-face.front{border-color:rgba(192,192,192,.35)}
+.license-flip-card.tier-surge:hover .license-card-face.front{border-color:rgba(0,255,255,.35)}
+
+/* Tier-specific back face hover colors */
+.license-flip-card.tier-genesis:hover .license-card-face.back{border-color:rgba(0,255,157,.35)}
+.license-flip-card.tier-core:hover .license-card-face.back{border-color:rgba(192,192,192,.35)}
+.license-flip-card.tier-surge:hover .license-card-face.back{border-color:rgba(0,255,255,.35)}
+
+/* Stronger when flipped */
+.license-flip-card.tier-genesis.is-flipped:hover .license-card-face.back{border-color:rgba(0,255,157,.45);box-shadow:0 0 0 1px rgba(0,255,157,.25),inset 0 0 0 1px rgba(0,255,157,.12)}
+.license-flip-card.tier-core.is-flipped:hover .license-card-face.back{border-color:rgba(192,192,192,.45);box-shadow:0 0 0 1px rgba(192,192,192,.25),inset 0 0 0 1px rgba(192,192,192,.12)}
+.license-flip-card.tier-surge.is-flipped:hover .license-card-face.back{border-color:rgba(0,255,255,.45);box-shadow:0 0 0 1px rgba(0,255,255,.25),inset 0 0 0 1px rgba(0,255,255,.12)}
 
 /* SERIAL: engraved, no pill background */
 .serial-engrave {
@@ -179,18 +208,4 @@
 .back-links { position: relative; z-index: 5; }
 .back-link-btn { position: relative; z-index: 6; pointer-events: auto; }
 
-/* Apply hover accent to BOTH faces */
-.license-flip-card:hover .license-card-face.front,
-.license-flip-card:hover .license-card-face.back {
-  border-color: rgba(255,211,106,0.35);
-}
-
-/* Optional: slightly stronger when flipped (feels intentional) */
-.license-flip-card.is-flipped:hover .license-card-face.back {
-  border-color: rgba(255,211,106,0.45);
-}
-.license-flip-card.is-flipped:hover .license-card-face.back {
-  box-shadow:
-    0 0 0 1px rgba(255,211,106,0.25),
-    inset 0 0 0 1px rgba(255,211,106,0.12);
-}
+/* Apply hover accent to BOTH faces - now handled by tier-specific rules above */

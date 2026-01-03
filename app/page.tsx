@@ -1,5 +1,4 @@
-import { redirect } from 'next/navigation';
-
+// Root page - handled by rewrite to /home.html in next.config.ts
 export default function Home() {
-  redirect('/dashboard');
+  return null;
 }

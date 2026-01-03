@@ -1,8 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import '../dashboard.css';
+import '../modals.css';
+import { useState, useEffect, useMemo } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
+import { usePrivy } from '@privy-io/react-auth';
+import { createClient } from '@supabase/supabase-js';
 import Weather from '../components/Weather';
 import Attestations from '../components/Attestations';
 import RewardChart from '../components/RewardChart';
@@ -11,6 +15,7 @@ import ClaimRewards from '../components/ClaimRewards';
 import DocumentModal from '../components/DocumentModal';
 import LicenseModal from '../components/LicenseModal';
 import MintGate from '../components/MintGate';
+import DashboardLayout from '../components/DashboardLayout';
 import Link from 'next/link';
 
 interface DBLicense {
@@ -45,12 +50,37 @@ const tierPrices: Record<string, string> = {
 };
 
 export default function Dashboard() {
-  const { publicKey, connected } = useWallet();
+  // External wallet adapter
+  const { publicKey: adapterPublicKey, connected: adapterConnected } = useWallet();
   const { setVisible } = useWalletModal();
+  
+  // Privy (email/social login - for auth display only)
+  const { authenticated: privyAuthenticated } = usePrivy();
+  
+  // Unified wallet state - external wallet required for transactions
+  const connected = adapterConnected || privyAuthenticated;
+  const publicKey = adapterPublicKey; // Only external wallets have signing capability
 
-  // Menu state
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [menuClosing, setMenuClosing] = useState(false);
+  // Supabase client
+  const supabase = useMemo(() => {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!url || !key) return null;
+    return createClient(url, key);
+  }, []);
+
+  // Network stats state
+  const [networkStats, setNetworkStats] = useState({
+    totalValidators: 0,
+    totalLicenses: 0,
+    networkPower: 0,
+    genesisMinted: 0,
+    coreMinted: 0,
+    surgeMinted: 0,
+  });
+  const [networkLoading, setNetworkLoading] = useState(true);
+  const [userRank, setUserRank] = useState<number | null>(null);
+  const [userPower, setUserPower] = useState(0);
 
   // Licenses state
   const [licenses, setLicenses] = useState<any[]>([]);
@@ -74,23 +104,32 @@ export default function Dashboard() {
   const [documentOpen, setDocumentOpen] = useState(false);
   const [landControlVerified, setLandControlVerified] = useState(false);
 
-  // Reward history for chart
-  const [rewardHistory, setRewardHistory] = useState([
-    { month: 'Jul', amount: 0 },
-    { month: 'Aug', amount: 0 },
-    { month: 'Sep', amount: 0 },
-    { month: 'Oct', amount: 0 },
-    { month: 'Nov', amount: 0 },
-    { month: 'Dec', amount: 0 },
-  ]);
-  const [displayedHistory, setDisplayedHistory] = useState([
-    { month: 'Jul', amount: 0 },
-    { month: 'Aug', amount: 0 },
-    { month: 'Sep', amount: 0 },
-    { month: 'Oct', amount: 0 },
-    { month: 'Nov', amount: 0 },
-    { month: 'Dec', amount: 0 },
-  ]);
+  // Generate rolling 12 months (current month is last)
+  const generateRolling12Months = () => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const now = new Date();
+    const currentMonth = now.getMonth(); // 0-11
+    const currentYear = now.getFullYear();
+    
+    const result = [];
+    for (let i = 11; i >= 0; i--) {
+      const monthIndex = (currentMonth - i + 12) % 12;
+      const year = currentMonth - i < 0 ? currentYear - 1 : currentYear;
+      result.push({
+        month: months[monthIndex],
+        year,
+        monthIndex,
+        amount: 0,
+        // Protocol launched Dec 2025 - months before that are inactive
+        active: year > 2025 || (year === 2025 && monthIndex >= 11) // Dec 2025 or later
+      });
+    }
+    return result;
+  };
+
+  // Memoize initial history to prevent regeneration on re-renders
+  const [rewardHistory, setRewardHistory] = useState(() => generateRolling12Months());
+  const [displayedHistory, setDisplayedHistory] = useState(() => generateRolling12Months());
 
   // Fetch all data when wallet connects
   useEffect(() => {
@@ -106,6 +145,85 @@ export default function Dashboard() {
       setRdwBalance(0);
     }
   }, [publicKey]);
+
+  // Fetch network-wide stats
+  useEffect(() => {
+    async function fetchNetworkStats() {
+      if (!supabase) {
+        setNetworkLoading(false);
+        return;
+      }
+
+      try {
+        const { data: licenses, error } = await supabase
+          .from('licenses')
+          .select('wallet_address, tier')
+          .eq('mint_status', 'minted');
+
+        if (error) throw error;
+
+        const walletPowers: Record<string, number> = {};
+        let totalPower = 0;
+        let genesis = 0, core = 0, surge = 0;
+
+        (licenses || []).forEach((lic: any) => {
+          const wallet = lic.wallet_address;
+          const tier = lic.tier?.toLowerCase();
+          let power = 0;
+          
+          if (tier === 'genesis') {
+            genesis++;
+            power = 1.5;
+          } else if (tier === 'core') {
+            core++;
+            power = 1.0;
+          } else if (tier === 'surge') {
+            surge++;
+            power = 2.0;
+          }
+          
+          totalPower += power;
+          walletPowers[wallet] = (walletPowers[wallet] || 0) + power;
+        });
+
+        // Sort wallets by power to find rank
+        const sortedWallets = Object.entries(walletPowers)
+          .sort(([, a], [, b]) => b - a);
+        
+        // Find current user's rank
+        if (publicKey) {
+          const userWallet = publicKey.toString();
+          const rankIndex = sortedWallets.findIndex(([wallet]) => wallet === userWallet);
+          if (rankIndex >= 0) {
+            setUserRank(rankIndex + 1);
+            setUserPower(walletPowers[userWallet] || 0);
+          } else {
+            setUserRank(null);
+            setUserPower(0);
+          }
+        }
+
+        setNetworkStats({
+          totalValidators: Object.keys(walletPowers).length,
+          totalLicenses: (licenses || []).length,
+          networkPower: totalPower,
+          genesisMinted: genesis,
+          coreMinted: core,
+          surgeMinted: surge,
+        });
+      } catch (err) {
+        console.error('Error fetching network stats:', err);
+      } finally {
+        setNetworkLoading(false);
+      }
+    }
+
+    fetchNetworkStats();
+    
+    // Refresh every 60 seconds
+    const interval = setInterval(fetchNetworkStats, 60000);
+    return () => clearInterval(interval);
+  }, [supabase, publicKey]);
 
   const fetchLicenses = async () => {
     if (!publicKey) return;
@@ -165,9 +283,14 @@ export default function Dashboard() {
       setTotalEarned(data.totalClaimed || 0);
 
       if (data.totalClaimed > 0) {
+        // Put historical rewards in December 2025 (when protocol launched)
+        // Find December 2025 index
         setRewardHistory(prev => {
           const updated = [...prev];
-          updated[5] = { ...updated[5], amount: data.totalClaimed };
+          const dec2025Idx = updated.findIndex(m => m.year === 2025 && m.monthIndex === 11);
+          if (dec2025Idx >= 0) {
+            updated[dec2025Idx] = { ...updated[dec2025Idx], amount: data.totalClaimed };
+          }
           return updated;
         });
       }
@@ -262,43 +385,44 @@ export default function Dashboard() {
     }
   }, [rdwBalance]);
 
-  // Animation: History bar
+  // Animation: History bars - sync displayedHistory to rewardHistory
   useEffect(() => {
-    const targetDec = rewardHistory[5].amount;
-    const currentDec = displayedHistory[5].amount;
+    // Find any months with different amounts
+    const changedIndices: number[] = [];
+    rewardHistory.forEach((item, idx) => {
+      if (displayedHistory[idx]?.amount !== item.amount) {
+        changedIndices.push(idx);
+      }
+    });
 
-    if (currentDec !== targetDec) {
-      const startValue = currentDec;
-      const endValue = targetDec;
-      const duration = 1200;
-      const startTime = Date.now();
+    if (changedIndices.length === 0) return;
 
-      const animate = () => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const current = Math.round(startValue + (endValue - startValue) * eased);
+    const duration = 1200;
+    const startTime = Date.now();
+    const startValues = changedIndices.map(idx => displayedHistory[idx]?.amount || 0);
+    const endValues = changedIndices.map(idx => rewardHistory[idx].amount);
 
-        setDisplayedHistory(prev => {
-          const updated = [...prev];
-          updated[5] = { ...updated[5], amount: current };
-          return updated;
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+
+      setDisplayedHistory(prev => {
+        const updated = [...prev];
+        changedIndices.forEach((idx, i) => {
+          const current = Math.round(startValues[i] + (endValues[i] - startValues[i]) * eased);
+          updated[idx] = { ...updated[idx], amount: current };
         });
+        return updated;
+      });
 
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        }
-      };
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
 
-      requestAnimationFrame(animate);
-    }
+    requestAnimationFrame(animate);
   }, [rewardHistory]);
-
-  const handleCloseMenu = () => {
-    setMenuOpen(false);
-    setMenuClosing(true);
-    setTimeout(() => setMenuClosing(false), 300);
-  };
 
   const shortenAddress = (address: string) => {
     if (!address) return '';
@@ -309,14 +433,20 @@ export default function Dashboard() {
     const claimed = pendingRewards;
     setPendingRewards(0);
     setTotalEarned(prev => prev + claimed);
+    
+    // Update RDW balance locally (for simulation mode where on-chain doesn't change)
+    setRdwBalance(prev => prev + claimed);
+    
+    // Add to current month on chart
     setRewardHistory(prev => {
       const updated = [...prev];
-      updated[5] = { ...updated[5], amount: updated[5].amount + claimed };
+      const currentIdx = updated.length - 1;
+      updated[currentIdx] = { ...updated[currentIdx], amount: updated[currentIdx].amount + claimed };
       return updated;
     });
 
+    // Refresh rewards from server (but not RDW balance - that's local in simulation mode)
     setTimeout(() => {
-      fetchRdwBalance();
       fetchRewards();
     }, 2000);
   };
@@ -330,80 +460,13 @@ export default function Dashboard() {
     setPendingRewards(prev => prev + amount);
   };
 
-  const scrollToSection = (sectionId: string) => {
-    handleCloseMenu();
-    setTimeout(() => {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 100);
-  };
-
-  // Connect prompt
-  if (!connected) {
-    return (
-      <div className="dashboard-container">
-        <div className="grid-floor"></div>
-        <div className="connect-prompt">
-          <div className="connect-box">
-            <div className="logo">RE<span>DEW</span></div>
-            <h1>VALIDATOR DASHBOARD</h1>
-            <p>Connect your wallet to view your licenses and rewards</p>
-            <button className="connect-btn" onClick={() => setVisible(true)}>
-              Connect Wallet
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  // Connect prompt handled by DashboardLayout
   return (
-    <MintGate>
-      <div className="dashboard-container">
-        <div className="testnet-banner">⚠️ DEVNET MODE — Real Wallet, Test Network</div>
-        <div className="grid-floor"></div>
-
-        {!menuOpen && !menuClosing && (
-          <button className="menu-burger" onClick={() => setMenuOpen(true)}>
-            ☰
-          </button>
-        )}
-
-        <aside className={`sidebar ${menuOpen ? 'open' : ''}`}>
-          <button className="menu-close" onClick={handleCloseMenu}>
-            ✕
-          </button>
-          <div className="logo">RE<span>DEW</span></div>
-          <nav className="nav">
-            <a href="/dashboard" className="nav-link active" onClick={handleCloseMenu}>
-              Dashboard
-            </a>
-
-            <a href="/licenses" className="nav-link" onClick={handleCloseMenu}>
-              Licenses
-            </a>
-
-            <a href="/mint" className="nav-link" onClick={handleCloseMenu}>
-              Mint License
-            </a>
-
-            <button className="nav-link nav-btn" onClick={() => scrollToSection('attestations')}>
-              Attestations
-            </button>
-
-            <button className="nav-link nav-btn" onClick={() => scrollToSection('rewards')}>
-              Rewards
-            </button>
-          </nav>
-          <div className="wallet-info">
-            <div className="wallet-label">Connected</div>
-            <div className="wallet-address">{publicKey ? shortenAddress(publicKey.toString()) : ''}</div>
-          </div>
-        </aside>
-
-        {menuOpen && <div className="menu-overlay" onClick={handleCloseMenu}></div>}
+    <DashboardLayout>
+      <MintGate>
+        <div className="dashboard-container">
+          <div className="testnet-banner">⚠️ DEVNET MODE — Real Wallet, Test Network</div>
+          <div className="grid-floor"></div>
 
         <DocumentModal
           isOpen={documentOpen}
@@ -423,35 +486,115 @@ export default function Dashboard() {
             <p className="page-subtitle">Welcome back, validator</p>
           </div>
 
-          <div className="stats-grid">
-            <Link href="/licenses" className="stat-card stat-card-link">
+          <div className="stats-grid stats-grid-all">
+            {/* Desktop Row 1 */}
+            <Link href="/licenses" className="stat-card stat-card-link stat-licenses-owned">
               <div className="stat-label">Licenses Owned</div>
-              <div className="stat-value">{loadingLicenses ? '...' : licenses.length}</div>
+              <div className="stat-value">
+                {loadingLicenses ? <div className="skeleton skeleton-value" /> : licenses.length}
+              </div>
             </Link>
-            <div className="stat-card">
-              <div className="stat-label">Pending Rewards</div>
-              <div className={`stat-value ${pendingAnimating ? 'animating' : ''}`}>
-                {displayedPending.toLocaleString()} <span>$RDW</span>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-label">Total Earned</div>
-              <div className={`stat-value ${totalAnimating ? 'animating' : ''}`}>
-                {displayedTotal.toLocaleString()} <span>$RDW</span>
-              </div>
-            </div>
-            <div className="stat-card">
+            <div className="stat-card stat-rdw-balance">
               <div className="stat-label">$RDW Balance</div>
               <div className={`stat-value ${rdwAnimating ? 'animating' : ''}`}>
                 {displayedRdwBalance.toLocaleString()} <span>$RDW</span>
               </div>
             </div>
+            <div className="stat-card stat-total-earned">
+              <div className="stat-label">Total Earned</div>
+              <div className={`stat-value ${totalAnimating ? 'animating' : ''}`}>
+                {displayedTotal.toLocaleString()} <span>$RDW</span>
+              </div>
+            </div>
+            <Link href="/leaderboard" className="stat-card stat-card-link stat-network-validators">
+              <div className="stat-label">Network Validators</div>
+              <div className="stat-value">
+                {networkLoading ? <div className="skeleton skeleton-value" /> : networkStats.totalValidators}
+              </div>
+            </Link>
+
+            {/* Desktop Row 2 */}
+            <div className="stat-card stat-tier-breakdown">
+              <div className="stat-label">Your Tiers</div>
+              <div className="stat-value" style={{ fontSize: '1rem' }}>
+                {loadingLicenses ? <div className="skeleton skeleton-value" /> : (
+                  <>
+                    <span style={{ color: '#00FF9D' }}>{licenses.filter(l => l.dbTier === 'genesis').length}G</span>
+                    {' / '}
+                    <span style={{ color: '#C0C0C0' }}>{licenses.filter(l => l.dbTier === 'core').length}C</span>
+                    {' / '}
+                    <span style={{ color: '#00FFFF' }}>{licenses.filter(l => l.dbTier === 'surge').length}S</span>
+                  </>
+                )}
+              </div>
+            </div>
+            <div className="stat-card stat-network-power">
+              <div className="stat-label">Your Power</div>
+              <div className="stat-value">
+                {loadingLicenses ? <div className="skeleton skeleton-value" /> : (
+                  <>
+                    {licenses.reduce((sum, l) => {
+                      if (l.dbTier === 'genesis') return sum + 1.5;
+                      if (l.dbTier === 'core') return sum + 1.0;
+                      if (l.dbTier === 'surge') return sum + 2.0;
+                      return sum;
+                    }, 0).toFixed(1)}<span>x</span>
+                  </>
+                )}
+              </div>
+            </div>
+            <div className="stat-card stat-pending-rewards">
+              <div className="stat-label">Pending Rewards</div>
+              <div className={`stat-value ${pendingAnimating ? 'animating' : ''}`}>
+                {displayedPending.toLocaleString()} <span>$RDW</span>
+              </div>
+            </div>
+            <Link href="/mint" className="stat-card stat-card-link stat-licenses-minted">
+              <div className="stat-label">Licenses Minted</div>
+              <div className="stat-value">
+                {networkLoading ? <div className="skeleton skeleton-value" /> : networkStats.totalLicenses}
+              </div>
+            </Link>
           </div>
 
+          {/* Empty State - No Licenses */}
+          {!loadingLicenses && licenses.length === 0 && (
+            <div className="empty-state" style={{ marginBottom: '24px' }}>
+              <div className="empty-state-icon">🔓</div>
+              <h3 className="empty-state-title">No Licenses Yet</h3>
+              <p className="empty-state-text">
+                Mint a validator license to start earning $RDW rewards and participate in attestations.
+              </p>
+              <Link href="/mint" className="empty-state-btn">
+                Mint Your First License →
+              </Link>
+            </div>
+          )}
+
           <div className="content-grid">
-            {/* LEFT PANEL: Licenses, Claim, Attestations, History */}
-            <div className="panel">
+            {/* LEFT PANEL: Rank, Pending Rewards, History, Attestations */}
+            <div className="panel panel-left">
               <h2 className="panel-title">Rewards & Attestations</h2>
+              
+              {/* Your Rank Card - at top */}
+              <Link href="/leaderboard" className="rank-card">
+                <div className="rank-card-left">
+                  <div className="rank-label">YOUR RANK</div>
+                  <div className="rank-value">
+                    {networkLoading ? '...' : userRank ? `#${userRank}` : '—'}
+                  </div>
+                </div>
+                <div className="rank-card-right">
+                  <div className="rank-power-label">Power</div>
+                  <div className="rank-power-value">
+                    {networkLoading ? '...' : `${userPower.toFixed(1)}x`}
+                  </div>
+                </div>
+                <div className="rank-card-total">
+                  of {networkStats.totalValidators} validators
+                </div>
+              </Link>
+
               <div id="rewards">
                 <ClaimRewards
                   pending={displayedPending}
@@ -459,6 +602,8 @@ export default function Dashboard() {
                   onClaim={handleClaim}
                 />
               </div>
+
+              <RewardChart history={displayedHistory} total={displayedTotal} />
 
               <div id="attestations">
                 <Attestations
@@ -468,8 +613,6 @@ export default function Dashboard() {
                   onRewardEarned={handleRewardEarned}
                 />
               </div>
-
-              <RewardChart history={displayedHistory} total={displayedTotal} />
             </div>
 
             {/* RIGHT PANEL: Project, Timeline, Weather, Docs */}
@@ -525,14 +668,16 @@ export default function Dashboard() {
 
         <footer className="dashboard-footer">
           <div className="footer-links">
-            <a href="https://redewable.com" target="_blank">ReDewable.com</a>
-            <a href="/litepaper" target="_blank">Litepaper</a>
-            <a href="https://twitter.com" target="_blank">Twitter</a>
-            <a href="https://discord.com" target="_blank">Discord</a>
+            <a href="https://redewable.com" target="_blank" rel="noopener">ReDewable.com</a>
+            <a href="https://redewables.vercel.app/litepaper/index.html" target="_blank" rel="noopener">Litepaper</a>
+            <a href="https://x.com/redewable" target="_blank" rel="noopener">𝕏 Twitter</a>
+            <a href="https://discord.gg/redewable" target="_blank" rel="noopener">Discord</a>
+            <a href="https://t.me/redewable" target="_blank" rel="noopener">Telegram</a>
           </div>
-          <div className="footer-copy">© 2025 ReDewable Energy Company, LLC</div>
+          <div className="footer-copy">© 2026 ReDewable Energy Company, LLC</div>
         </footer>
       </div>
     </MintGate>
+    </DashboardLayout>
   );
 }

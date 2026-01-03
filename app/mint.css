@@ -1,0 +1,1230 @@
+/* ============================================
+   MINT.CSS — Mint page specific styles
+   ============================================ */
+
+/* === MINT CONTAINER === */
+.mint-container {
+  min-height: 100vh;
+  padding-top: 36px;
+  margin-left: 250px;
+}
+
+.mint-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 24px 40px;
+}
+
+/* === MINT HEADER === */
+.mint-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.mint-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.mint-title span {
+  color: #00FF9D;
+}
+
+.mint-subtitle {
+  font-size: 1rem;
+  color: #8f9fa3;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* === LIVE MINT FEED === */
+.mint-feed {
+  position: fixed;
+  top: 36px;
+  left: 250px;
+  right: 0;
+  background: #080c0a;
+  border-bottom: 1px solid #00FF9D;
+  padding: 8px 20px;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.feed-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  animation: feedFade 3s ease-in-out infinite;
+}
+
+.feed-dot {
+  width: 6px;
+  height: 6px;
+  background: #00FF9D;
+  border-radius: 50%;
+  animation: pulse 1s infinite;
+}
+
+.feed-wallet {
+  color: #00FF9D;
+}
+
+.feed-text {
+  color: #8f9fa3;
+}
+
+.feed-tier {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.feed-time {
+  color: #8f9fa3;
+}
+
+/* === MINT NAV === */
+.mint-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  margin-top: 36px;
+}
+
+.wallet-connect {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.wallet-connected {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.wallet-balance {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  color: #00FF9D;
+  padding: 8px 12px;
+  background: rgba(0, 255, 157, 0.1);
+  border: 1px solid #1a2f1f;
+}
+
+.wallet-btn {
+  padding: 10px 20px;
+  background: transparent;
+  color: #00FF9D;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: 1px solid #00FF9D;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.wallet-btn:hover {
+  background: rgba(0, 255, 157, 0.1);
+}
+
+.wallet-btn.connected {
+  background: rgba(0, 255, 157, 0.1);
+}
+
+/* === RAISE PROGRESS === */
+.raise-progress {
+  background: #080c0a;
+  border: 1px solid #1a2f1f;
+  padding: 24px;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.raise-progress::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 15px;
+  height: 15px;
+  border-top: 2px solid #00FF9D;
+  border-left: 2px solid #00FF9D;
+}
+
+.raise-progress::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 15px;
+  height: 15px;
+  border-bottom: 2px solid #00FF9D;
+  border-right: 2px solid #00FF9D;
+}
+
+.raise-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.raise-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.raise-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #8f9fa3;
+  text-transform: uppercase;
+}
+
+.raise-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #00FF9D;
+}
+
+.raise-bar {
+  height: 8px;
+  background: #1a2f1f;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.raise-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00FF9D, #00cc7d);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+/* === NETWORK STATS === */
+.network-stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  margin-bottom: 40px;
+  padding: 20px 0;
+  border-bottom: 1px solid #1a2f1f;
+}
+
+.network-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.network-stat-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.network-stat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: #8f9fa3;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* === TIER GRID === */
+.tier-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+/* === TIER CARD === */
+.tier-card {
+  background: #080c0a;
+  border: 1px solid #1a2f1f;
+  padding: 24px;
+  cursor: default;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+}
+
+.tier-card::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 15px;
+  height: 15px;
+  border-top: 2px solid transparent;
+  border-left: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.tier-card::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 15px;
+  height: 15px;
+  border-bottom: 2px solid transparent;
+  border-right: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.tier-card:hover,
+.tier-card.selected {
+  border-color: #00FF9D;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 40px rgba(0, 255, 157, 0.1);
+}
+
+.tier-card:hover::before,
+.tier-card.selected::before,
+.tier-card:hover::after,
+.tier-card.selected::after {
+  border-color: #00FF9D;
+}
+
+/* Tier Status */
+.tier-card.sold-out {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.tier-card.locked {
+  pointer-events: none;
+}
+
+/* Active tier pulse animation */
+.tier-card.active {
+  border-color: #00FF9D;
+  animation: activePulse 2s ease-in-out infinite;
+}
+
+@keyframes activePulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.15);
+  }
+  50% { 
+    box-shadow: 0 0 35px rgba(0, 255, 157, 0.3);
+  }
+}
+
+/* === TIER COLORS === */
+/* Genesis: Green */
+.tier-card.tier-genesis:hover,
+.tier-card.tier-genesis.selected {
+  border-color: #00FF9D;
+  box-shadow: 0 10px 40px rgba(0, 255, 157, 0.15);
+}
+.tier-card.tier-genesis:hover::before,
+.tier-card.tier-genesis.selected::before,
+.tier-card.tier-genesis:hover::after,
+.tier-card.tier-genesis.selected::after {
+  border-color: #00FF9D;
+}
+.tier-card.tier-genesis .tier-icon {
+  color: #00FF9D;
+  border-color: #00FF9D;
+}
+.tier-card.tier-genesis .tier-badge {
+  color: #00FF9D;
+}
+.tier-card.tier-genesis .tier-name {
+  color: #00FF9D;
+}
+.tier-card.tier-genesis .supply-bar-fill {
+  background: linear-gradient(90deg, #00FF9D 0%, rgba(0, 255, 157, 0.5) 100%);
+}
+.tier-card.tier-genesis .tier-btn {
+  background: linear-gradient(135deg, #00FF9D 0%, #00cc7d 100%);
+  color: #080c0a;
+  font-weight: 800;
+}
+
+/* Core: Silver Metallic with Carbon Fiber texture + Gold accent glow */
+.tier-card.tier-core {
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      rgba(180, 190, 200, 0.03) 0px,
+      rgba(180, 190, 200, 0.03) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(180, 190, 200, 0.03) 0px,
+      rgba(180, 190, 200, 0.03) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    linear-gradient(135deg, #0c1210 0%, #141c18 50%, #0c1210 100%);
+  border-color: rgba(192, 192, 192, 0.3);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 30px rgba(255, 211, 106, 0.08);
+}
+.tier-card.tier-core::before,
+.tier-card.tier-core::after {
+  border-color: rgba(192, 192, 192, 0.4) !important;
+}
+.tier-card.tier-core:hover,
+.tier-card.tier-core.selected {
+  border-color: #C0C0C0;
+  box-shadow: 
+    0 10px 40px rgba(192, 192, 192, 0.2),
+    0 0 60px rgba(255, 211, 106, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+.tier-card.tier-core:hover::before,
+.tier-card.tier-core.selected::before,
+.tier-card.tier-core:hover::after,
+.tier-card.tier-core.selected::after {
+  border-color: #C0C0C0;
+}
+.tier-card.tier-core .tier-icon {
+  color: #C0C0C0;
+  border-color: #C0C0C0;
+  background: rgba(192, 192, 192, 0.1);
+  box-shadow: 0 0 20px rgba(255, 211, 106, 0.2);
+}
+.tier-card.tier-core .tier-badge {
+  color: #C0C0C0;
+  border-color: rgba(192, 192, 192, 0.3);
+  background: rgba(192, 192, 192, 0.08);
+}
+.tier-card.tier-core .tier-name {
+  color: #C0C0C0;
+  text-shadow: 0 0 20px rgba(255, 211, 106, 0.3);
+}
+.tier-card.tier-core .supply-bar-fill {
+  background: linear-gradient(90deg, #C0C0C0 0%, rgba(192, 192, 192, 0.6) 100%);
+}
+.tier-card.tier-core .tier-btn {
+  background: linear-gradient(135deg, #C0C0C0 0%, #a0a0a0 100%);
+  color: #080c0a;
+  box-shadow: 0 0 20px rgba(255, 211, 106, 0.2);
+}
+.tier-card.tier-core .tier-btn:hover {
+  box-shadow: 0 0 30px rgba(255, 211, 106, 0.4);
+}
+
+/* Surge: ULTRA BRIGHT Electric Cyan - explosive glow */
+.tier-card.tier-surge {
+  border-color: rgba(0, 255, 255, 0.4);
+  box-shadow: 
+    0 0 30px rgba(0, 255, 255, 0.15),
+    inset 0 0 30px rgba(0, 255, 255, 0.03);
+}
+.tier-card.tier-surge::before,
+.tier-card.tier-surge::after {
+  border-color: rgba(0, 255, 255, 0.5) !important;
+}
+.tier-card.tier-surge:hover,
+.tier-card.tier-surge.selected {
+  border-color: #00FFFF;
+  box-shadow: 
+    0 10px 50px rgba(0, 255, 255, 0.35),
+    0 0 80px rgba(0, 255, 255, 0.25),
+    inset 0 0 40px rgba(0, 255, 255, 0.05);
+}
+.tier-card.tier-surge:hover::before,
+.tier-card.tier-surge.selected::before,
+.tier-card.tier-surge:hover::after,
+.tier-card.tier-surge.selected::after {
+  border-color: #00FFFF;
+}
+.tier-card.tier-surge .tier-icon {
+  color: #00FFFF;
+  border-color: #00FFFF;
+  background: rgba(0, 255, 255, 0.15);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+.tier-card.tier-surge .tier-badge {
+  color: #00FFFF;
+  border-color: rgba(0, 255, 255, 0.4);
+  background: rgba(0, 255, 255, 0.1);
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+}
+.tier-card.tier-surge .tier-name {
+  color: #00FFFF;
+  text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+}
+.tier-card.tier-surge .supply-bar-fill {
+  background: linear-gradient(90deg, #00FFFF 0%, rgba(0, 255, 255, 0.7) 100%);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+.tier-card.tier-surge .tier-btn {
+  background: linear-gradient(135deg, #00FFFF 0%, #00d4ff 100%);
+  color: #080c0a;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+  text-shadow: none;
+}
+.tier-card.tier-surge .tier-btn:hover {
+  box-shadow: 0 0 40px rgba(0, 255, 255, 0.6);
+}
+
+.tier-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.sold-out-overlay {
+  background: rgba(0, 255, 255, 0.08);
+  backdrop-filter: blur(2px);
+  color: #00FFFF;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.locked-overlay {
+  background: 
+    linear-gradient(135deg, rgba(20, 28, 24, 0.92) 0%, rgba(12, 18, 16, 0.95) 100%);
+  backdrop-filter: blur(3px);
+  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  flex-direction: column;
+}
+
+.locked-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px,
+      transparent 10px,
+      rgba(255, 255, 255, 0.015) 10px,
+      rgba(255, 255, 255, 0.015) 11px
+    );
+  pointer-events: none;
+}
+
+.locked-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 1;
+}
+
+.locked-label {
+  padding: 10px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.5);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.locked-unlock {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+}
+
+.tier-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.tier-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(0, 255, 157, 0.1);
+  border: 1px solid #00FF9D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00FF9D;
+}
+
+.tier-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: #00FF9D;
+  background: rgba(0, 255, 157, 0.1);
+  padding: 4px 8px;
+  border: 1px solid #00FF9D;
+}
+
+/* Genesis tier - Green */
+.tier-card.genesis .tier-icon {
+  background: rgba(0, 255, 157, 0.1);
+  border-color: #00FF9D;
+  color: #00FF9D;
+}
+.tier-card.genesis .tier-badge {
+  background: rgba(0, 255, 157, 0.1);
+  border-color: #00FF9D;
+  color: #00FF9D;
+}
+.tier-card.genesis:hover,
+.tier-card.genesis.selected {
+  border-color: #00FF9D;
+  box-shadow: 0 10px 40px rgba(0, 255, 157, 0.1);
+}
+.tier-card.genesis:hover::before,
+.tier-card.genesis.selected::before,
+.tier-card.genesis:hover::after,
+.tier-card.genesis.selected::after {
+  border-color: #00FF9D;
+}
+.tier-card.genesis .supply-bar-fill {
+  background: linear-gradient(90deg, #00FF9D, rgba(0, 255, 157, 0.5));
+}
+.tier-card.genesis .tier-btn {
+  border-color: #00FF9D;
+  color: #00FF9D;
+}
+.tier-card.genesis .tier-btn:hover,
+.tier-card.genesis .tier-btn.selected {
+  background: #00FF9D;
+  color: #000;
+}
+
+/* Core tier - Gold */
+.tier-card.core .tier-icon {
+  background: rgba(255, 211, 106, 0.1);
+  border-color: #ffd36a;
+  color: #ffd36a;
+}
+.tier-card.core .tier-badge {
+  background: rgba(255, 211, 106, 0.1);
+  border-color: #ffd36a;
+  color: #ffd36a;
+}
+.tier-card.core:hover,
+.tier-card.core.selected {
+  border-color: #ffd36a;
+  box-shadow: 0 10px 40px rgba(255, 211, 106, 0.1);
+}
+.tier-card.core:hover::before,
+.tier-card.core.selected::before,
+.tier-card.core:hover::after,
+.tier-card.core.selected::after {
+  border-color: #ffd36a;
+}
+.tier-card.core .supply-bar-fill {
+  background: linear-gradient(90deg, #ffd36a, rgba(255, 211, 106, 0.5));
+}
+.tier-card.core .tier-btn {
+  border-color: #ffd36a;
+  color: #ffd36a;
+}
+.tier-card.core .tier-btn:hover,
+.tier-card.core .tier-btn.selected {
+  background: #ffd36a;
+  color: #000;
+}
+
+/* Surge tier - Red */
+.tier-card.surge .tier-icon {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: #00D4FF;
+  color: #00D4FF;
+}
+.tier-card.surge .tier-badge {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: #00D4FF;
+  color: #00D4FF;
+}
+.tier-card.surge:hover,
+.tier-card.surge.selected {
+  border-color: #00D4FF;
+  box-shadow: 0 10px 40px rgba(0, 212, 255, 0.1);
+}
+.tier-card.surge:hover::before,
+.tier-card.surge.selected::before,
+.tier-card.surge:hover::after,
+.tier-card.surge.selected::after {
+  border-color: #00D4FF;
+}
+.tier-card.surge .supply-bar-fill {
+  background: linear-gradient(90deg, #00D4FF, rgba(0, 212, 255, 0.5));
+}
+.tier-card.surge .tier-btn {
+  border-color: #00D4FF;
+  color: #00D4FF;
+}
+.tier-card.surge .tier-btn:hover,
+.tier-card.surge .tier-btn.selected {
+  background: #00D4FF;
+  color: #000;
+}
+
+.tier-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.tier-description {
+  font-size: 0.875rem;
+  color: #8f9fa3;
+  margin-bottom: 20px;
+}
+
+.tier-price {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.price-sol {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.price-usd {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  color: #8f9fa3;
+}
+
+.tier-supply {
+  margin-bottom: 20px;
+}
+
+.supply-text {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #8f9fa3;
+  margin-bottom: 8px;
+}
+
+.supply-bar {
+  height: 4px;
+  background: #1a2f1f;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.supply-bar-fill {
+  height: 100%;
+  background: #00FF9D;
+  border-radius: 2px;
+}
+
+.tier-perks {
+  list-style: none;
+  margin-bottom: 24px;
+  flex-grow: 1;
+}
+
+.tier-perks li {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #8f9fa3;
+  padding: 6px 0;
+  border-bottom: 1px solid #1a2f1f;
+}
+
+.tier-perks li:last-child {
+  border-bottom: none;
+}
+
+.tier-actions {
+  margin-top: auto;
+}
+
+.tier-btn {
+  width: 100%;
+  padding: 14px 20px;
+  background: transparent;
+  color: #00FF9D;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  border: 1px solid #00FF9D;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tier-btn:hover {
+  background: rgba(0, 255, 157, 0.1);
+}
+
+.tier-btn.selected {
+  background: #00FF9D;
+  color: #000;
+}
+
+/* === MINT PANEL === */
+.mint-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  background: #080c0a;
+  border: 1px solid #00FF9D;
+  padding: 32px;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.mint-panel::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid #00FF9D;
+  border-left: 2px solid #00FF9D;
+}
+
+.mint-panel::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid #00FF9D;
+  border-right: 2px solid #00FF9D;
+}
+
+/* === NFT PREVIEW === */
+.nft-preview {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.nft-preview-inner {
+  width: 200px;
+  height: 250px;
+  background: linear-gradient(135deg, #0a0f0c 0%, #1a2f1f 100%);
+  border: 2px solid #00FF9D;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+  animation: nftFloat 3s ease-in-out infinite;
+}
+
+.nft-icon {
+  width: 80px;
+  height: 80px;
+  background: rgba(0, 255, 157, 0.2);
+  border: 2px solid #00FF9D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #00FF9D;
+}
+
+.nft-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.nft-multiplier {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #00FF9D;
+}
+
+.nft-glow {
+  position: absolute;
+  width: 200px;
+  height: 250px;
+  background: #00FF9D;
+  filter: blur(60px);
+  opacity: 0.2;
+  animation: nftGlow 3s ease-in-out infinite;
+}
+
+/* === QUANTITY SELECTOR === */
+.quantity-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #1a2f1f;
+}
+
+.quantity-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  color: #8f9fa3;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.quantity-btn {
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: 1px solid #00FF9D;
+  color: #00FF9D;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background: rgba(0, 255, 157, 0.1);
+}
+
+.quantity-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.quantity-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  min-width: 40px;
+  text-align: center;
+}
+
+/* === MINT SUMMARY === */
+.mint-summary {
+  margin-bottom: 24px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  color: #8f9fa3;
+  border-bottom: 1px solid #1a2f1f;
+}
+
+.summary-row.total {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  border-bottom: none;
+  margin-top: 8px;
+}
+
+.balance-warning {
+  margin-top: 12px;
+  padding: 10px;
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid #00D4FF;
+  color: #00D4FF;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+/* === MAIN MINT BUTTON === */
+.mint-btn {
+  width: 100%;
+  padding: 16px 24px;
+  background: #00FF9D;
+  color: #000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mint-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+  box-shadow: 0 0 30px rgba(0, 255, 157, 0.4);
+}
+
+.mint-btn:disabled {
+  background: #1a2f1f;
+  color: #8f9fa3;
+  cursor: not-allowed;
+}
+
+.mint-btn.minting {
+  background: #ffd93d;
+  animation: mintPulse 1s infinite;
+}
+
+/* === MINT FOOTER === */
+.mint-footer {
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #8f9fa3;
+}
+
+.mint-footer a {
+  color: #00FF9D;
+  text-decoration: none;
+}
+
+.mint-footer a:hover {
+  text-decoration: underline;
+}
+
+/* === MINTING STATUS === */
+.minting-status {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.minting-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid #1a2f1f;
+  border-top-color: #00FF9D;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  animation: spin 1s linear infinite;
+}
+
+.minting-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #00FF9D;
+  margin-bottom: 8px;
+}
+
+.minting-subtext {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #8f9fa3;
+}
+
+/* === DEMO TOGGLE === */
+.demo-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 16px;
+  background: rgba(0, 255, 157, 0.1);
+  border: 1px solid #00FF9D;
+  color: #00FF9D;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.demo-toggle:hover {
+  background: rgba(0, 255, 157, 0.2);
+}
+
+/* === LICENSE PREVIEW (in modals) === */
+.license-preview {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.license-preview-icon {
+  width: 120px;
+  height: 120px;
+  background: rgba(0, 255, 157, 0.1);
+  border: 2px solid #00FF9D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #00FF9D;
+  box-shadow: 0 0 30px rgba(0, 255, 157, 0.2);
+}
+
+/* === LICENSE METADATA === */
+.license-metadata {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.metadata-section {
+  background: #0a0f0c;
+  border: 1px solid #1a2f1f;
+  padding: 16px;
+}
+
+.metadata-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: #00FF9D;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1a2f1f;
+}
+
+.metadata-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+}
+
+.metadata-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #8f9fa3;
+}
+
+.metadata-value {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  color: #ffffff;
+}
+
+.metadata-value.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+}
+
+.license-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.license-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: #00FF9D;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.license-link:hover {
+  text-decoration: underline;
+}
+
+/* === MOBILE RESPONSIVE === */
+@media (max-width: 1024px) {
+  .tier-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .mint-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .nft-preview {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mint-container {
+    margin-left: 0;
+  }
+
+  .mint-feed {
+    left: 0;
+  }
+
+  .mint-content {
+    padding-top: 60px;
+  }
+
+  .mint-nav {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+
+  .back-link {
+    display: none;
+  }
+
+  .mint-title {
+    font-size: 1.75rem;
+  }
+
+  .raise-stats {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .network-stats {
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .network-stat-value {
+    font-size: 1.25rem;
+  }
+
+  .feed-item {
+    font-size: 0.65rem;
+    gap: 4px;
+  }
+}

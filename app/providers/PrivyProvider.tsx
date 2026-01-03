@@ -1,18 +1,17 @@
 'use client';
 
 import { PrivyProvider } from '@privy-io/react-auth';
-import { ReactNode } from 'react';
 
-export default function PrivyWrapper({ children }: { children: ReactNode }) {
+export default function Privy({ children }: { children: React.ReactNode }) {
   return (
     <PrivyProvider
       appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID!}
       config={{
-        loginMethods: ['email', 'wallet'],
-        appearance: {
+        appearance: { 
           theme: 'dark',
           accentColor: '#00FF9D',
         },
+        loginMethods: ['email', 'google', 'twitter', 'discord'],
       }}
     >
       {children}

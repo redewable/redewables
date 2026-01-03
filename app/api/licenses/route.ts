@@ -1,47 +1,39 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-export async function GET(request: NextRequest) {
+export const dynamic = 'force-dynamic';
+
+export async function GET() {
   try {
-    // 1. Fetch environment variables inside the handler
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY; 
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-    if (!url || !key) {
-      console.error('Supabase configuration missing in licenses route');
-      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
+    if (!supabaseUrl || !supabaseKey) {
+      return NextResponse.json({ counts: { genesis: 0, core: 0, surge: 0 } });
     }
 
-    // 2. Initialize Supabase client
-    const supabase = createClient(url, key);
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // 3. Extract and validate wallet address
-    const { searchParams } = new URL(request.url);
-    const wallet = searchParams.get('wallet');
-    
-    if (!wallet) {
-      return NextResponse.json({ error: 'Wallet address required' }, { status: 400 });
-    }
-
-    // 4. Database Query
-    const { data: licenses, error } = await supabase
+    // Get counts by tier
+    const { data, error } = await supabase
       .from('licenses')
-      .select('*')
-      .eq('wallet_address', wallet)
-      .order('minted_at', { ascending: false });
+      .select('tier');
 
     if (error) {
-      console.error('DB Error (licenses fetch):', error);
-      return NextResponse.json({ error: 'Failed to fetch licenses' }, { status: 500 });
+      console.error('Supabase error:', error);
+      return NextResponse.json({ counts: { genesis: 0, core: 0, surge: 0 } });
     }
 
-    return NextResponse.json({ licenses }, {
-      // ✅ Next.js 15: Prevent aggressive caching of user-specific data
-      headers: { 'Cache-Control': 'no-store' }
-    });
+    // Count by tier
+    const counts = {
+      genesis: data?.filter(l => l.tier === 'genesis').length || 0,
+      core: data?.filter(l => l.tier === 'core').length || 0,
+      surge: data?.filter(l => l.tier === 'surge').length || 0,
+    };
 
-  } catch (err: any) {
-    console.error('Licenses route error:', err);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ counts });
+  } catch (error) {
+    console.error('Error fetching counts:', error);
+    return NextResponse.json({ counts: { genesis: 0, core: 0, surge: 0 } });
   }
 }
