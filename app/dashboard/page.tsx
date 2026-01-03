@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import '../dashboard.css';
 import '../modals.css';
 import { useState, useEffect, useMemo } from 'react';
