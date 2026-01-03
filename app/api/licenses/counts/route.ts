@@ -14,10 +14,11 @@ export async function GET() {
 
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Get counts by tier
+    // Get counts by tier (only minted licenses)
     const { data, error } = await supabase
       .from('licenses')
-      .select('tier');
+      .select('tier')
+      .eq('mint_status', 'minted');
 
     if (error) {
       console.error('Supabase error:', error);

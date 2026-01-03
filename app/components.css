@@ -828,3 +828,96 @@
 .empty-state-btn:hover {
   filter: brightness(1.1);
 }
+
+/* ========================================
+   MINT GATE - License Required Overlay
+   ======================================== */
+.mint-gate {
+  min-height: calc(100vh - 36px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin-left: 250px;
+}
+
+@media (max-width: 768px) {
+  .mint-gate {
+    margin-left: 0;
+  }
+}
+
+.mint-gate-content {
+  background: #080c0a;
+  border: 1px solid #1a2f1f;
+  padding: 60px 40px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.mint-gate-content::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid #00FF9D;
+  border-left: 2px solid #00FF9D;
+}
+
+.mint-gate-content::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid #00FF9D;
+  border-right: 2px solid #00FF9D;
+}
+
+.mint-gate-icon {
+  margin-bottom: 24px;
+  color: #8f9fa3;
+}
+
+.mint-gate-icon svg {
+  width: 64px;
+  height: 64px;
+}
+
+.mint-gate-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00FF9D;
+  margin-bottom: 16px;
+}
+
+.mint-gate-text {
+  font-size: 1rem;
+  color: #8f9fa3;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.mint-gate-btn {
+  display: inline-block;
+  padding: 16px 40px;
+  background: #00FF9D;
+  color: #000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.mint-gate-btn:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 30px rgba(0, 255, 157, 0.4);
+}
