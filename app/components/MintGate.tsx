@@ -1,46 +1,51 @@
 'use client';
 
-import { useState } from 'react';
+import Link from 'next/link';
 
 interface MintGateProps {
   children: React.ReactNode;
+  hasLicense: boolean;
+  loading?: boolean;
 }
 
-export default function MintGate({ children }: MintGateProps) {
-  const [hasLicense, setHasLicense] = useState(true);
-
-  // Demo toggle - remove in production
-  const demoToggle = (
-    <button 
-      className="demo-toggle"
-      onClick={() => setHasLicense(!hasLicense)}
-    >
-      Demo: {hasLicense ? 'Has License ✓' : 'No License ✗'}
-    </button>
-  );
-
-  if (!hasLicense) {
+export default function MintGate({ children, hasLicense, loading }: MintGateProps) {
+  if (loading) {
     return (
       <div className="mint-gate">
-        {demoToggle}
         <div className="mint-gate-content">
-          <div className="mint-gate-icon">🔒</div>
-          <h2 className="mint-gate-title">LICENSE REQUIRED</h2>
-          <p className="mint-gate-text">
-            You need to own a ReDew Validator License to access the dashboard and start earning rewards.
-          </p>
-          <a href="/mint" className="mint-gate-btn">
-            Mint Your License
-          </a>
+          <div className="mint-gate-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <h2 className="mint-gate-title">CHECKING LICENSE...</h2>
         </div>
       </div>
     );
   }
 
-  return (
-    <>
-      {demoToggle}
-      {children}
-    </>
-  );
+  if (!hasLicense) {
+    return (
+      <div className="mint-gate">
+        <div className="mint-gate-content">
+          <div className="mint-gate-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <h2 className="mint-gate-title">LICENSE REQUIRED</h2>
+          <p className="mint-gate-text">
+            You need to own a ReDew Validator License to access the dashboard and start earning rewards.
+          </p>
+          <Link href="/mint" className="mint-gate-btn">
+            Mint Your License →
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return <>{children}</>;
 }

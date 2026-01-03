@@ -463,7 +463,7 @@ export default function Dashboard() {
   // Connect prompt handled by DashboardLayout
   return (
     <DashboardLayout>
-      <MintGate>
+      <MintGate hasLicense={licenses.length > 0} loading={loadingLicenses}>
         <div className="dashboard-container">
           <div className="testnet-banner">⚠️ DEVNET MODE — Real Wallet, Test Network</div>
           <div className="grid-floor"></div>
@@ -560,7 +560,12 @@ export default function Dashboard() {
           {/* Empty State - No Licenses */}
           {!loadingLicenses && licenses.length === 0 && (
             <div className="empty-state" style={{ marginBottom: '24px' }}>
-              <div className="empty-state-icon">🔓</div>
+              <div className="empty-state-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </div>
               <h3 className="empty-state-title">No Licenses Yet</h3>
               <p className="empty-state-text">
                 Mint a validator license to start earning $RDW rewards and participate in attestations.

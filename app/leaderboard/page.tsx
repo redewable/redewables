@@ -7,7 +7,6 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { usePrivy } from '@privy-io/react-auth';
 import { createClient } from '@supabase/supabase-js';
-import MintGate from '../components/MintGate';
 import DashboardLayout from '../components/DashboardLayout';
 
 interface Leader {
@@ -83,12 +82,9 @@ export default function LeaderboardPage() {
       }
     }
 
-    if (connected) {
-      fetchLeaders();
-    } else {
-      console.log('[Leaderboard] Not connected, skipping fetch');
-    }
-  }, [supabase, connected]);
+    // Fetch leaderboard data regardless of wallet connection (public data)
+    fetchLeaders();
+  }, [supabase]);
 
   useEffect(() => {
     const filtered = allLeaders.filter((l) =>
@@ -108,8 +104,7 @@ export default function LeaderboardPage() {
 
   return (
     <DashboardLayout>
-      <MintGate>
-        <div className="leaderboard-container">
+      <div className="leaderboard-container">
           <div className="testnet-banner">⚠️ DEVNET MODE — Real Wallet, Test Network</div>
           <div className="grid-floor"></div>
 
@@ -183,7 +178,6 @@ export default function LeaderboardPage() {
           </div>
         </div>
       </div>
-    </MintGate>
     </DashboardLayout>
   );
 }

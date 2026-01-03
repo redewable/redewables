@@ -789,7 +789,12 @@
 .empty-state-icon {
   font-size: 3rem;
   margin-bottom: 16px;
-  opacity: 0.5;
+  opacity: 0.6;
+  color: #8f9fa3;
+}
+
+.empty-state-icon svg {
+  stroke: currentColor;
 }
 
 .empty-state-title {

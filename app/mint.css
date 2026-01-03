@@ -138,6 +138,31 @@
   background: rgba(0, 255, 157, 0.1);
 }
 
+.auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 200px;
+}
+
+.email-btn {
+  padding: 10px 20px;
+  background: #e0e0e0;
+  color: #111;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.email-btn:hover {
+  background: #fff;
+  border-color: #00FF9D;
+}
+
 /* === RAISE PROGRESS === */
 .raise-progress {
   background: #080c0a;
@@ -1054,25 +1079,6 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.75rem;
   color: #8f9fa3;
-}
-
-/* === DEMO TOGGLE === */
-.demo-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  padding: 10px 16px;
-  background: rgba(0, 255, 157, 0.1);
-  border: 1px solid #00FF9D;
-  color: #00FF9D;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.demo-toggle:hover {
-  background: rgba(0, 255, 157, 0.2);
 }
 
 /* === LICENSE PREVIEW (in modals) === */
