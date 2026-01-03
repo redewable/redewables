@@ -1,6 +1,6 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
+
 
 import './leaderboard.css';
 import Link from 'next/link';
